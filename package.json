@@ -1,0 +1,25 @@
+{
+  "name": "mean-ang2-blog",
+  "version": "1.0.0",
+  "description": "mean stack with angular 2",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garychan8523/mean-angular2-blog.git"
+  },
+  "author": "garychanchihang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/garychan8523/mean-angular2-blog/issues"
+  },
+  "homepage": "https://github.com/garychan8523/mean-angular2-blog#readme",
+  "dependencies": {
+    "express": "^4.15.4",
+    "inherits": "^2.0.3",
+    "mongoose": "^4.11.9",
+    "nodemon": "^1.11.0"
+  }
+}
