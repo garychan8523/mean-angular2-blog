@@ -1,0 +1,73 @@
+.navbar{
+	position: fixed;
+	border-bottom: 1px solid #dedede;
+	background-color: #fefefe;
+	padding: 0 50px 0 50px;
+	height: 55px;
+	width: 100%;
+	transition-delay: 1s;
+	opacity: 0.95;
+	z-index: 100;
+}
+
+.headroom{
+    will-change: transform;
+    transition: transform 300ms linear;
+}
+.headroom--pinned {
+    transform: translateY(0%);
+}
+.headroom--unpinned {
+    transform: translateY(-100%);
+}
+
+.temp-logo-font{
+	color: black;
+	font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+	font-size: 1em;
+	font-weight: 500;
+	/*border-top: 1px solid #999;
+	border-bottom: 1px solid #999;*/
+	display: table-cell;
+}
+
+.nav-item{
+	margin-left: 12px;
+}
+
+.nav-link{
+	margin-top: 1px;
+	color: #555;
+	font-weight: 600;
+	opacity: 0.9;
+	/*border: 1px solid #12778b;
+    border-radius: 5px;*/
+}
+
+.input-group{
+	height: 28px;
+}
+
+.input-group-addon{
+	color: #333;
+}
+
+.form-control{
+	outline: none;
+	margin-left: -1px;
+	border-radius: .4rem;
+	width: 150px !important;
+	padding-left: 8px;
+	font-size: 0.8rem !important;
+	font-family: sans-serif;
+}
+
+.form-control:focus{
+	@include box-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+	box-shadow: inset 0 0 2px #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.form-control:focus::-webkit-input-placeholder{
+	opacity: 0.5;
+}

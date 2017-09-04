@@ -1,0 +1,25 @@
+.footer {
+	margin-top: 80px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 40px;
+	bottom: 0;
+	border-top: 1px solid #dedede;
+	/*background-color: #fdfdfd;*/
+}
+
+.nav-footer-link{
+	color: #777;
+	margin-left: 28px;
+	font-size: 14px;
+	font-weight: 200 !important;
+	font-family: Noto Sans;
+}
+
+.nav-footer-link:link{
+	text-decoration: none;
+}
+.nav-footer-link:hover{
+	text-decoration: none;
+	color: #000;
+}

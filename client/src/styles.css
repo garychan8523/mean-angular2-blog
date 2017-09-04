@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+	transition: 0.2s;
+}
+
+body {
+	padding-top: 80px;
+	background-color: #f8f8fe;
+}
+
+@font-face {
+   font-family: Noto CJK;
+   src: url(assets/fonts/NotoSerifCJKtc-Regular.otf);
+}
+@font-face {
+   font-family: Noto Sans;
+   src: url(assets/fonts/NotoSans-Regular.ttf);
+}
+@font-face {
+   font-family: Noto Sans TC Light;
+   src: url(assets/fonts/NotoSansTC-Light.otf);
+}
+@font-face {
+   font-family: Noto Sans TC Regular;
+   src: url(assets/fonts/NotoSansTC-Regular.otf);
+}
+
+.ch-font-tc-r{
+	font-family: Noto Sans TC Regular;
+	font-size: 13px;
+	letter-spacing: 1px;
+	color: #333;
+}
+
+.ch-font-cjk{
+	font-family: Noto CJK;
+	font-size: 13px;
+	letter-spacing: 1px;
+	color: #333;
+}
+
+.ch-font-sans{
+	font-family: Noto Sans;
+	font-size: 13px;
+	letter-spacing: 1px;
+	color: #333;
+}
+
+@media screen and (max-width: 768px) {
+    body { padding-top: 0px; }
+}
