@@ -32,7 +32,40 @@ $(document).ready(function(){
   });
   headroom.init(); 
   // headroomjs end
-  });
+
+  // var docHeight = $(document).height();
+  // var footerHeight = $('#footer').height();
+  // var footerTop = $('#footer').position().top + footerHeight;
+
+  // if (footerTop < docHeight) {
+  //   $('#footer').css('margin-top', (docHeight - footerTop)-20 + 'px');
+  // }
+});
+
+function onElementHeightChange(elm, callback){
+    var lastHeight = elm.clientHeight, newHeight;
+    (function run(){
+        newHeight = elm.clientHeight;
+        if( lastHeight != newHeight )
+            callback();
+        lastHeight = newHeight;
+
+        if( elm.onElementHeightChangeTimer )
+            clearTimeout(elm.onElementHeightChangeTimer);
+
+        elm.onElementHeightChangeTimer = setTimeout(run, 200);
+    })();
+}
+
+onElementHeightChange(document.body, function(){
+    var docHeight = $(document).height();
+    var footerHeight = $('#footer').height();
+    if (docHeight < 1000) {
+      $('#footer').css('margin-top', docHeight-footerHeight-125 + 'px');
+    }else{
+      $('#footer').css('margin-top', 80 + 'px');
+    }
+});
 </script>
 
 </body>
