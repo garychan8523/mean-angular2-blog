@@ -18,7 +18,7 @@
             <a class="nav-link" routerLink="#">Dropdown<span class="sr-only">(current)</span></a>
           </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0">
+        <div class="form-inline mt-2 mt-md-0"> <!-- set navbar-right -->
           <ul class="navbar-nav mr-auto">
           <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
             <a class="nav-link" routerLink="/dashboard">Dashboard</a>
@@ -27,12 +27,14 @@
           <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Register</a></li>
+          <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+            <a class="nav-link" routerLink="/register">Register</a>
+          </li>
         </ul>
           <!-- <div class="input-group">
 		    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
 			<input type="text" class="form-control" placeholder="search" aria-describedby="basic-addon1">
 		  </div> -->
-        </form>
+        </div>
       </div>
 </nav>

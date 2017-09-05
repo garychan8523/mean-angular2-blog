@@ -1,0 +1,49 @@
+<h5 class="page-header">Registration</h5>
+
+<form [formGroup]="form" (submit)="onRegisterSubmit()" class="form-reg">
+  <div class="form-group">
+    <div [ngClass]="{'has-error': (form.controls.username.errors && form.controls.username.dirty), 'has-success': (!form.controls.username.errors && form.controls.username.dirty)}">
+      <input type="text" name="username" class="form-control" autocomplete="off" placeholder="*Username" formControlName="username">
+      <div class="form-error-msg">
+      	<div *ngIf="form.controls.username.errors?.required && form.controls.username.dirty"><i class="fa fa-times"></i>must have a username</div>
+      	<div *ngIf="(form.controls.username.errors?.minlength || form.controls.username.errors?.maxlength) && form.controls.username.dirty"><i class="fa fa-times" aria-hidden="true"></i>username must between 3 to 15 characters</div>
+      	<div *ngIf="form.controls.username.errors?.validateUsername && form.controls.username.dirty"><i class="fa fa-times"></i>username must not contain special characters</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div [ngClass]="{'has-error': (form.controls.email.errors && form.controls.email.dirty), 'has-success': (!form.controls.email.errors && form.controls.email.dirty)}">
+      <input type="text" name="email" class="form-control" autocomplete="off" placeholder="*E-mail" formControlName="email">
+      <div class="form-error-msg">
+      	<div *ngIf="form.controls.email.errors?.required && form.controls.email.dirty"><i class="fa fa-times"></i>must enter email</div>
+      	<div *ngIf="(form.controls.email.errors?.minlength || form.controls.email.errors?.maxlength) && form.controls.email.dirty"><i class="fa fa-times" aria-hidden="true"></i>email must between 6 to 254 characters</div>
+      	<div *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty"><i class="fa fa-times"></i>invalid email format</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div [ngClass]="{'has-error': (form.controls.password.errors && form.controls.password.dirty), 'has-success': (!form.controls.password.errors && form.controls.password.dirty)}">
+      <input type="password" name="password" class="form-control" autocomplete="off" placeholder="*Password" formControlName="password">
+      <div class="form-error-msg">
+      	<div *ngIf="form.controls.password.errors?.required && form.controls.password.dirty"><i class="fa fa-times"></i>must enter password</div>
+      	<div *ngIf="(form.controls.password.errors?.minlength || form.controls.password.errors?.maxlength) && form.controls.password.dirty"><i class="fa fa-times" aria-hidden="true"></i>password must between 8 to 35 characters</div>
+      	<div *ngIf="form.controls.password.errors?.validatePassword && form.controls.password.dirty"><i class="fa fa-times"></i>password must contain at least one uppercase, lowercase, number and special character</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div [ngClass]="{'has-error': (form.controls.confirm.errors && form.controls.confirm.dirty) || (form.errors?.matchingPasswords && form.controls.confirm.dirty), 'has-success': (!form.controls.confirm.errors && !form.errors?.matchingPasswords)}">
+      <input type="password" name="confirm" class="form-control" autocomplete="off" placeholder="*Confirm Password" formControlName="confirm">
+      <div class="form-error-msg">
+      	<div *ngIf="form.controls.confirm.errors?.required && form.controls.confirm.dirty"><i class="fa fa-times"></i>please confirm your password</div>
+      	<div *ngIf="form.errors?.matchingPasswords && form.controls.confirm.dirty"><i class="fa fa-times"></i>passwords doesnt match</div>
+      </div>
+    </div>
+  </div>
+  <input [disabled]="!form.valid" type="submit" class="btn btn-primary" value="Submit">
+</form>﻿
+
+<!-- <p>username: {{ form.controls.username.value }}</p>
+<p>email: {{ form.controls.email.value }}</p>
+<p>password: {{ form.controls.password.value }}</p>
+<p>confirm: {{ form.controls.confirm.value }}</p> -->

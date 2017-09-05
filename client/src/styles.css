@@ -8,6 +8,12 @@ body {
 	background-color: #f8f8fe;
 }
 
+.page-header{
+	pointer-events: none;
+	user-select: none;
+	padding-bottom: 20px;
+}
+
 @font-face {
    font-family: Noto CJK;
    src: url(assets/fonts/NotoSerifCJKtc-Regular.otf);

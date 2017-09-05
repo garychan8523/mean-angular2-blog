@@ -32,14 +32,6 @@ $(document).ready(function(){
   });
   headroom.init(); 
   // headroomjs end
-
-  // var docHeight = $(document).height();
-  // var footerHeight = $('#footer').height();
-  // var footerTop = $('#footer').position().top + footerHeight;
-
-  // if (footerTop < docHeight) {
-  //   $('#footer').css('margin-top', (docHeight - footerTop)-20 + 'px');
-  // }
 });
 
 function onElementHeightChange(elm, callback){
@@ -58,12 +50,18 @@ function onElementHeightChange(elm, callback){
 }
 
 onElementHeightChange(document.body, function(){
-    var docHeight = $(document).height();
-    var footerHeight = $('#footer').height();
-    if (docHeight < 1000) {
-      $('#footer').css('margin-top', docHeight-footerHeight-125 + 'px');
-    }else{
-      $('#footer').css('margin-top', 80 + 'px');
+    var windowHeight = $(window).height();
+    var contentHeight = $('.container').height();
+    var contentWidth = $('.container').width();
+    if (contentHeight < windowHeight) {
+      $('#footer').css('position', 'absolute');
+      $('#footer').css('width', contentWidth + 'px');
+      $('#footer').css('bottom', '0');
+    } else {
+      $('#footer').css('position', 'initial');
+      $('#footer').css('width', 'initial');
+      $('#footer').removeProp('bottom');
+      $('#footer').css('margin-top', '80px');
     }
 });
 </script>
