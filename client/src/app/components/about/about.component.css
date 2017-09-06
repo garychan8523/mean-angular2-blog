@@ -1,0 +1,9 @@
+.logo-font{
+	color: black;
+	font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+	font-size: 2em;
+	font-weight: 500;
+	margin-top: 20px;
+	pointer-events: none;
+	user-select: none;
+}
