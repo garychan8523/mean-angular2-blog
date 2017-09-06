@@ -11,6 +11,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import { RegisterComponent } from './components/register/register.component'
 import { AuthService } from './services/auth.service';
 import { AboutComponent } from './components/about/about.component';
+import { LoginComponent } from './components/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { FlashMessagesModule } from 'angular2-flash-messages';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
 
 @NgModule({
   declarations: [
@@ -20,15 +25,18 @@ import { AboutComponent } from './components/about/about.component';
     DashboardComponent,
     FooterComponent,
     RegisterComponent,
-    AboutComponent
+    AboutComponent,
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FlashMessagesModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard, NotAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

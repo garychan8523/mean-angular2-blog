@@ -10,6 +10,9 @@
 	z-index: 100;
 }
 
+.alert-info p{
+	padding: 0;
+}
 .headroom{
     will-change: transform;
     transition: transform 300ms linear;

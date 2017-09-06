@@ -1,0 +1,11 @@
+.alert {
+	margin-left: 13px;
+}
+
+.form-log {
+	width: 250px;
+}
+
+.has-success input {
+	border: 2px solid #00cd9a;
+}

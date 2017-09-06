@@ -1,0 +1,27 @@
+<h5 class="page-header">Login</h5>
+
+<!-- Custom Success/Error Message -->
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<!-- Login Form -->
+<form [formGroup]="form" (submit)="onLoginSubmit()" class="form-log">
+  <!-- Username Field -->
+  <div class="form-group">
+    <div [ngClass]="{'has-error': form.controls.username.errors && form.controls.username.dirty, 'has-success': form.controls.username.valid && form.controls.username.dirty }">
+      <input class="form-control" type="text" name="username" formControlName="username" placeholder="username" />
+    </div>
+  </div>
+
+  <!-- Password Field  -->
+  <div class="form-group">
+    <div [ngClass]="{'has-error': form.controls.password.errors && form.controls.password.dirty, 'has-success': form.controls.password.valid && form.controls.password.dirty }">
+      <input class="form-control" type="password" name="password" formControlName="password" placeholder="password" />
+    </div>
+  </div>
+  <!-- Submit Button -->
+  <input [disabled]="!form.valid || processing" class="btn btn-primary" type="submit" value="Login" />
+</form>
