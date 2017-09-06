@@ -12,14 +12,14 @@
   <!-- Username Field -->
   <div class="form-group">
     <div [ngClass]="{'has-error': form.controls.username.errors && form.controls.username.dirty, 'has-success': form.controls.username.valid && form.controls.username.dirty }">
-      <input class="form-control" type="text" name="username" formControlName="username" placeholder="username" />
+      <input class="form-control" type="text" name="username" formControlName="username" placeholder="Username" />
     </div>
   </div>
 
   <!-- Password Field  -->
   <div class="form-group">
     <div [ngClass]="{'has-error': form.controls.password.errors && form.controls.password.dirty, 'has-success': form.controls.password.valid && form.controls.password.dirty }">
-      <input class="form-control" type="password" name="password" formControlName="password" placeholder="password" />
+      <input class="form-control" type="password" name="password" formControlName="password" placeholder="Password" />
     </div>
   </div>
   <!-- Submit Button -->

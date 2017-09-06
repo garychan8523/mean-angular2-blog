@@ -127,15 +127,12 @@ export class RegisterComponent implements OnInit {
 		});
 	}
 
-	checkUsername(form_err, el) {
+	checkUsername() {
 		const username = this.form.get('username').value;
 		this.authService.checkUsername(username).subscribe(data => {
-			if (form_err) {
-				el.focus();
-			} else if (!data.success) {
+			if (!data.success) {
 				this.usernameValid = false;
 				this.usernameMessage = data.message;
-				el.focus();
 			} else {
 				this.usernameValid = true;
 				this.usernameMessage = data.message;
@@ -143,15 +140,12 @@ export class RegisterComponent implements OnInit {
 		});
 	}
 
-	checkEmail(form_err, el) {
+	checkEmail() {
 		const email = this.form.get('email').value;
 		this.authService.checkEmail(email).subscribe(data => {
-			if (form_err) {
-				el.focus();
-			} else if (!data.success) {
+			if (!data.success) {
 				this.emailValid = false;
 				this.emailMessage = data.message;
-				el.focus();
 			} else {
 				this.emailValid = true;
 				this.emailMessage = data.message;
