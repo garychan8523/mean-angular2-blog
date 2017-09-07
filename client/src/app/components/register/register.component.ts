@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ViewChildren } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,8 @@ export class RegisterComponent implements OnInit {
 	constructor(
 		private fb: FormBuilder,
 		private authService: AuthService,
-		private router: Router
+		private router: Router,
+		private el: ElementRef
 	) {
     	this.createForm();
   	}
@@ -127,33 +129,48 @@ export class RegisterComponent implements OnInit {
 		});
 	}
 
-	checkUsername() {
+	checkUsername(errors, valid) {
 		const username = this.form.get('username').value;
-		this.authService.checkUsername(username).subscribe(data => {
+		let invalid = !valid;
+		if ((errors || invalid) && (username != '')) {
+			this.el.nativeElement.querySelector('#username').focus();
+		}
+		if (username !== '') {
+			this.authService.checkUsername(username).subscribe(data => {
 			if (!data.success) {
 				this.usernameValid = false;
 				this.usernameMessage = data.message;
+				this.el.nativeElement.querySelector('#username').focus();
 			} else {
 				this.usernameValid = true;
 				this.usernameMessage = data.message;
 			}
-		});
+			});
+		}
 	}
 
-	checkEmail() {
+	checkEmail(errors, valid) {
 		const email = this.form.get('email').value;
-		this.authService.checkEmail(email).subscribe(data => {
+		let invalid = !valid;
+		if ((errors || invalid) && (email != '')) {
+			this.el.nativeElement.querySelector('#email').focus();
+		}
+		if (email !== '') {
+			this.authService.checkEmail(email).subscribe(data => {
 			if (!data.success) {
 				this.emailValid = false;
 				this.emailMessage = data.message;
+				this.el.nativeElement.querySelector('#email').focus();
 			} else {
 				this.emailValid = true;
 				this.emailMessage = data.message;
 			}
-		});
+			});
+		}
 	}
 
   ngOnInit() {
+  	this.el.nativeElement.querySelector('#username').focus();
   }
 
 }

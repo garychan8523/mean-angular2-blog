@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private authGuard: AuthGuard
+    private authGuard: AuthGuard,
+    private el: ElementRef
   ) {
     this.createForm(); // Create Login Form when component is constructed
   }
@@ -87,6 +89,8 @@ export class LoginComponent implements OnInit {
       this.previousUrl = this.authGuard.redirectUrl;
       this.authGuard.redirectUrl = undefined;
     }
+
+    this.el.nativeElement.querySelector('#username').focus();
   }
 
 }
