@@ -8,7 +8,7 @@
 <form [formGroup]="form" (submit)="onRegisterSubmit()" class="form-reg">
   <div class="form-group">
     <div [ngClass]="{'has-error': (form.controls.username.errors && form.controls.username.dirty) || (!usernameValid && form.controls.username.dirty), 'has-success': !form.controls.username.errors && usernameValid}">
-      <input id="username" type="text" name="username" class="form-control" autocomplete="off" placeholder="Username" formControlName="username" (blur)="checkUsername(form.controls.username.errors, usernameValid)">
+      <input id="username" type="text" name="username" class="form-control" autocomplete="off" placeholder="Username" formControlName="username" (ngModelChange)="checkUsername(form.controls.username.errors, usernameValid)" (blur)="checkUsername(form.controls.username.errors, usernameValid)">
       <div class="form-error-msg">
       	<div *ngIf="form.controls.username.errors?.required && form.controls.username.dirty"><i class="fa fa-times"></i>must have a username</div>
       	<div *ngIf="(form.controls.username.errors?.minlength || form.controls.username.errors?.maxlength) && form.controls.username.dirty"><i class="fa fa-times" aria-hidden="true"></i>username must between 3 to 15 characters</div>
@@ -19,7 +19,7 @@
   </div>
   <div class="form-group">
     <div [ngClass]="{'has-error': (form.controls.email.errors && form.controls.email.dirty) || (!emailValid && form.controls.email.dirty), 'has-success': !form.controls.email.errors && emailValid}">
-      <input id="email" type="text" name="email" class="form-control" autocomplete="off" placeholder="E-mail" formControlName="email" (blur)="checkEmail(form.controls.email.errors, emailValid)">
+      <input id="email" type="text" name="email" class="form-control" autocomplete="off" placeholder="E-mail" formControlName="email" (ngModelChange)="checkEmail(form.controls.email.errors, emailValid)" (blur)="checkEmail(form.controls.email.errors, emailValid)">
       <div class="form-error-msg">
       	<div *ngIf="form.controls.email.errors?.required && form.controls.email.dirty"><i class="fa fa-times"></i>must enter email</div>
       	<div *ngIf="(form.controls.email.errors?.minlength || form.controls.email.errors?.maxlength) && form.controls.email.dirty"><i class="fa fa-times" aria-hidden="true"></i>email must between 6 to 254 characters</div>

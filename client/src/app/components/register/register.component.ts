@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
 	emailMessage;
 	usernameValid = true;
 	usernameMessage;
+	_timeout: any = null;
 
 	constructor(
 		private fb: FormBuilder,
@@ -130,44 +131,58 @@ export class RegisterComponent implements OnInit {
 	}
 
 	checkUsername(errors, valid) {
-		const username = this.form.get('username').value;
+     this._timeout  = null;
+     if(this._timeout){ //if there is already a timeout in process cancel it
+       window.clearTimeout(this._timeout);
+     }
+     this._timeout = window.setTimeout(() => {
+        this._timeout = null;
+        const username = this.form.get('username').value;
 		let invalid = !valid;
 		if ((errors || invalid) && (username != '')) {
-			this.el.nativeElement.querySelector('#username').focus();
+			//this.el.nativeElement.querySelector('#username').focus();
 		}
 		if (username !== '') {
 			this.authService.checkUsername(username).subscribe(data => {
 			if (!data.success) {
 				this.usernameValid = false;
 				this.usernameMessage = data.message;
-				this.el.nativeElement.querySelector('#username').focus();
+				//this.el.nativeElement.querySelector('#username').focus();
 			} else {
 				this.usernameValid = true;
 				this.usernameMessage = data.message;
 			}
 			});
 		}
-	}
+     },1000);
+  	}
 
 	checkEmail(errors, valid) {
-		const email = this.form.get('email').value;
+     this._timeout  = null;
+     if(this._timeout){ //if there is already a timeout in process cancel it
+       window.clearTimeout(this._timeout);
+     }
+     this._timeout = window.setTimeout(() => {
+        this._timeout = null;
+        const email = this.form.get('email').value;
 		let invalid = !valid;
 		if ((errors || invalid) && (email != '')) {
-			this.el.nativeElement.querySelector('#email').focus();
+			//this.el.nativeElement.querySelector('#email').focus();
 		}
 		if (email !== '') {
 			this.authService.checkEmail(email).subscribe(data => {
 			if (!data.success) {
 				this.emailValid = false;
 				this.emailMessage = data.message;
-				this.el.nativeElement.querySelector('#email').focus();
+				//this.el.nativeElement.querySelector('#email').focus();
 			} else {
 				this.emailValid = true;
 				this.emailMessage = data.message;
 			}
 			});
 		}
-	}
+     },1000);
+  	}
 
   ngOnInit() {
   	this.el.nativeElement.querySelector('#username').focus();

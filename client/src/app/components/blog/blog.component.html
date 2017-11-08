@@ -1,0 +1,11 @@
+<h5 class="page-header">Blog Feed</h5>
+
+<!-- <div class="row show-hide-message">
+	<div [ngClass]="messageClass">
+		{{ message }}
+	</div>
+</div> -->
+
+<button type="button" name="button" class="btn btn-warning" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
+<button type="button" name="button" class="btn btn-default">
+<span class="fa fa-refresh"></span>Reload</button>
