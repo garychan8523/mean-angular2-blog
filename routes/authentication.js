@@ -1,4 +1,4 @@
-const User = require('../models/users');
+const User = require('../models/user');
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 
@@ -36,7 +36,7 @@ module.exports = (router) => {
 						res.json({ success: false, message: 'could not save user. error: ', err });
 					}
 				} else {
-					res.json({ success: true, message: 'account registered!' });
+					res.json({ success: true, message: 'account registered' });
 				}
 			});
 		}

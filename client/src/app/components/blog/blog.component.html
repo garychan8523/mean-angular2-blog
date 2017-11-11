@@ -6,6 +6,87 @@
 	</div>
 </div> -->
 
-<button type="button" name="button" class="btn btn-warning" *ngIf="!newPost" (click)="newBlogForm()">New Post</button>
-<button type="button" name="button" class="btn btn-default">
-<span class="fa fa-refresh"></span>Reload</button>
+<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="!newPost" (click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
+
+<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary" *ngIf="!newPost" (click)="reloadBlogs()">
+<span class="fa fa-refresh"></span>Refresh</button>
+
+<!-- new blog form -->
+<form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
+	<div class="form-group">
+		<label for="title"></label>
+		<div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+			<input type="text" name="title" class="form-control" maxlength="100" size="100" placeholder="Title" autocomplete="off" formControlName="title">
+			<div class="form-error-msg">
+				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i class="fa fa-times"></i>This field is required</div>
+				<div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)"><i class="fa fa-times"></i>Min length: 2, Max length: 100</div>
+				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i class="fa fa-times"></i>Must be alphanumeric</div>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- new blog form -->
+
+<br>
+<br>
+
+<div *ngIf="!newPost">
+	<div class="card">
+    	<div class="card-body">
+      		<h5 class="card-title">Post Title</h5>
+      		<p class="card-text">
+      			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    		</p>
+    	</div>
+    	<div class="card-footer">
+    		<small class="text-muted"><strong>laika</strong></small>
+    		<small class="text-muted"> on 10 Nov 2017 </small>
+    		<span class="dropdown">
+    			<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
+    			<span class="fa fa-thumbs-up"></span>13</button>
+    			<div class="dropdown-content">
+    				<a href="#">gugui3z24</a>
+    				<a href="#">jinder</a>
+    				<a href="#">patel</a>
+    			</div>
+    		</span>
+    		<span class="dropdown">
+    			<button disabled type="button" name="button" class="btn btn-sm btn-outline-danger owner">
+    			<span class="fa fa-thumbs-down"></span>22</button>
+    			<div class="dropdown-content">
+    				<a href="#">gugui3z24</a>
+    				<a href="#">patel</a>
+    			</div>
+    		</span>
+    		
+    		<a href="#"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
+    		<a href="#"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
+    		<span class="dropdown">
+    			<button type="button" name="button" class="btn btn-sm btn-nobg">
+    			<span class="fa fa-thumbs-up"></span>13</button>
+    			<div class="dropdown-content">
+    				<a href="#">gugui3z24</a>
+    				<a href="#">jinder</a>
+    				<a href="#">patel</a>
+    			</div>
+    		</span>
+    		<span class="dropdown">
+    			<button type="button" name="button" class="btn btn-sm btn-nobg">
+    			<span class="fa fa-thumbs-down"></span>22</button>
+    			<div class="dropdown-content">
+    				<a href="#">gugui3z24</a>
+    				<a href="#">patel</a>
+    			</div>
+    		</span>
+
+    		<button type="button" name="button" class="btn btn-sm btn-nobg" (click)="draftComment()">
+    		<span class="fa fa-comments-o"></span>Comment</button>
+    		<!-- <form>
+    			<textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
+    			<button type="button" name="button" class="btn btn-sm btn-info">summit</button>
+    			<button type="button" name="button" class="btn btn-sm btn-danger">cancel</button>
+    		</form> -->
+    	</div>
+
+	</div>
+</div>

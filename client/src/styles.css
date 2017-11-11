@@ -8,6 +8,44 @@ body {
 	background-color: #f8f8fe;
 }
 
+.flash-messages {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 55px;
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.row {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 55px;
+	margin: 0;
+}
+
+.alert {
+	padding: .4rem 1.25rem;
+	margin: auto;
+	display:inline-block;
+	z-index: 150;
+	border: none;
+}
+
+.alert-alert-info {
+	padding: .4rem 1.25rem;
+	margin: auto;
+	display:inline-block;
+	z-index: 150;
+	border: none;
+	color: #0c5460;
+	background-color: #d1ecf1;
+}
+
 .btn-primary:disabled {
 	background-color: #868e96 !important; /* overrides bootstrap setting */
 	border-color: #868e96 !important; /* overrides bootstrap setting */

@@ -1,7 +1,3 @@
-.alert {
-	margin-left: 13px;
-}
-
 .form-reg {
 	width: 250px;
 }
@@ -14,11 +10,6 @@
 
 .form-error-msg .fa{
 	padding-right: 10px;
-	transition: none;
-}
-
-.help-block {
-	margin-top: 10px;
 	transition: none;
 }
 

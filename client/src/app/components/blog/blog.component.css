@@ -1,3 +1,116 @@
-.fa-refresh{
+.fa{
 	padding-right: 5px;
+}
+
+/*.fa-pencil-square-o,.fa-refresh{
+	padding-right: 0;
+}*/
+
+.fa-pencil,.fa-trash-o{
+	padding: 0 2px 0 2px;
+}
+
+.btn-secondary{
+	color: #eee;
+}
+
+.btn-sm{
+	padding: .12rem .25rem;
+}
+
+.btn-nobg{
+	cursor: pointer;
+	background: none;
+	color: #666;
+	font-size: .85em;
+	font-weight: 600;
+}
+
+.btn-nobg:hover{
+	color: #222;
+}
+
+.card-footer{
+	padding: .35rem 1.25rem;
+}
+.card-footer .btn{
+	opacity: 0.8;
+}
+
+.card-footer .owner{
+    border: none;
+    pointer-events:none;
+}
+
+.form-group{
+	width: 920px;
+}
+
+.form-error-msg{
+	width: 350px;
+	margin-top: 10px;
+	transition: none;
+}
+
+.form-error-msg .fa{
+	padding-right: 10px;
+	transition: none;
+}
+
+.has-error{
+	color: red;
+	transition: none;
+}
+
+.has-success{
+	color: green;
+	transition: none;
+}
+
+.has-success input{
+	border: 2px solid #00cd9a;
+}
+
+.has-error input {
+	border: 1px solid #e60039;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown{
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content{
+    display: none;
+    position: absolute;
+    /*background-color: #000;*/
+    padding-top: 5px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #ddd;
+    background-color: #000;
+    font-size: 14px;
+    padding: 2px 8px 2px 8px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:first-child{
+	padding-top: 5px;
+}
+
+.dropdown-content a:last-child{
+	padding-bottom: 5px;
+}
+
+.dropdown-content a:hover {
+	color: #eee;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
 }
