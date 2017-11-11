@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   processing = false;
   form: FormGroup;
   previousUrl;
+  logerr = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,6 +66,8 @@ export class LoginComponent implements OnInit {
         this.message = data.message; // Set error message
         this.processing = false; // Enable submit button
         this.enableForm(); // Enable form for editting
+        this.logerr = true;
+        this.el.nativeElement.querySelector('#username').focus();
       } else {
         this.messageClass = 'alert alert-success'; // Set bootstrap success class
         this.message = data.message; // Set success message
@@ -82,6 +85,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  resetLogerr() {
+    this.logerr = false;
+  }
+
   ngOnInit() {
     if (this.authGuard.redirectUrl) {
       this.messageClass = 'alert alert-danger';
@@ -89,7 +96,6 @@ export class LoginComponent implements OnInit {
       this.previousUrl = this.authGuard.redirectUrl;
       this.authGuard.redirectUrl = undefined;
     }
-
     this.el.nativeElement.querySelector('#username').focus();
   }
 

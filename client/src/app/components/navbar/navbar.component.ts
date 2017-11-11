@@ -11,6 +11,8 @@ import { NgZone } from "@angular/core";
 })
 export class NavbarComponent implements OnInit {
 
+  navBorder = true;
+
   constructor(
   	private authService: AuthService,
   	private router: Router,
@@ -25,6 +27,16 @@ export class NavbarComponent implements OnInit {
     this.zone.runOutsideAngular(() => {
       location.reload();
     });
+  }
+
+  isRootActive() {
+    let current_path = location.pathname;
+    if(current_path == '/'){
+      return true;
+    }else{
+      return false;
+    }
+    //return this.router.isActive('/', true);
   }
 
   ngOnInit() {

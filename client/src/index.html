@@ -51,8 +51,8 @@ function onElementHeightChange(elm, callback){
 
 onElementHeightChange(document.body, function(){
     var windowHeight = $(window).height();
-    var contentHeight = $('.container').height();
-    var contentWidth = $('.container').width();
+    var contentHeight = $('#body-container').height();
+    var contentWidth = $('#body-container').width();
     if (contentHeight < windowHeight) {
       $('#footer').css('position', 'absolute');
       $('#footer').css('width', contentWidth + 'px');

@@ -1,4 +1,5 @@
 <nav id="nav-header" class="navbar navbar-expand-md navbar-light fixed-top">
+    <div class="container" [ngClass]="{'nav-border' : !isRootActive()}">
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -37,4 +38,5 @@
 		  </div> -->
         </div>
       </div>
+    </div>
 </nav>
