@@ -30,6 +30,14 @@
 	color: #222;
 }
 
+.card{
+	margin: 0 auto 15px auto;
+}
+
+.card-body{
+	padding: 1rem !important;
+}
+
 .card-footer{
 	padding: .35rem 1.25rem;
 }

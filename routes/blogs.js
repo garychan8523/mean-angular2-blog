@@ -15,7 +15,7 @@ module.exports = (router) => {
 		}else {
 			const blog = new Blog({
 				title: req.body.title,
-				body: req.body.body,
+				body: req.body.body.replace(/\n/g, "<br>").replace(/<(?!br\s*\/?)[^>]+>/g, ''),
 				createdBy: req.body.createdBy
 			});
 			blog.save((err) => {
@@ -38,5 +38,16 @@ module.exports = (router) => {
 		}
 	});
 
+	router.get('/allBlogs', (req, res) => {
+		Blog.find({}, (err, blogs) => {
+			if(err) {
+				res.json({ success: false, message: err });
+			}else if(!blogs) {
+				res.json({ success: false, message: 'no blogs found' });
+			}else{
+				res.json({ success: true, blogs: blogs });
+			}
+		}).sort({ '_id': -1 });
+	});
 	return router;
 };

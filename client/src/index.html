@@ -50,7 +50,6 @@ function onElementHeightChange(elm, callback){
 }
 
 onElementHeightChange(document.body, function(){
-    console.log('onElementHeightChange');
     var windowHeight = $(window).height();
     var contentHeight = $('#body-container').height() + $('#nav-header').height() + 120;
     var contentWidth = $('#body-container').width();
@@ -67,7 +66,6 @@ onElementHeightChange(document.body, function(){
 });
 
 $(window).resize(function() {
-  console.log('window resized');
   var windowHeight = $(window).height();
     var contentHeight = $('#body-container').height() + $('#nav-header').height() + 120;
     var contentWidth = $('#body-container').width();

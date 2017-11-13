@@ -1,10 +1,10 @@
 <h5 class="page-header">Blog Feed</h5>
 
-<!-- <div class="row show-hide-message">
-	<div [ngClass]="messageClass">
-		{{ message }}
-	</div>
-</div> -->
+<div class="row" *ngIf="message && newPost">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
 
 <button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="!newPost" (click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
 
@@ -38,26 +38,29 @@
 		</div>
 	</div>
 	<!-- body input -->
+	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
+	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="resetForm()">Clear</button>
+	<button [disabled]="!form.valid || processing" type="submit" name="button" class="btn btn-sm btn-info">Submit</button>
 </form>
 <!-- new blog form -->
 
 <br>
 <br>
 
-<div *ngIf="!newPost">
-	<div class="card">
+<div *ngIf="!newPost && !loadingBlogs">
+	<div class="card" *ngFor="let blog of blogPosts">
     	<div class="card-body">
-      		<h5 class="card-title">Post Title</h5>
-      		<p class="card-text">
-      			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    		</p>
+      		<h5 class="card-title">{{ blog.title }}</h5>
+      		<!-- <p class="card-text">{{ blog.body }}</p> -->
+      		<p class="card-text"><span [innerHTML]="blog.body"></span></p>
     	</div>
     	<div class="card-footer">
-    		<small class="text-muted"><strong>laika</strong></small>
-    		<small class="text-muted"> on 10 Nov 2017 </small>
+    		<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
+    		<small class="text-muted"> on {{ blog.createdAt | date: 'dd MMM yyyy'}} </small>
+    		<span *ngIf="username === blog.createdBy">
     		<span class="dropdown">
     			<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
-    			<span class="fa fa-thumbs-up"></span>13</button>
+    			<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
     			<div class="dropdown-content">
     				<a href="#">gugui3z24</a>
     				<a href="#">jinder</a>
@@ -66,17 +69,17 @@
     		</span>
     		<span class="dropdown">
     			<button disabled type="button" name="button" class="btn btn-sm btn-outline-danger owner">
-    			<span class="fa fa-thumbs-down"></span>22</button>
+    			<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
     			<div class="dropdown-content">
     				<a href="#">gugui3z24</a>
     				<a href="#">patel</a>
     			</div>
     		</span>
+    		</span>
     		
-    		<a href="#"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
-    		<a href="#"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
+    		<span *ngIf="username !== blog.createdBy">
     		<span class="dropdown">
-    			<button type="button" name="button" class="btn btn-sm btn-nobg">
+    			<button type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="username !== blog.createdBy">
     			<span class="fa fa-thumbs-up"></span>13</button>
     			<div class="dropdown-content">
     				<a href="#">gugui3z24</a>
@@ -85,12 +88,13 @@
     			</div>
     		</span>
     		<span class="dropdown">
-    			<button type="button" name="button" class="btn btn-sm btn-nobg">
+    			<button type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="username !== blog.createdBy">
     			<span class="fa fa-thumbs-down"></span>22</button>
     			<div class="dropdown-content">
     				<a href="#">gugui3z24</a>
     				<a href="#">patel</a>
     			</div>
+    		</span>
     		</span>
 
     		<button type="button" name="button" class="btn btn-sm btn-nobg" (click)="draftComment()">
@@ -100,6 +104,10 @@
     			<button type="button" name="button" class="btn btn-sm btn-info">summit</button>
     			<button type="button" name="button" class="btn btn-sm btn-danger">cancel</button>
     		</form> -->
+    		<span *ngIf="username === blog.createdBy">
+    		<a [routerLink]="['/edit-blog/', blog._id]" *ngIf="username === blog.createdBy"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
+    		<a [routerLink]="['/delete-blog/', blog._id]" *ngIf="username === blog.createdBy"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
+    		</span>
     	</div>
 
 	</div>

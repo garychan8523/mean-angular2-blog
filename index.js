@@ -6,6 +6,7 @@ const config = require('./config/database');
 const path = require('path');
 const authentication = require('./routes/authentication')(router);
 const blogs = require('./routes/blogs')(router);
+
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
