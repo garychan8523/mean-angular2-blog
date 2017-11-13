@@ -13,10 +13,11 @@
 
 <!-- new blog form -->
 <form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
+	<!-- title input -->
 	<div class="form-group">
 		<label for="title"></label>
 		<div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-			<input type="text" name="title" class="form-control" maxlength="100" size="100" placeholder="Title" autocomplete="off" formControlName="title">
+			<input type="text" name="title" class="form-control" maxlength="100" size="100" placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
 			<div class="form-error-msg">
 				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i class="fa fa-times"></i>This field is required</div>
 				<div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)"><i class="fa fa-times"></i>Min length: 2, Max length: 100</div>
@@ -24,6 +25,19 @@
 			</div>
 		</div>
 	</div>
+	<!-- title input -->
+	<!-- body input -->
+	<div class="form-group">
+		<label for="body"></label>
+		<div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
+			<textarea name="body" rows="8" cols="80" placeholder="Body" class="form-control" maxlength="1500" formControlName="body"></textarea>
+			<div class="form-error-msg">
+				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i class="fa fa-times"></i>This field is required</div>
+				<div *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)"><i class="fa fa-times"></i>Min length: 2, Max length: 1500</div>
+			</div>
+		</div>
+	</div>
+	<!-- body input -->
 </form>
 <!-- new blog form -->
 

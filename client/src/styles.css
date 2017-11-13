@@ -8,6 +8,11 @@ body {
 	background-color: #f8f8fe;
 }
 
+.btn-primary:disabled, .btn-info:disabled{
+	background-color: #868e96;
+	border-color: #868e96;
+}
+
 .flash-messages {
 	position: absolute;
 	top: 0;

@@ -50,8 +50,9 @@ function onElementHeightChange(elm, callback){
 }
 
 onElementHeightChange(document.body, function(){
+    console.log('onElementHeightChange');
     var windowHeight = $(window).height();
-    var contentHeight = $('#body-container').height();
+    var contentHeight = $('#body-container').height() + $('#nav-header').height() + 120;
     var contentWidth = $('#body-container').width();
     if (contentHeight < windowHeight) {
       $('#footer').css('position', 'absolute');
@@ -64,6 +65,24 @@ onElementHeightChange(document.body, function(){
       $('#footer').css('margin-top', '80px');
     }
 });
+
+$(window).resize(function() {
+  console.log('window resized');
+  var windowHeight = $(window).height();
+    var contentHeight = $('#body-container').height() + $('#nav-header').height() + 120;
+    var contentWidth = $('#body-container').width();
+    if (contentHeight < windowHeight) {
+      $('#footer').css('position', 'absolute');
+      $('#footer').css('width', contentWidth + 'px');
+      $('#footer').css('bottom', '0');
+    } else {
+      $('#footer').css('position', 'initial');
+      $('#footer').css('width', 'initial');
+      $('#footer').removeProp('bottom');
+      $('#footer').css('margin-top', '80px');
+    }
+});
+
 </script>
 
 </body>

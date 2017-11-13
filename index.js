@@ -14,7 +14,7 @@ mongoose.connect(config.uri, (err) => {
 	if (err) {
 		console.log('Could NOT connect to databse: ', err);
 	} else {
-		console.log('Connected to databse: ' + config.db);
+		console.log('Connected to database: ' + config.db);
 	}
 });
 

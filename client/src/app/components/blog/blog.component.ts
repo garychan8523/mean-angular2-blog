@@ -31,7 +31,7 @@ export class BlogComponent implements OnInit {
       body: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(1500),
-        Validators.minLength(1)
+        Validators.minLength(2)
         ])]
     });
   }

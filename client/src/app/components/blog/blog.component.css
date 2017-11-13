@@ -67,11 +67,11 @@
 	transition: none;
 }
 
-.has-success input{
+.has-success input, .has-success textarea{
 	border: 2px solid #00cd9a;
 }
 
-.has-error input {
+.has-error input, .has-error textarea{
 	border: 1px solid #e60039;
 }
 

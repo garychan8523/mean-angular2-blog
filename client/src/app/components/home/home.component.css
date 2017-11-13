@@ -1,0 +1,11 @@
+.jumbotron {
+	-moz-box-shadow:    inset 0 0 10px #dadfe4;
+	-webkit-box-shadow: inset 0 0 10px #dadfe4;
+	box-shadow:         inset 0 0 10px #dadfe4;
+}
+
+.jumbotron:hover {
+	-moz-box-shadow:    inset 0 0 10px #dadfee;
+	-webkit-box-shadow: inset 0 0 10px #dadfee;
+	box-shadow:         inset 0 0 10px #dadfee;
+}
