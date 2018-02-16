@@ -120,7 +120,6 @@ export class BlogComponent implements OnInit {
 
   getAllBlogs() {
     this.blogService.getAllBlogs().subscribe(data => {
-      console.log(data.blogs);
       for (let blog of data.blogs) {
         blog.body = blog.body.replace(/\n/g, "<br>").replace(/<(?!br\s*\/?)[^>]+>/g, '');
       }
