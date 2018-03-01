@@ -4,6 +4,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const config = require('./config/database');
 const path = require('path');
+const public = require('./routes/public')(router);
 const authentication = require('./routes/authentication')(router);
 const blogs = require('./routes/blogs')(router);
 
@@ -30,6 +31,7 @@ app.use(bodyParser.json())
 app.use(express.static(__dirname + '/client/dist/'));
 app.use('/authentication', authentication);
 app.use('/blogs', blogs);
+
 // moddileware: end
 
 app.get('*', (req, res) => {
