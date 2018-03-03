@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="username && !newPost" (click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
+<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" (click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
 
 <button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary" *ngIf="!newPost" (click)="reloadBlogs()">
 <span class="fa fa-refresh"></span>Refresh</button>
@@ -57,7 +57,7 @@
     	<div class="card-footer">
     		<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
     		<small class="text-muted"> on {{ blog.createdAt | date: 'dd MMM yyyy'}} </small>
-    		<span *ngIf="!username || (username === blog.createdBy)">
+    		<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
     		<span class="dropdown">
     			<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
     			<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
@@ -77,10 +77,10 @@
     		</span>
     		</span>
     		
-    		<span *ngIf="username && (username !== blog.createdBy)">
+    		<span *ngIf="authService.loggedIn() && (username !== blog.createdBy)">
     		<span class="dropdown">
-    			<button type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="username !== blog.createdBy">
-    			<span class="fa fa-thumbs-up"></span>13</button>
+    			<button type="button" name="button" class="btn btn-sm btn-nobg">
+    			<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
     			<div class="dropdown-content">
     				<a href="#">gugui3z24</a>
     				<a href="#">jinder</a>
@@ -88,8 +88,8 @@
     			</div>
     		</span>
     		<span class="dropdown">
-    			<button type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="username !== blog.createdBy">
-    			<span class="fa fa-thumbs-down"></span>22</button>
+    			<button type="button" name="button" class="btn btn-sm btn-nobg">
+    			<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
     			<div class="dropdown-content">
     				<a href="#">gugui3z24</a>
     				<a href="#">patel</a>
@@ -97,16 +97,16 @@
     		</span>
     		</span>
 
-    		<button type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="username" (click)="draftComment()">
-    		<span class="fa fa-comments-o" *ngIf="username"></span>Comment</button>
+    		<button type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment()">
+    		<span class="fa fa-comments-o"></span>Comment</button>
     		<!-- <form>
     			<textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
     			<button type="button" name="button" class="btn btn-sm btn-info">summit</button>
     			<button type="button" name="button" class="btn btn-sm btn-danger">cancel</button>
     		</form> -->
-    		<span *ngIf="username === blog.createdBy">
-    		<a [routerLink]="['/edit-blog/', blog._id]" *ngIf="username === blog.createdBy"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
-    		<a [routerLink]="['/delete-blog/', blog._id]" *ngIf="username === blog.createdBy"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
+    		<span *ngIf="authService.loggedIn() && username === blog.createdBy">
+    		<a [routerLink]="['/edit-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
+    		<a [routerLink]="['/delete-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
     		</span>
     	</div>
 
