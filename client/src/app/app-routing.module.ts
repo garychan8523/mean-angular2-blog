@@ -43,7 +43,7 @@ const appRoutes: Routes = [
     path: 'blog',
     component: BlogComponent
   },
-  { path: '**', component: HomeComponent }
+  { path: '**', redirectTo: '/'}
 ];
 
 
