@@ -36,7 +36,7 @@ app.use('/blogs', blogs);
 
 app.get('*', (req, res) => {
   //res.send('<h1>Hello World</h1>');
-  res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+  res.sendFile(path.join(__dirname + '/client/src/index.html'));
 });
 
 app.listen(8080, () => {

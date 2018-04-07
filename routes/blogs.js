@@ -1,11 +1,9 @@
-const User = require('../models/user');
 const Blog = require('../models/blog');
-const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
-const config = require('../config/database'); // Import database configuration
+const checkAuth = require('../middleware/auth');
 
 module.exports = (router) => {
 
-	router.post('/newBlog', (req, res) => {
+	router.post('/newBlog', checkAuth, (req, res) => {
 		if(!req.body.title) {
 			res.json({ success: false, message: 'blog title is required.' });
 		}else if(!req.body.body) {
