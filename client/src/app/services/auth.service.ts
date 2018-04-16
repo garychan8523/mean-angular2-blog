@@ -67,7 +67,7 @@ export class AuthService {
   // Function to get user's profile data
   getProfile() {
     this.createAuthenticationHeaders(); // Create headers before sending to API
-    return this.http.get(this.domain + 'authentication/profile', this.options).map(res => res.json());
+    return this.http.get(this.domain + 'profile/profile', this.options).map(res => res.json());
   }
 
   // Function to check if user is logged in
