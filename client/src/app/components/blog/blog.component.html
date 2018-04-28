@@ -1,10 +1,12 @@
 <h5 class="page-header">Blog Feed</h5>
 
-<div class="row" *ngIf="message && newPost">
+<div class="row" *ngIf="message">
   <div [ngClass]="messageClass">
     {{ message }}
   </div>
 </div>
+
+<div class="overlay" (click)="goBack()" *ngIf="overlay"></div>
 
 <button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" (click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
 
@@ -44,11 +46,42 @@
 </form>
 <!-- new blog form -->
 
+<!-- delete blog popup -->
+<div class="popup-modal-wrapper" *ngIf="deleteBlogDisplay" (click)="goBack()">
+<div class="col-md-6 popup-modal" (click)="onEvent($event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Confirm deletion</h5>
+      <button type="button" name="button" class="close" data-dismiss="modal" (click)="goBack()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure to delete this blog? We won't be able to find it anymore after deletion completed. You can go back and perform an edit if you only want to modify the content.</p>
+      <div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ deleteBlogPost.title }}</h5>
+        <p class="card-text"><span [innerHTML]="deleteBlogPost.body"></span></p>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted"><strong>{{ deleteBlogPost.createdBy }}</strong></small>
+        <small class="text-muted">{{ deleteBlogPost.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
+    </div>
+  </div>
+
+    </div>
+    <div class="modal-footer">
+      <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
+      <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteBlog()">Delete</button>
+    </div>
+  </div>
+</div>
+</div>
+<!-- delete blog popup -->
+
 <br>
 <br>
 
 <div *ngIf="!newPost && !loadingBlogs">
-	<div class="card" *ngFor="let blog of blogPosts">
+	<div id="{{ blog._id }} "class="card" *ngFor="let blog of blogPosts">
     	<div class="card-body">
       		<h5 class="card-title">{{ blog.title }}</h5>
       		<!-- <p class="card-text">{{ blog.body }}</p> -->
@@ -56,7 +89,7 @@
     	</div>
     	<div class="card-footer">
     		<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
-    		<small class="text-muted"> on {{ blog.createdAt | date: 'dd MMM yyyy'}} </small>
+    		<small class="text-muted">{{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
     		<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
     		<span class="dropdown">
     			<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
@@ -106,7 +139,8 @@
     		</form> -->
     		<span *ngIf="authService.loggedIn() && username === blog.createdBy">
     		<a [routerLink]="['/edit-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
-    		<a [routerLink]="['/delete-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
+    		<!-- <a [routerLink]="['/delete-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a> -->
+            <a (click)="deleteBlogPopup(blog)"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
     		</span>
     	</div>
 

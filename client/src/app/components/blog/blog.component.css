@@ -1,3 +1,34 @@
+.popup-modal-wrapper{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1060;
+}
+
+.popup-modal{
+	margin: auto;
+	margin-top: 7rem;
+}
+
+.modal-header{
+	padding: 10px !important;
+	background: #f6f7f9;
+	border-radius: .3rem .3rem 0 0;
+}
+
+.modal-title{
+	line-height: 0;
+}
+
+.modal-footer{
+	padding: 10px !important;
+}
+
+button.close{
+	margin-right: 5px;
+}
+
 .fa{
 	padding-right: 5px;
 }

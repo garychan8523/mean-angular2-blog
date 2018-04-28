@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 
@@ -13,20 +14,28 @@ export class BlogComponent implements OnInit {
   messageClass;
   message;
   newPost = false;
+  deleteBlogDisplay = false;
+  deleteBlogPost;
   loadingBlogs = false;
   form;
   processing = false;
   username;
   blogPosts;
+  overlay = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private blogService: BlogService
+    private blogService: BlogService,
+    private router: Router
   ) {
     this.createNewBlogForm();
   }
 
+  onEvent(event) {
+   event.stopPropagation();
+  }
+  
   createNewBlogForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.compose([
@@ -66,6 +75,12 @@ export class BlogComponent implements OnInit {
   	this.newPost = true;
   }
   
+  deleteBlogPopup(blog) {
+    this.overlay = true;
+    this.deleteBlogDisplay = true;
+    this.deleteBlogPost = blog;
+  }
+
   reloadBlogs() {
     this.loadingBlogs = true;
     this.getAllBlogs();
@@ -109,9 +124,31 @@ export class BlogComponent implements OnInit {
     })
   }
 
+  deleteBlog() {
+    this.processing = true;
+    this.blogService.deleteBlog(this.deleteBlogPost._id).subscribe(data => {
+      if (!data.success) {
+        this.messageClass = 'alert alert-danger';
+          this.message = data.message;
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = data.message;
+        this.processing = false;
+        this.overlay = false;
+        this.deleteBlogDisplay = false;
+        this.getAllBlogs();
+        setTimeout(() => {
+          this.message = false;
+        }, 2000);
+      }
+    });
+  }
+
   goBack() {
     //window.location.reload();
+    this.overlay = false;
     this.newPost = false;
+    this.deleteBlogDisplay = false;
   }
 
   resetForm() {
@@ -123,6 +160,7 @@ export class BlogComponent implements OnInit {
       this.blogPosts = data.blogs;
     });
   }
+
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
       this.username = profile.user.username;

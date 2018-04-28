@@ -4,18 +4,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../../services/blog.service';
 
 @Component({
-  selector: 'app-edit-blog',
-  templateUrl: './edit-blog.component.html',
-  styleUrls: ['./edit-blog.component.css']
+  selector: 'app-delete-blog',
+  templateUrl: './delete-blog.component.html',
+  styleUrls: ['./delete-blog.component.css']
 })
-export class EditBlogComponent implements OnInit {
+export class DeleteBlogComponent implements OnInit {
 
   message;
   messageClass;
-  blog;
+  foundBlog = false;
   processing = false;
+  blog;
   currentUrl;
-  loading = true;
 
   constructor(
   	private location: Location,
@@ -24,15 +24,12 @@ export class EditBlogComponent implements OnInit {
   	private router: Router
   ) { }
 
-  updateBlogSubmit() {
+  deleteBlog() {
   	this.processing = true;
-  	let regex2 = /\n/g
-  	this.blog.body = this.blog.body.replace(regex2, "<br>");
-  	this.blogService.editBlog(this.blog).subscribe(data => {
+  	this.blogService.deleteBlog(this.currentUrl.id).subscribe(data => {
   		if (!data.success) {
   			this.messageClass = 'alert alert-danger';
         	this.message = data.message;
-        	this.processing = false;
   		} else {
   			this.messageClass = 'alert alert-success';
   			this.message = data.message;
@@ -46,7 +43,6 @@ export class EditBlogComponent implements OnInit {
   goBack() {
   	this.location.back();
   }
-
   ngOnInit() {
   	this.currentUrl = this.activatedRoute.snapshot.params;
   	this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
@@ -54,13 +50,14 @@ export class EditBlogComponent implements OnInit {
   			this.messageClass = 'alert alert-danger';
         	this.message = data.message;
   		} else {
-  			console.log('data.blog.body: ' + data.blog.body);
-        	let regex = /<br\s*[\/]?>/gi;
-        	data.blog.body = data.blog.body.replace(regex, "\n");
-      		this.blog = data.blog;
-  			this.loading = false;
+  			this.blog = {
+  				title: data.blog.title,
+  				body: data.blog.body,
+  				createdBy: data.blog.createdBy,
+  				createdAt: data.blog.createdAt
+  			}
+  			this.foundBlog = true;
   		}
-  		
   	});
   }
 
