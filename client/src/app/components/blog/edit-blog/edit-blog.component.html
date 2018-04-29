@@ -36,5 +36,5 @@
 		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger">Delete</button>
 	</a>
 <!-- 	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="resetForm()">Clear</button> -->
-	<button [disabled]="processing" type="submit" name="save" class="btn btn-sm btn-info">Save Changes</button>
+	<button [disabled]="!form.valid || processing" type="submit" name="save" class="btn btn-sm btn-info">Save Changes</button>
 </form>
