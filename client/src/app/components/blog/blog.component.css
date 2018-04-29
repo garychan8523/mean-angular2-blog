@@ -67,6 +67,8 @@ button.close{
 
 .card-body{
 	padding: 1rem !important;
+	overflow-y: scroll;
+	max-height: 28rem;
 }
 
 .card-footer{
