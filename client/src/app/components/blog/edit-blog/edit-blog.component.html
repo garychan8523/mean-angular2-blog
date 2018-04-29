@@ -6,15 +6,28 @@
   </div>
 </div>
 
-<form (submit)="updateBlogSubmit()" *ngIf="!loading">
+<form [formGroup]="form" (submit)="updateBlogSubmit()" *ngIf="!loading">
 	<div class="form-group">
 		<label for="title"></label>
-		<input [disabled]="processing" type="text" name="title" class="form-control" maxlength="100" size="100" placeholder="Title" autocomplete="off" [(ngModel)]="blog.title" [autofocus]="true">
+		<div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+			<input type="text" name="title" class="form-control" maxlength="100" size="100" placeholder="Title" autocomplete="off" formControlName="title" [(ngModel)]="blog.title" [autofocus]="true">
+			<div class="form-error-msg">
+				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i class="fa fa-times"></i>This field is required</div>
+				<div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)"><i class="fa fa-times"></i>Min length: 2, Max length: 100</div>
+				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i class="fa fa-times"></i>Must be alphanumeric</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="form-group">
 		<label for="body"></label>
-		<textarea [disabled]="processing" contenteditable="true" name="body" rows="8" cols="80" placeholder="Body" class="form-control" maxlength="1500" [(ngModel)]="blog.body"></textarea>
+		<div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
+			<textarea contenteditable="true" name="body" rows="8" cols="80" placeholder="Body" class="form-control" maxlength="1500" formControlName="body" [(ngModel)]="blog.body"></textarea>
+			<div class="form-error-msg">
+				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i class="fa fa-times"></i>This field is required</div>
+				<div *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)"><i class="fa fa-times"></i>Min length: 2, Max length: 1500</div>
+			</div>
+		</div>
 	</div>
 	<span style="opacity: 0.8;">Only these tags are allowed: p, b, i, u, s, font, strong, br, ol, li</span><br><br>
 
