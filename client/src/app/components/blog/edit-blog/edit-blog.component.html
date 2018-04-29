@@ -16,7 +16,7 @@
 		<label for="body"></label>
 		<textarea [disabled]="processing" contenteditable="true" name="body" rows="8" cols="80" placeholder="Body" class="form-control" maxlength="1500" [(ngModel)]="blog.body"></textarea>
 	</div>
-
+	<span style="opacity: 0.8;">Only these tags are allowed: p, b, i, u, s, font, strong, br, ol, li</span><br><br>
 
 	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
 	<a [routerLink]="['/delete-blog/', blog._id]">

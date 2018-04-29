@@ -13,8 +13,8 @@ module.exports = (router) => {
 			res.json({ success: false, message: 'blog creator is required.' });
 		}else {
 			const blog = new Blog({
-				title: req.body.title,
-				body: req.body.body.replace(/\n/g, "<br>").replace(/<(?!br\s*\/?)[^>]+>/g, ''),
+				title: req.body.title.replace(/<\/?.*?>/g, ''),
+				body: req.body.body.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
 				createdBy: req.body.createdBy
 			});
 			blog.save((err) => {
@@ -90,8 +90,8 @@ module.exports = (router) => {
     								if (user.username !== blog.createdBy) {
     									res.json({ success: false, message: 'Not authorized.' });
     								} else {
-    									blog.title = req.body.title;
-    									blog.body = req.body.body;
+    									blog.title = req.body.title.replace(/<\/?.*?>/g, '');
+    									blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
     									blog.save((err) => {
     										if (err) {
     											res.json({ success: false, message: err });
