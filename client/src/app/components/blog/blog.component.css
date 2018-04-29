@@ -71,6 +71,16 @@ button.close{
 	max-height: 28rem;
 }
 
+.card-body::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+.card-body::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
 .card-footer{
 	padding: .35rem 1.25rem;
 }
