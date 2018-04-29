@@ -35,7 +35,7 @@ export class BlogComponent implements OnInit {
   onEvent(event) {
    event.stopPropagation();
   }
-  
+
   createNewBlogForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.compose([
@@ -129,7 +129,7 @@ export class BlogComponent implements OnInit {
     this.blogService.deleteBlog(this.deleteBlogPost._id).subscribe(data => {
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
-          this.message = data.message;
+        this.message = data.message;
       } else {
         this.messageClass = 'alert alert-success';
         this.message = data.message;
@@ -163,7 +163,11 @@ export class BlogComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
-      this.username = profile.user.username;
+      if(!profile.success){
+        this.authService.logout();
+      } else {
+        this.username = profile.user.username;
+      }
     });
 
     this.getAllBlogs();
