@@ -11,22 +11,19 @@ let titleLengthChecker = (title) => {
   }
 };
 
-let alphaNumericTitleChecker = (title) => {
-  if (!title) return false;
-  else {
-    const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
-    return regExp.test(title);
-  }
-};
+// let alphaNumericTitleChecker = (title) => {
+//   if (!title) return false;
+//   else {
+//     //const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
+//     const regExp = new RegExp(/[-a-zA-Z0-9《》（）「」＜＞〈〉，。<>():：!！?？#＃．・…\/／\u4e00-\u9eff]/g);
+//     return regExp.test(title);
+//   }
+// };
 
 const titleValidators = [
   {
     validator: titleLengthChecker, 
     message: 'title must be at least 2 but no more than 100 characters'
-  },
-  {
-    validator: alphaNumericTitleChecker,
-    message: 'title must be alphanumeric'
   }
 ];
 

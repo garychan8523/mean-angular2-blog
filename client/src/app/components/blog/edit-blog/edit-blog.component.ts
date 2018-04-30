@@ -36,8 +36,7 @@ export class EditBlogComponent implements OnInit {
       title: [{value: '', disabled: true}, Validators.compose([
         Validators.required,
         Validators.maxLength(100),
-        Validators.minLength(2),
-        this.alphaNumericValidation
+        Validators.minLength(2)
         ])],
       body: [{value: '', disabled: true}, Validators.compose([
         Validators.required,
@@ -45,15 +44,6 @@ export class EditBlogComponent implements OnInit {
         Validators.minLength(2)
         ])]
     });
-  }
-
-  alphaNumericValidation(controls) {
-    const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
-    if(regExp.test(controls.value) || controls.value == '') {
-      return null;
-    }else {
-      return { 'alphaNumericValidation': true }
-    }
   }
 
   updateBlogSubmit() {
@@ -65,7 +55,7 @@ export class EditBlogComponent implements OnInit {
   	this.blogService.editBlog(this.blog).subscribe(data => {
   		if (!data.success) {
   			this.messageClass = 'alert alert-danger';
-        	this.message = data.message;
+        	this.message = data.message.errors.title.message || "Error";
         	this.processing = false;
           this.form.controls['title'].enable();
           this.form.controls['body'].enable();

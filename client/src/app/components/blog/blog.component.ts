@@ -42,7 +42,7 @@ export class BlogComponent implements OnInit {
         Validators.required,
         Validators.maxLength(100),
         Validators.minLength(2),
-        this.alphaNumericValidation
+        //this.specialCharacterValidation
         ])],
       body: ['', Validators.compose([
         Validators.required,
@@ -62,14 +62,14 @@ export class BlogComponent implements OnInit {
     this.form.get('body').disable();
   }
 
-  alphaNumericValidation(controls) {
-    const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
-    if(regExp.test(controls.value) || controls.value == '') {
-      return null;
-    }else {
-      return { 'alphaNumericValidation': true }
-    }
-  }
+  // specialCharacterValidation(controls) {
+  //   const regExp = new RegExp(/[-a-zA-Z0-9《》（）「」＜＞〈〉，。<>():：!！?？#＃．・…\/／\u4e00-\u9eff]/g);
+  //   if(regExp.test(controls.value) || controls.value == '') {
+  //     return null;
+  //   }else {
+  //     return { 'specialCharacterValidation': true }
+  //   }
+  // }
 
   newBlogForm() {
   	this.newPost = true;
