@@ -13,6 +13,11 @@ export class HomeComponent implements OnInit {
   	) { }
 
   ngOnInit() {
+  	this.authService.getProfile().subscribe(profile => {
+      if(!profile.success){
+        this.authService.logout();
+      }
+    });
   }
 
 }
