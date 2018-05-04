@@ -70,6 +70,11 @@ export class AuthService {
     return this.http.get(this.domain + 'profile/profile', this.options).map(res => res.json());
   }
 
+  getLoginStatus() {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'profile/loginstatus', this.options).map(res => res.json());
+  }
+
   // Function to check if user is logged in
   loggedIn() {
     return tokenNotExpired('token');

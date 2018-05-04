@@ -82,7 +82,7 @@
 <br>
 
 <div *ngIf="!newPost && !loadingBlogs">
-	<div id="{{ blog._id }} "class="card" *ngFor="let blog of blogPosts">
+	<div id="{{ blog._id }}" class="card" *ngFor="let blog of blogPosts">
     	<div class="card-body">
       		<h5 class="card-title">{{ blog.title }}</h5>
       		<!-- <p class="card-text">{{ blog.body }}</p> -->

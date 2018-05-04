@@ -24,6 +24,7 @@
     "inherits": "^2.0.3",
     "jsonwebtoken": "^8.0.0",
     "mongoose": "^4.11.9",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "request-ip": "^2.0.2"
   }
 }

@@ -1,7 +1,6 @@
 const Blog = require('../models/blog');
 
 module.exports = (router) => {
-
 	router.get('/allBlogs', (req, res) => {
 		Blog.find({}, (err, blogs) => {
 			if(err) {

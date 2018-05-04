@@ -1,7 +1,10 @@
 const User = require('../models/user');
+const LoginState = require('../models/loginState');
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 const checkAuth = require('../middleware/auth');
+var requestIp = require('request-ip');
+
 
 module.exports = (router) => {
 
@@ -103,8 +106,26 @@ module.exports = (router) => {
               if (!validPassword) {
                 res.json({ success: false, message: 'user not found' }); // Return error
               } else {
-                const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' }); // Create a token for client
-                res.json({ success: true, message: 'success', token: token, user: { username: user.username } }); // Return success and token to frontend
+                const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '30d' }); // Create a token for client
+                let now = Date.now() + new Date().getTimezoneOffset();
+                let expire = now + 30*86400*1000;
+                let clientIp = requestIp.getClientIp(req);
+                LoginState.update({ username: req.body.username }, {$push: {'record': {
+                	token: token, 
+                	ipaddress: clientIp,
+    				device: req.headers['user-agent'] || "unkown",
+    				location: "unknown",
+                	loginAt: now,
+                	expireAt: expire
+                }}}, {upsert: true},
+                	(err) => {
+    				if (err) {
+    					res.json({ success: false, message: err });
+    				} else {
+    					res.json({ success: true, message: 'success', token: token, user: { username: user.username } });
+    				}
+    			});
+                //res.json({ success: true, message: 'success', token: token, user: { username: user.username } }); // Return success and token to frontend
               }
             }
           }

@@ -1,0 +1,17 @@
+.login-status-active {
+	height: 100%;
+    width: 5px;
+    background: #b5f4b5;
+    position: absolute;
+    margin-top: -.75rem;
+    margin-left: -1.25rem;
+}
+
+.login-status-inactive {
+	height: 100%;
+    width: 5px;
+    background: #ccc;
+    position: absolute;
+    margin-top: -.75rem;
+    margin-left: -1.25rem;
+}
