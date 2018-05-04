@@ -51,9 +51,11 @@ export class AuthService {
 
   // Function to logout
   logout() {
-    this.authToken = null; // Set token to null
-    this.user = null; // Set user to null
-    localStorage.clear(); // Clear local storage
+    this.createAuthenticationHeaders();
+    this.http.get(this.domain + 'authentication/logout', this.options).subscribe();
+    this.authToken = null;
+    this.user = null;
+    localStorage.clear();
   }
 
   // Function to store user's data in client local storage

@@ -17,12 +17,12 @@
 <ul class="list-group">
 <li class="list-group-item" *ngFor="let record of loginRecords">
 <!-- <div ng-class="record.force_logout ? 'login-status-active' : 'login-status-inactive'"></div> -->
-<div class="{{ record.force_logout ? 'login-status-inactive' : 'login-status-active' }}"></div>
+<div class="{{ (record.force_logout || record.loggedout) ? 'login-status-inactive' : 'login-status-active' }}"></div>
 ip address: {{ record.ipaddress }} <br>
 Device: {{ record.device }} <br>
 Location: {{ record.location }} <br>
 Login at: {{ record.loginAt | date: "dd MMM yyyy HH:mm:ss" }} <br>
 Expire at: {{ record.expireAt | date: "dd MMM yyyy HH:mm:ss" }} <br>
-Active: {{ record.force_logout ? "false" : "true" }}
+Logged out: {{record.loggedout ? "true" : "false" }} <br>
 </li>
 </ul>

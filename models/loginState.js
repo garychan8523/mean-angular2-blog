@@ -11,6 +11,7 @@ const loginStateSchema = new Schema({
     location: { type: String, required: false },
     loginAt: { type: Date, default: Date.now() },
     expireAt: { type: Date, required: true },
+    loggedout: { type: Boolean, default: false },
     force_logout: { type: Boolean, default: false }
   }]
 });
