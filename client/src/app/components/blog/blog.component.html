@@ -96,37 +96,31 @@
     			<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
     			<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
     			<div class="dropdown-content">
-    				<a href="#">gugui3z24</a>
-    				<a href="#">jinder</a>
-    				<a href="#">patel</a>
-    			</div>
+                    <a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
+                </div>
     		</span>
     		<span class="dropdown">
     			<button disabled type="button" name="button" class="btn btn-sm btn-outline-danger owner">
     			<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
     			<div class="dropdown-content">
-    				<a href="#">gugui3z24</a>
-    				<a href="#">patel</a>
-    			</div>
+                    <a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{ disliker }}</a>
+                </div>
     		</span>
     		</span>
     		
     		<span *ngIf="authService.loggedIn() && (username !== blog.createdBy)">
     		<span class="dropdown">
-    			<button type="button" name="button" class="btn btn-sm btn-nobg">
+    			<button [disabled]="blog.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="likeBlog(blog._id)">
     			<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
     			<div class="dropdown-content">
-    				<a href="#">gugui3z24</a>
-    				<a href="#">jinder</a>
-    				<a href="#">patel</a>
+    				<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
     			</div>
     		</span>
     		<span class="dropdown">
-    			<button type="button" name="button" class="btn btn-sm btn-nobg">
+    			<button [disabled]="blog.dislikedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="dislikeBlog(blog._id)">
     			<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
     			<div class="dropdown-content">
-    				<a href="#">gugui3z24</a>
-    				<a href="#">patel</a>
+    				<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{ disliker }}</a>
     			</div>
     		</span>
     		</span>

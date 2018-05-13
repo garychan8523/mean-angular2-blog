@@ -11,8 +11,6 @@ import { NgZone } from "@angular/core";
 })
 export class NavbarComponent implements OnInit {
 
-  navBorder = true;
-
   constructor(
   	private authService: AuthService,
   	private router: Router,
