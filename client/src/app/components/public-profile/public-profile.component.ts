@@ -25,9 +25,11 @@ export class PublicProfileComponent implements OnInit {
   	this.currentUrl = this.activatedRoute.snapshot.params;
   	this.authService.getPublicProfile(this.currentUrl.username).subscribe(data => {
   		if (!data.success) {
+        this.foundProfile = false;
   			this.messageClass = 'alert alert-danger';
         	this.message = data.message;
   		} else {
+        this.foundProfile = true;
   			this.username = data.user.username;
   			this.email = data.user.email;
   		}

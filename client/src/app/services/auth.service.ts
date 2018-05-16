@@ -73,7 +73,6 @@ export class AuthService {
   }
 
   getPublicProfile(username) {
-    this.createAuthenticationHeaders();
     return this.http.get(this.domain + 'profile/publicProfile/' + username, this.options).map(res => res.json());
   }
 
