@@ -165,3 +165,14 @@ button.close{
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+button[disabled] {
+	cursor: default;
+}
+
+.list-group-item {
+	padding: 4px 10px;
+	background-color: #fefefe;
+	color: #525252;
+	border: none;
+}

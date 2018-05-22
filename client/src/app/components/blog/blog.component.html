@@ -125,18 +125,40 @@
     		</span>
     		</span>
 
-    		<button type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment()">
+    		<button [disabled]="newComment.indexOf(blog._id) > -1" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment(blog._id)">
     		<span class="fa fa-comments-o"></span>Comment</button>
-    		<!-- <form>
-    			<textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
-    			<button type="button" name="button" class="btn btn-sm btn-info">summit</button>
-    			<button type="button" name="button" class="btn btn-sm btn-danger">cancel</button>
-    		</form> -->
     		<span *ngIf="authService.loggedIn() && username === blog.createdBy">
     		<a [routerLink]="['/edit-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
     		<!-- <a [routerLink]="['/delete-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a> -->
             <a (click)="deleteBlogPopup(blog)"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
     		</span>
+            <button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)"><span class="fa fa-eye"></span></button>
+            <button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)"><span class="fa fa-eye-slash"></span></button>
+            <!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)">Show comments</span> -->
+            <!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)">Hide comments</span> -->
+
+            <div *ngIf="newComment.indexOf(blog._id) > -1" style="padding-bottom: 5px;">
+                <form [formGroup]="commentForm">
+                    <div [ngClass]="{'has-success': commentForm.controls.comment.valid}">
+                        <textarea style="margin-top: 4px; margin-bottom: 10px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px);" name="comment" rows="4" cols="30" class="form-control" formControlName="comment"></textarea>
+                    </div>
+                    <!-- <div [ngClass]="">
+                        <ul class="help-block">
+                            <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">This field is required.</li>
+                            <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) || (commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment length must between 2 to 1500 characters.</li>
+                        </ul>
+                    </div> -->
+                    <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="cancelSubmission(blog._id)">Back</button>
+                    <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info" (click)="postComment(blog._id)">Submit</button>
+                </form>
+            </div>
+            
+            <div *ngIf="enabledComments.indexOf(blog._id) > -1">
+                <li *ngFor="let comment of blog.comments" class="list-group-item">
+                    <strong>{{ comment.commentator }}</strong> {{ comment.comment }}
+                </li>
+            </div>
+
     	</div>
 
 	</div>
