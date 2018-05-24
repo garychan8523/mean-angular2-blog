@@ -12,7 +12,7 @@ import { NgZone } from "@angular/core";
 export class NavbarComponent implements OnInit {
 
   constructor(
-  	private authService: AuthService,
+  	public authService: AuthService,
   	private router: Router,
   	private flashMessagesService: FlashMessagesService,
     private zone: NgZone

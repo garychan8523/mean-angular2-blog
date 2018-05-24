@@ -11,7 +11,7 @@ import { ElementRef } from '@angular/core';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-	form: FormGroup;
+	form;
 	message;
 	messageClass;
 	processing = false;

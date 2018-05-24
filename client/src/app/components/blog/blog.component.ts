@@ -28,7 +28,7 @@ export class BlogComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
     private blogService: BlogService,
     private router: Router
   ) {
