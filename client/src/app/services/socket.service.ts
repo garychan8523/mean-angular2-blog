@@ -29,4 +29,8 @@ export class SocketService {
   	this.socket.emit('message', message);
   }
 
+  public notification(data): void {
+  	this.socket.emit('notification', data);
+  }
+
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { SocketService } from '../../services/socket.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-blog',
@@ -14,7 +15,7 @@ import { SocketService } from '../../services/socket.service';
 export class BlogComponent implements OnInit {
 
   messageClass;
-  message;
+  message = false;
   newPost = false;
   deleteBlogDisplay = false;
   deleteBlogPost;
@@ -29,6 +30,7 @@ export class BlogComponent implements OnInit {
   enabledComments = [];
 
   constructor(
+    private ref: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private blogService: BlogService,
@@ -243,26 +245,46 @@ export class BlogComponent implements OnInit {
 
     this.getAllBlogs();
 
-    this.socketService.testMessage('this is a test message, 8523!!!');
-    
-    this.socketService.emit('event1', {
-      msg: 'client to server, can you hear me?'
+    //this.socketService.testMessage(this.username + 'joined.');
+
+    // this.socketService.emit('event1', {
+    //   msg: 'client to server, can you hear me?'
+    // });
+    let data = {
+      msg: 'test message'
+    };
+
+    this.socketService.notification(data);
+
+    this.socketService.on('notification', (msg) => {
+      this.messageClass = 'alert alert-info';
+      this.message = msg;
+      if (!this.ref['destroyed']) {
+        this.ref.detectChanges();
+      }
+      window.setTimeout(() => {
+        this.message = false;
+        if (!this.ref['destroyed']) {
+          this.ref.detectChanges();
+        }
+      }, 2000);
     });
 
-    this.socketService.on('event2', (data: any) => {
-      console.log(data.msg);
 
-      this.socketService.emit('event3', {
-        msg: 'yes, its works for me'
-      });
 
-    });
+    // this.socketService.on('event2', (data: any) => {
+    //   console.log(data.msg);
 
-    this.socketService.on('event4', (data: any) => {
-      console.log(data.msg);
-    });
+    //   this.socketService.emit('event3', {
+    //     msg: 'yes, its works for me'
+    //   });
 
-    console.log('blog component inited.');
+    // });
+
+    // this.socketService.on('event4', (data: any) => {
+    //   console.log(data.msg);
+    // });
+
   }
 
 }

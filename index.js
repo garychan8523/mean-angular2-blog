@@ -52,8 +52,9 @@ app.use('/blogs', blogs);
 io.sockets.on('connection', (socket) => {
 	console.log('a new connection.');
 
-	socket.on('message', (data) => {
+	socket.on('notification', (data) => {
 		console.log(data);
+		io.emit('notification', data.msg);
 	});
 
 	socket.on('event1', (data) => {
