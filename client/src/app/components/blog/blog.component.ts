@@ -3,12 +3,14 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css']
 })
+
 export class BlogComponent implements OnInit {
 
   messageClass;
@@ -30,6 +32,7 @@ export class BlogComponent implements OnInit {
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private blogService: BlogService,
+    private socketService: SocketService,
     private router: Router
   ) {
     this.createNewBlogForm();
@@ -239,6 +242,27 @@ export class BlogComponent implements OnInit {
     });
 
     this.getAllBlogs();
+
+    this.socketService.testMessage('this is a test message, 8523!!!');
+    
+    this.socketService.emit('event1', {
+      msg: 'client to server, can you hear me?'
+    });
+
+    this.socketService.on('event2', (data: any) => {
+      console.log(data.msg);
+
+      this.socketService.emit('event3', {
+        msg: 'yes, its works for me'
+      });
+
+    });
+
+    this.socketService.on('event4', (data: any) => {
+      console.log(data.msg);
+    });
+
+    console.log('blog component inited.');
   }
 
 }

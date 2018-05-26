@@ -12,6 +12,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { RegisterComponent } from './components/register/register.component'
 import { AuthService } from './services/auth.service';
 import { BlogService } from './services/blog.service';
+import { SocketService } from './services/socket.service';
 import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -47,7 +48,7 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
     AppRoutingModule,
     FlashMessagesModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard, BlogService],
+  providers: [AuthService, AuthGuard, NotAuthGuard, BlogService, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
