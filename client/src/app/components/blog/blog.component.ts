@@ -16,6 +16,8 @@ export class BlogComponent implements OnInit {
 
   messageClass;
   message = false;
+  notificationClass;
+  notification = false;
   newPost = false;
   deleteBlogDisplay = false;
   deleteBlogPost;
@@ -257,17 +259,17 @@ export class BlogComponent implements OnInit {
     this.socketService.notification(data);
 
     this.socketService.on('notification', (msg) => {
-      this.messageClass = 'alert alert-info';
-      this.message = msg;
+      this.notificationClass = 'alert alert-info';
+      this.notification = msg;
       if (!this.ref['destroyed']) {
         this.ref.detectChanges();
       }
       window.setTimeout(() => {
-        this.message = false;
+        this.notification = false;
         if (!this.ref['destroyed']) {
           this.ref.detectChanges();
         }
-      }, 2000);
+      }, 5000);
     });
 
 

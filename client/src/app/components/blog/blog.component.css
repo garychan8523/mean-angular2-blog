@@ -1,3 +1,10 @@
+.notification-box {
+	position: fixed;
+	bottom: 30px;
+	right: 50px;
+	z-index: 1050;
+}
+
 .popup-modal-wrapper{
 	position: fixed;
 	width: 100%;

@@ -6,6 +6,12 @@
   </div>
 </div>
 
+<div class="notification-box" *ngIf="notification">
+  <div [ngClass]="notificationClass">
+    {{ notification }}
+  </div>
+</div>
+
 <div class="overlay" (click)="goBack()" *ngIf="overlay"></div>
 
 <button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" (click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
