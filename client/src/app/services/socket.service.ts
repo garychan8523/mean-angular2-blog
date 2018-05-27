@@ -33,4 +33,8 @@ export class SocketService {
   	this.socket.emit('notification', data);
   }
 
+  public actionOther(data): void {
+    this.socket.emit('actionOther', data);
+  }
+
 }

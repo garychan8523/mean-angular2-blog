@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { SocketService } from '../../services/socket.service';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-blog',
@@ -32,7 +31,7 @@ export class BlogComponent implements OnInit {
   enabledComments = [];
 
   constructor(
-    private ref: ChangeDetectorRef,
+    private zone: NgZone,
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private blogService: BlogService,
@@ -224,6 +223,11 @@ export class BlogComponent implements OnInit {
       this.commentForm.reset();
       this.processing = false;
       if (this.enabledComments.indexOf(id) < 0) this.expand(id);
+
+      let _data = {
+        act: 'updateBlog'
+      };
+      this.socketService.actionOther(_data);
     });
   }
 
@@ -247,11 +251,6 @@ export class BlogComponent implements OnInit {
 
     this.getAllBlogs();
 
-    //this.socketService.testMessage(this.username + 'joined.');
-
-    // this.socketService.emit('event1', {
-    //   msg: 'client to server, can you hear me?'
-    // });
     let data = {
       msg: 'test message'
     };
@@ -259,33 +258,23 @@ export class BlogComponent implements OnInit {
     this.socketService.notification(data);
 
     this.socketService.on('notification', (msg) => {
-      this.notificationClass = 'alert alert-info';
-      this.notification = msg;
-      if (!this.ref['destroyed']) {
-        this.ref.detectChanges();
-      }
-      window.setTimeout(() => {
-        this.notification = false;
-        if (!this.ref['destroyed']) {
-          this.ref.detectChanges();
-        }
-      }, 5000);
+      this.zone.run(() => {
+        this.notificationClass = 'alert alert-info';
+        this.notification = msg;
+
+        window.setTimeout(() => {
+          this.notification = false;
+        }, 5000);
+      });
     });
 
-
-
-    // this.socketService.on('event2', (data: any) => {
-    //   console.log(data.msg);
-
-    //   this.socketService.emit('event3', {
-    //     msg: 'yes, its works for me'
-    //   });
-
-    // });
-
-    // this.socketService.on('event4', (data: any) => {
-    //   console.log(data.msg);
-    // });
+    this.socketService.on('actionOther', (act) => {
+      if (act == 'updateBlog') {
+        this.zone.run(() => {
+          this.getAllBlogs();
+        });
+      }
+    });
 
   }
 

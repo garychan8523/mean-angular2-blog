@@ -57,8 +57,9 @@ io.sockets.on('connection', (socket) => {
 		io.emit('notification', data.msg);
 	});
 
-	socket.on('event1', (data) => {
-		console.log(data.msg);
+	socket.on('actionOther', (data) => {
+		console.log(data);
+		 socket.broadcast.emit('actionOther', data.act);
 	});
 
 	socket.on('event3', (data) => {
