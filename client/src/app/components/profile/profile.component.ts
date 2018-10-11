@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
   getLoginRecords() {
     this.authService.getLoginStatus().subscribe(records => {
         if(records.success){
-          this.loginRecords = records.records[0].record;
+          this.loginRecords = records.records;
         }
       })
   }

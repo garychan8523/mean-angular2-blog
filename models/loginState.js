@@ -14,6 +14,6 @@ const loginStateSchema = new Schema({
     loggedout: { type: Boolean, default: false },
     force_logout: { type: Boolean, default: false }
   }]
-});
+}, { usePushEach: true });
 
 module.exports = mongoose.model('LoginState', loginStateSchema);

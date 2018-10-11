@@ -43,25 +43,33 @@ module.exports = (router) => {
             if(err){
                 res.json({ success: false, message: err });
             }
-            if(!user){
+            else if(!user){
                 res.json({ success: false, message: 'user not found' }); // Return error, user was not found in db
-            }else{
-                LoginState.aggregate(
-                    { $match: {'username': user.username}},
-                    { $unwind: '$record' },
-                    { $sort: {'record.loginAt': -1 }},
-                    { $group: { _id: '$username',record: { $push: '$record' }}},
-                    { $project: {'username': 0, '_id': 0, 'record.token': 0, 'record._id': 0}},
-                    (err, records) => {
+            }
+            else{
+                var cursor = LoginState.aggregate()
+                                .match({username: user.username})
+                                .unwind('$record')
+                                .sort({'record.loginAt': -1 })
+                                .group({ _id: '$username', record: { $push: '$record' }})
+                                .project({username: 0, _id: 0, 'record.token': 0, 'record._id': 0})
+                                .allowDiskUse(true)
+                                .cursor({ batchSize: 1000000 }).exec();
+
+                cursor.each(function(err, records) {
+                    if(cursor && (err || records ))
+                    {
                         if(err){
                             res.json({ success: false, message: err });
                         }
-                        if(!records){
-                            res.json({ success: false, message: 'record not found' });
-                        }else{
-                            res.json({ success: true, records: records });
+                        else if(!records){
+                            res.json({ success: false, message: 'record not found' });   
                         }
-                    });
+                        else {
+                            res.json({ success: true, records: records.record });
+                        }
+                    }
+                });
                 // LoginState.findOne({ username: user.username },  { _id: 0, username: 0, __v: 0, "record.token": 0}, (err, records) => {
                 //     if(err){
                 //         res.json({ success: false, message: err });
