@@ -52,6 +52,10 @@ body {
 	border: none;
 }
 
+.alert p {
+	display: inline;
+}
+
 .alert-alert-info {
 	padding: .4rem 1.25rem;
 	margin: auto;
