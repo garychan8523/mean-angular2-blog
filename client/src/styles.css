@@ -4,8 +4,11 @@
 }
 
 body {
-	padding-top: 100px;
 	background-color: #f8f8fe;
+}
+
+#body-container {
+	margin-top: 100px;
 }
 
 .overlay{
@@ -47,9 +50,16 @@ body {
 .alert {
 	padding: .4rem 1.25rem;
 	margin: auto;
+	margin-top: 10px;
 	display:inline-block;
 	z-index: 150;
 	border: none;
+}
+
+@media (min-width: 768px){
+	.alert{
+		margin: auto;
+	}
 }
 
 .alert p {

@@ -81,6 +81,17 @@ $(window).resize(function() {
     }
 });
 
+$(document).scroll(function() {
+  if($('#nav-header').hasClass('headroom--unpinned') && window.innerWidth < 768){
+    $('#navbarCollapse').removeClass('show');
+  }
+});
+
+$('html:not(#navbarCollapse)').click(function() {
+  if(window.innerWidth < 768){
+    $('#navbarCollapse').removeClass('show');
+  }
+});
 </script>
 
 </body>

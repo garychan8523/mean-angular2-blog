@@ -3,11 +3,31 @@
 	/*border-bottom: 1px solid #dedede;*/
 	/*background-color: #fefefe;*/
 	background-color: #f8f8fe;
-	padding: 25px 80px 0 80px;
 	height: 55px;
 	width: 100%;
 	transition-delay: 1s;
 	z-index: 100;
+	padding: 0;
+}
+
+#navbarCollapse {
+	position: absolute;
+	top: 60px;
+	background: white;
+	padding: 25px 25px 25px 15px;
+}
+
+@media (min-width: 768px){
+	.navbar{
+		padding: 25px 0 0 0;
+	}
+
+	#navbarCollapse {
+		position: initial;
+		top: initial;
+		background: initial;
+		padding: initial;
+	}
 }
 
 .container{
