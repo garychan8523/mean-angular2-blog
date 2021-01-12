@@ -14,7 +14,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 8080;
 
-var server =  app.listen(port, () => {
+var server = app.listen(port, () => {
 	console.log('Listening on port ' + port);
 });
 var io = require('socket.io').listen(server);
@@ -29,10 +29,18 @@ mongoose.connect(config.uri, (err) => {
 });
 
 // middleware: start
-app.use(cors({
-	origin: 'http://localhost:4200',
-	credentials: true
-}));
+if (process.env.ENV && process.env.ENV == 'PRD') {
+	app.use(cors({
+		origin: [process.env.CLOUD_SERVER, process.env.DN_SERVER],
+		credentials: true
+	}));
+} else {
+	app.use(cors({
+		origin: ['http://localhost:4200'],
+		credentials: true
+	}));
+}
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -44,6 +52,15 @@ app.use('/blogs', blogs);
 
 // moddileware: end
 
+if (process.env.ENV && process.env.ENV == 'PRD') {
+	app.get('*', (req, res) => {
+		res.redirect(process.env.DN_SERVER);
+	});
+} else {
+	app.get('*', (req, res) => {
+		res.redirect('http://localhost:4200');
+	});
+}
 // app.get('*', (req, res) => {
 //   //res.send('<h1>Hello World</h1>');
 //   res.sendFile(path.join(__dirname + '/public/index.html'));
@@ -59,7 +76,7 @@ io.sockets.on('connection', (socket) => {
 
 	socket.on('actionOther', (data) => {
 		console.log(data);
-		 socket.broadcast.emit('actionOther', data.act);
+		socket.broadcast.emit('actionOther', data.act);
 	});
 
 	socket.on('event3', (data) => {

@@ -6,13 +6,13 @@ import { tokenNotExpired } from 'angular2-jwt';
 @Injectable()
 export class AuthService {
 
-  domain = "http://localhost:8080/";  // remove when production
+  domain = 'http://localhost:8080/';  // remove when production
   authToken;
   user;
   options;
 
   constructor(
-	private http: Http
+    private http: Http
   ) { }
 
   // Function to create headers, add token, to be used in HTTP requests
@@ -27,21 +27,21 @@ export class AuthService {
     });
   }
 
-   // Function to get token from client local storage
+  // Function to get token from client local storage
   loadToken() {
     this.authToken = localStorage.getItem('token');; // Get token and asssign to variable to be used elsewhere
   }
 
   registerUser(user) {
-	return this.http.post(this.domain + 'authentication/register', user).map(res => res.json());
+    return this.http.post(this.domain + 'authentication/register', user).map(res => res.json());
   }
 
   checkUsername(username) {
-	return this.http.get(this.domain + 'authentication/checkUsername/' + username).map(res => res.json());
+    return this.http.get(this.domain + 'authentication/checkUsername/' + username).map(res => res.json());
   }
 
   checkEmail(email) {
-	return this.http.get(this.domain + 'authentication/checkEmail/' + email).map(res => res.json());
+    return this.http.get(this.domain + 'authentication/checkEmail/' + email).map(res => res.json());
   }
 
   // Function to login user

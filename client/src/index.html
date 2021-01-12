@@ -7,92 +7,102 @@
   <meta charset="utf-8">
   <title>Blog - dedd.ca</title>
   <base href="/">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+    integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="assets/css/demo.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.png">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="defualt">
 </head>
 
 <body>
   <app-root></app-root>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+    integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+    crossorigin="anonymous"></script>
 
-<script src="assets/scripts/headroom.js"></script>
-<script>
-$(document).ready(function(){
-  // headroomjs start
-  var elem = document.querySelector('#nav-header');
-  var headroom = new Headroom(elem, {
-    "offset": 20,
-    "tolerance": 10
-  });
-  headroom.init(); 
-  // headroomjs end
-});
+  <script src="assets/scripts/headroom.js"></script>
+  <script>
+    $(document).ready(function () {
+      // headroomjs start
+      var elem = document.querySelector('#nav-header');
+      var headroom = new Headroom(elem, {
+        "offset": 20,
+        "tolerance": 10
+      });
+      headroom.init();
+      // headroomjs end
+    });
 
-function onElementHeightChange(elm, callback){
-    var lastHeight = elm.clientHeight, newHeight;
-    (function run(){
+    function onElementHeightChange(elm, callback) {
+      var lastHeight = elm.clientHeight, newHeight;
+      (function run() {
         newHeight = elm.clientHeight;
-        if( lastHeight != newHeight )
-            callback();
+        if (lastHeight != newHeight)
+          callback();
         lastHeight = newHeight;
 
-        if( elm.onElementHeightChangeTimer )
-            clearTimeout(elm.onElementHeightChangeTimer);
+        if (elm.onElementHeightChangeTimer)
+          clearTimeout(elm.onElementHeightChangeTimer);
 
         elm.onElementHeightChangeTimer = setTimeout(run, 200);
-    })();
-}
-
-onElementHeightChange(document.body, function(){
-    var windowHeight = $(window).height();
-    var contentHeight = $('#body-container').height() + $('#nav-header').height() + 120;
-    var contentWidth = $('#body-container').width();
-    if (contentHeight < windowHeight) {
-      $('#footer').css('position', 'absolute');
-      $('#footer').css('width', contentWidth + 'px');
-      $('#footer').css('bottom', '0');
-    } else {
-      $('#footer').css('position', 'initial');
-      $('#footer').css('width', 'initial');
-      $('#footer').removeProp('bottom');
-      $('#footer').css('margin-top', '80px');
+      })();
     }
-});
 
-$(window).resize(function() {
-  var windowHeight = $(window).height();
-    var contentHeight = $('#body-container').height() + $('#nav-header').height() + 120;
-    var contentWidth = $('#body-container').width();
-    if (contentHeight < windowHeight) {
-      $('#footer').css('position', 'absolute');
-      $('#footer').css('width', contentWidth + 'px');
-      $('#footer').css('bottom', '0');
-    } else {
-      $('#footer').css('position', 'initial');
-      $('#footer').css('width', 'initial');
-      $('#footer').removeProp('bottom');
-      $('#footer').css('margin-top', '80px');
-    }
-});
+    onElementHeightChange(document.body, function () {
+      var windowHeight = $(window).height();
+      var contentHeight = $('#body-container').height() + $('#nav-header').height() + 120;
+      var contentWidth = $('#body-container').width();
+      if (contentHeight < windowHeight) {
+        $('#footer').css('position', 'absolute');
+        $('#footer').css('width', contentWidth + 'px');
+        $('#footer').css('bottom', '0');
+      } else {
+        $('#footer').css('position', 'initial');
+        $('#footer').css('width', 'initial');
+        $('#footer').removeProp('bottom');
+        $('#footer').css('margin-top', '80px');
+      }
+    });
 
-$(document).scroll(function() {
-  if($('#nav-header').hasClass('headroom--unpinned') && window.innerWidth < 768){
-    $('#navbarCollapse').removeClass('show');
-  }
-});
+    $(window).resize(function () {
+      var windowHeight = $(window).height();
+      var contentHeight = $('#body-container').height() + $('#nav-header').height() + 120;
+      var contentWidth = $('#body-container').width();
+      if (contentHeight < windowHeight) {
+        $('#footer').css('position', 'absolute');
+        $('#footer').css('width', contentWidth + 'px');
+        $('#footer').css('bottom', '0');
+      } else {
+        $('#footer').css('position', 'initial');
+        $('#footer').css('width', 'initial');
+        $('#footer').removeProp('bottom');
+        $('#footer').css('margin-top', '80px');
+      }
+    });
 
-$('html:not(#navbarCollapse)').click(function() {
-  if(window.innerWidth < 768){
-    $('#navbarCollapse').removeClass('show');
-  }
-});
-</script>
+    $(document).scroll(function () {
+      if ($('#nav-header').hasClass('headroom--unpinned') && window.innerWidth < 768) {
+        $('#navbarCollapse').removeClass('show');
+      }
+    });
+
+    $('html:not(#navbarCollapse)').click(function () {
+      if (window.innerWidth < 768) {
+        $('#navbarCollapse').removeClass('show');
+      }
+    });
+  </script>
 
 </body>
 
