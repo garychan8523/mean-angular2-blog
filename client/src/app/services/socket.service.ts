@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 
@@ -8,7 +9,7 @@ export class SocketService {
   private _socket;
 
   constructor() {
-    this.socket = io.connect('http://localhost:8080');
+    this.socket = io.connect(environment.apiUrl);
   }
 
   on(eventName: any, callback: any) {

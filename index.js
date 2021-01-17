@@ -20,7 +20,7 @@ var server = app.listen(port, () => {
 var io = require('socket.io').listen(server);
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.uri, (err) => {
+mongoose.connect(config.uri, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
 	if (err) {
 		console.log('Could NOT connect to databse: ', err);
 	} else {
