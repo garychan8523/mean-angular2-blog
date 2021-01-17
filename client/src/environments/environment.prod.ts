@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: process.env.CLOUD_SERVER + '/'
+  apiUrl: 'http://ec2-54-95-130-37.ap-northeast-1.compute.amazonaws.com/'
 };
