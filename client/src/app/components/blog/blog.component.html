@@ -1,35 +1,44 @@
 <h5 class="page-header">Blog Feed</h5>
 
 <div class="row" *ngIf="message">
-  <div [ngClass]="messageClass">
-    {{ message }}
-  </div>
+	<div [ngClass]="messageClass">
+		{{ message }}
+	</div>
 </div>
 
 <div class="notification-box" *ngIf="notification">
-  <div [ngClass]="notificationClass">
-    {{ notification }}
-  </div>
+	<div [ngClass]="notificationClass">
+		{{ notification }}
+	</div>
 </div>
 
 <div class="overlay" (click)="goBack()" *ngIf="overlay"></div>
 
-<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" (click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
+<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost"
+	(click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
 
-<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary" *ngIf="!newPost" (click)="reloadBlogs()">
-<span class="fa fa-refresh"></span>Refresh</button>
+<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left"
+	*ngIf="!newPost" (click)="reloadBlogs()">
+	<span class="fa fa-refresh"></span>Refresh</button>
 
 <!-- new blog form -->
 <form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
 	<!-- title input -->
 	<div class="form-group">
 		<label for="title"></label>
-		<div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-			<input [disabled]="processing" type="text" name="title" class="form-control" maxlength="100" size="100" placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
+		<div
+			[ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+			<input [disabled]="processing" type="text" name="title" class="form-control" maxlength="100" size="100"
+				placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
 			<div class="form-error-msg">
-				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i class="fa fa-times"></i>This field is required</div>
-				<div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)"><i class="fa fa-times"></i>Min length: 2, Max length: 100</div>
-				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i class="fa fa-times"></i>Must be alphanumeric</div>
+				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i
+						class="fa fa-times"></i>This field is required</div>
+				<div
+					*ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
+					<i class="fa fa-times"></i>Min length: 2, Max length: 100
+				</div>
+				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i
+						class="fa fa-times"></i>Must be alphanumeric</div>
 			</div>
 		</div>
 	</div>
@@ -37,50 +46,64 @@
 	<!-- body input -->
 	<div class="form-group">
 		<label for="body"></label>
-		<div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
-			<textarea [disabled]="processing" contentEditable="true" name="body" rows="8" cols="80" placeholder="Body" class="form-control" maxlength="1500" formControlName="body"></textarea>
+		<div
+			[ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
+			<textarea [disabled]="processing" contentEditable="true" name="body" rows="8" cols="80" placeholder="Body"
+				class="form-control" maxlength="1500" formControlName="body"></textarea>
 			<div class="form-error-msg">
-				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i class="fa fa-times"></i>This field is required</div>
-				<div *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)"><i class="fa fa-times"></i>Min length: 2, Max length: 1500</div>
+				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i
+						class="fa fa-times"></i>This field is required</div>
+				<div
+					*ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">
+					<i class="fa fa-times"></i>Min length: 2, Max length: 1500
+				</div>
 			</div>
 		</div>
 	</div>
-    <span style="opacity: 0.8;">Only these tags are allowed: p, b, i, u, s, font, strong, br, ol, li</span><br><br>
+	<span style="opacity: 0.8;">Only these tags are allowed: p, b, i, u, s, font, strong, br, ol, li</span><br><br>
 	<!-- body input -->
-	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
-	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="resetForm()">Clear</button>
-	<button [disabled]="!form.valid || processing" type="submit" name="button" class="btn btn-sm btn-info">Submit</button>
+	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
+		(click)="goBack()">Back</button>
+	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left"
+		(click)="resetForm()">Clear</button>
+	<button [disabled]="!form.valid || processing" type="submit" name="button"
+		class="btn btn-sm btn-info btn-margin-left">Submit</button>
 </form>
 <!-- new blog form -->
 
 <!-- delete blog popup -->
 <div class="popup-modal-wrapper" *ngIf="deleteBlogDisplay" (click)="goBack()">
-<div class="col-md-6 popup-modal" (click)="onEvent($event)">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Confirm deletion</h5>
-      <button type="button" name="button" class="close" data-dismiss="modal" (click)="goBack()">&times;</button>
-    </div>
-    <div class="modal-body">
-      <p>Are you sure to delete this blog? We won't be able to find it anymore after deletion completed. You can go back and perform an edit if you only want to modify the content.</p>
-      <div class="card">
-    <div class="card-body">
-        <h5 class="card-title">{{ deleteBlogPost.title }}</h5>
-        <p class="card-text"><span [innerHTML]="deleteBlogPost.body"></span></p>
-    </div>
-    <div class="card-footer">
-        <small class="text-muted"><strong>{{ deleteBlogPost.createdBy }}</strong></small>
-        <small class="text-muted">{{ deleteBlogPost.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
-    </div>
-  </div>
+	<div class="col-md-6 popup-modal" (click)="onEvent($event)">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm deletion</h5>
+				<button type="button" name="button" class="close" data-dismiss="modal"
+					(click)="goBack()">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure to delete this blog? We won't be able to find it anymore after deletion completed. You
+					can go back and perform an edit if you only want to modify the content.</p>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">{{ deleteBlogPost.title }}</h5>
+						<p class="card-text"><span [innerHTML]="deleteBlogPost.body"></span></p>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted"><strong>{{ deleteBlogPost.createdBy }}</strong></small>
+						<small class="text-muted">{{ deleteBlogPost.createdAt | date: "on dd MMM yyyy 'at' HH:mm"
+							}}</small>
+					</div>
+				</div>
 
-    </div>
-    <div class="modal-footer">
-      <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
-      <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteBlog()">Delete</button>
-    </div>
-  </div>
-</div>
+			</div>
+			<div class="modal-footer">
+				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
+					(click)="goBack()">Back</button>
+				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger"
+					(click)="deleteBlog()">Delete</button>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- delete blog popup -->
 
@@ -89,83 +112,98 @@
 
 <div *ngIf="!newPost && !loadingBlogs">
 	<div id="{{ blog._id }}" class="card" *ngFor="let blog of blogPosts">
-    	<div class="card-body">
-      		<h5 class="card-title">{{ blog.title }}</h5>
-      		<!-- <p class="card-text">{{ blog.body }}</p> -->
-      		<p class="card-text"><span [innerHTML]="blog.body"></span></p>
-    	</div>
-    	<div class="card-footer">
-    		<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
-    		<small class="text-muted">{{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
-    		<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
-    		<span class="dropdown">
-    			<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
-    			<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
-    			<div class="dropdown-content">
-                    <a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
-                </div>
-    		</span>
-    		<span class="dropdown">
-    			<button disabled type="button" name="button" class="btn btn-sm btn-outline-danger owner">
-    			<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
-    			<div class="dropdown-content">
-                    <a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{ disliker }}</a>
-                </div>
-    		</span>
-    		</span>
-    		
-    		<span *ngIf="authService.loggedIn() && (username !== blog.createdBy)">
-    		<span class="dropdown">
-    			<button [disabled]="blog.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="likeBlog(blog._id)">
-    			<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
-    			<div class="dropdown-content">
-    				<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
-    			</div>
-    		</span>
-    		<span class="dropdown">
-    			<button [disabled]="blog.dislikedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="dislikeBlog(blog._id)">
-    			<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
-    			<div class="dropdown-content">
-    				<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{ disliker }}</a>
-    			</div>
-    		</span>
-    		</span>
+		<div class="card-body">
+			<h5 class="card-title">{{ blog.title }}</h5>
+			<!-- <p class="card-text">{{ blog.body }}</p> -->
+			<p class="card-text"><span [innerHTML]="blog.body"></span></p>
+		</div>
+		<div class="card-footer">
+			<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
+			<small class="text-muted">{{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
+			<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
+				<span class="dropdown">
+					<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
+						<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
+					<div class="dropdown-content">
+						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
+					</div>
+				</span>
+				<span class="dropdown">
+					<button disabled type="button" name="button" class="btn btn-sm btn-outline-danger owner">
+						<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
+					<div class="dropdown-content">
+						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
+							disliker }}</a>
+					</div>
+				</span>
+			</span>
 
-    		<button [disabled]="newComment.indexOf(blog._id) > -1" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment(blog._id)">
-    		<span class="fa fa-comments-o"></span>Comment</button>
-    		<span *ngIf="authService.loggedIn() && username === blog.createdBy">
-    		<a [routerLink]="['/edit-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
-    		<!-- <a [routerLink]="['/delete-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a> -->
-            <a (click)="deleteBlogPopup(blog)"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a>
-    		</span>
-            <button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)"><span class="fa fa-eye"></span></button>
-            <button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)"><span class="fa fa-eye-slash"></span></button>
-            <!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)">Show comments</span> -->
-            <!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)">Hide comments</span> -->
+			<span *ngIf="authService.loggedIn() && (username !== blog.createdBy)">
+				<span class="dropdown">
+					<button [disabled]="blog.likedBy.indexOf(username) > -1" type="button" name="button"
+						class="btn btn-sm btn-nobg" (click)="likeBlog(blog._id)">
+						<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
+					<div class="dropdown-content">
+						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
+					</div>
+				</span>
+				<span class="dropdown">
+					<button [disabled]="blog.dislikedBy.indexOf(username) > -1" type="button" name="button"
+						class="btn btn-sm btn-nobg" (click)="dislikeBlog(blog._id)">
+						<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
+					<div class="dropdown-content">
+						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
+							disliker }}</a>
+					</div>
+				</span>
+			</span>
 
-            <div *ngIf="newComment.indexOf(blog._id) > -1" style="padding-bottom: 5px;">
-                <form [formGroup]="commentForm">
-                    <div [ngClass]="{'has-success': commentForm.controls.comment.valid}">
-                        <textarea style="margin-top: 4px; margin-bottom: 10px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px);" name="comment" rows="4" cols="30" class="form-control" formControlName="comment"></textarea>
-                    </div>
-                    <!-- <div [ngClass]="">
+			<button [disabled]="newComment.indexOf(blog._id) > -1" type="button" name="button"
+				class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment(blog._id)">
+				<span class="fa fa-comments-o"></span>Comment</button>
+			<span *ngIf="authService.loggedIn() && username === blog.createdBy">
+				<a [routerLink]="['/edit-blog/', blog._id]"><button type="button" name="button"
+						class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
+				<!-- <a [routerLink]="['/delete-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a> -->
+				<a (click)="deleteBlogPopup(blog)"><button type="button" name="button" class="btn btn-sm btn-nobg"><span
+							class="fa fa-trash-o"></span></button></a>
+			</span>
+			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg"
+				*ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0"
+				(click)="expand(blog._id)"><span class="fa fa-eye"></span></button>
+			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg"
+				*ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)"><span
+					class="fa fa-eye-slash"></span></button>
+			<!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)">Show comments</span> -->
+			<!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)">Hide comments</span> -->
+
+			<div *ngIf="newComment.indexOf(blog._id) > -1" style="padding-bottom: 5px;">
+				<form [formGroup]="commentForm">
+					<div [ngClass]="{'has-success': commentForm.controls.comment.valid}">
+						<textarea
+							style="margin-top: 4px; margin-bottom: 10px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px);"
+							name="comment" rows="4" cols="30" class="form-control" formControlName="comment"></textarea>
+					</div>
+					<!-- <div [ngClass]="">
                         <ul class="help-block">
                             <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">This field is required.</li>
                             <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) || (commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment length must between 2 to 1500 characters.</li>
                         </ul>
                     </div> -->
-                    <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="cancelSubmission(blog._id)">Back</button>
-                    <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info" (click)="postComment(blog._id)">Submit</button>
-                </form>
-            </div>
-            
-            <div *ngIf="enabledComments.indexOf(blog._id) > -1">
-                <li *ngFor="let comment of blog.comments" class="list-group-item">
-                    <strong>{{ comment.commentator }}</strong> {{ comment.comment }}
-                </li>
-            </div>
+					<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
+						(click)="cancelSubmission(blog._id)">Back</button>
+					<button [disabled]="!commentForm.valid || processing" type="submit" name="button"
+						class="btn btn-sm btn-info btn-margin-left" (click)="postComment(blog._id)">Submit</button>
+				</form>
+			</div>
 
-    	</div>
+			<div *ngIf="enabledComments.indexOf(blog._id) > -1">
+				<li *ngFor="let comment of blog.comments" class="list-group-item">
+					<strong>{{ comment.commentator }}</strong> {{ comment.comment }}
+				</li>
+			</div>
+
+		</div>
 
 	</div>
 </div>

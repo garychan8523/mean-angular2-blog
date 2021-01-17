@@ -2,6 +2,10 @@
 	padding: .12rem .25rem;
 }
 
+.btn-margin-left {
+	margin-left: 5px;
+}
+
 .form-group{
 	width: 920px;
 }

@@ -11,7 +11,7 @@ import { map, tap, catchError, retry } from 'rxjs/operators';
 @Injectable()
 export class AuthService {
 
-  domain = environment.apiUrl;  // remove when production
+  domain = environment.apiUrl;
   authToken;
   user;
   options;

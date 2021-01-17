@@ -68,6 +68,10 @@ button.close{
 	color: #222;
 }
 
+.btn-margin-left {
+	margin-left: 5px;
+}
+
 .card{
 	margin: 0 auto 15px auto;
 }
