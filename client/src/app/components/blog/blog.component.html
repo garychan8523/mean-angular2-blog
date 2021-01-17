@@ -90,7 +90,7 @@
 					</div>
 					<div class="card-footer">
 						<small class="text-muted"><strong>{{ deleteBlogPost.createdBy }}</strong></small>
-						<small class="text-muted">{{ deleteBlogPost.createdAt | date: "on dd MMM yyyy 'at' HH:mm"
+						<small class="text-muted"> {{ deleteBlogPost.createdAt | date: "on dd MMM yyyy 'at' HH:mm"
 							}}</small>
 					</div>
 				</div>
@@ -119,7 +119,7 @@
 		</div>
 		<div class="card-footer">
 			<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
-			<small class="text-muted">{{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
+			<small class="text-muted"> {{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
 			<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
 				<span class="dropdown">
 					<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
