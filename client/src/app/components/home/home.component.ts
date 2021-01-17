@@ -8,13 +8,16 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomeComponent implements OnInit {
 
+  dataRegister: any = {};
+
   constructor(
-  	public authService: AuthService
-  	) { }
+    public authService: AuthService
+  ) { }
 
   ngOnInit() {
-  	this.authService.getProfile().subscribe(profile => {
-      if(!profile.success){
+    this.authService.getProfile().subscribe(profile => {
+      this.dataRegister = profile;
+      if (!this.dataRegister.success) {
         this.authService.logout();
       }
     });

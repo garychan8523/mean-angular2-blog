@@ -6,9 +6,9 @@ import { ViewChildren } from '@angular/core';
 import { ElementRef } from '@angular/core';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+	selector: 'app-register',
+	templateUrl: './register.component.html',
+	styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
 	form;
@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
 	usernameValid = true;
 	usernameMessage;
 	_timeout: any = null;
+	dataRegister: any = {};
 
 	constructor(
 		private fb: FormBuilder,
@@ -27,30 +28,30 @@ export class RegisterComponent implements OnInit {
 		private router: Router,
 		private el: ElementRef
 	) {
-    	this.createForm();
-  	}
+		this.createForm();
+	}
 
 	createForm() {
 		this.form = this.fb.group({
-		 username: ['', Validators.compose([
-		 	Validators.required,
-		 	Validators.minLength(3),
-		 	Validators.maxLength(15),
-		 	this.validateUsername
-		 	])],
-		 email: ['', Validators.compose([
-		 	Validators.required,
-		 	Validators.minLength(6),
-		 	Validators.maxLength(254),
-		 	this.validateEmail
-		 	])],
-		 password: ['', Validators.compose([
-		 	Validators.required,
-		 	Validators.minLength(8),
-		 	Validators.maxLength(35),
-		 	this.validatePassword
-		 	])],
-		 confirm: ['', Validators.required]
+			username: ['', Validators.compose([
+				Validators.required,
+				Validators.minLength(3),
+				Validators.maxLength(15),
+				this.validateUsername
+			])],
+			email: ['', Validators.compose([
+				Validators.required,
+				Validators.minLength(6),
+				Validators.maxLength(254),
+				this.validateEmail
+			])],
+			password: ['', Validators.compose([
+				Validators.required,
+				Validators.minLength(8),
+				Validators.maxLength(35),
+				this.validatePassword
+			])],
+			confirm: ['', Validators.required]
 		}, { validator: this.matchingPasswords('password', 'confirm') });
 	}
 
@@ -70,7 +71,7 @@ export class RegisterComponent implements OnInit {
 
 	validateEmail(controls) {
 		const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-		if(regExp.test(controls.value)) {
+		if (regExp.test(controls.value)) {
 			return null;
 		} else {
 			return { 'validateEmail': true };
@@ -79,7 +80,7 @@ export class RegisterComponent implements OnInit {
 
 	validateUsername(controls) {
 		const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
-		if(regExp.test(controls.value)) {
+		if (regExp.test(controls.value)) {
 			return null;
 		} else {
 			return { 'validateUsername': true };
@@ -88,7 +89,7 @@ export class RegisterComponent implements OnInit {
 
 	validatePassword(controls) {
 		const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/);
-		if(regExp.test(controls.value)) {
+		if (regExp.test(controls.value)) {
 			return null;
 		} else {
 			return { 'validatePassword': true };
@@ -115,14 +116,15 @@ export class RegisterComponent implements OnInit {
 		}
 
 		this.authService.registerUser(user).subscribe(data => {
-			if (!data.success) {
+			this.dataRegister = data;
+			if (!this.dataRegister.success) {
 				this.messageClass = 'alert alert-danger';
-				this.message = data.message;
+				this.message = this.dataRegister.message;
 				this.processing = false;
 				this.enableForm();
 			} else {
 				this.messageClass = 'alert alert-success';
-				this.message = data.message;
+				this.message = this.dataRegister.message;
 				setTimeout(() => {
 					this.router.navigate(['/login']);
 				}, 2000);
@@ -131,61 +133,63 @@ export class RegisterComponent implements OnInit {
 	}
 
 	checkUsername(errors, valid) {
-     this._timeout  = null;
-     if(this._timeout){ //if there is already a timeout in process cancel it
-       window.clearTimeout(this._timeout);
-     }
-     this._timeout = window.setTimeout(() => {
-        this._timeout = null;
-        const username = this.form.get('username').value;
-		let invalid = !valid;
-		if ((errors || invalid) && (username != '')) {
-			//this.el.nativeElement.querySelector('#username').focus();
+		this._timeout = null;
+		if (this._timeout) { //if there is already a timeout in process cancel it
+			window.clearTimeout(this._timeout);
 		}
-		if (username !== '') {
-			this.authService.checkUsername(username).subscribe(data => {
-			if (!data.success) {
-				this.usernameValid = false;
-				this.usernameMessage = data.message;
+		this._timeout = window.setTimeout(() => {
+			this._timeout = null;
+			const username = this.form.get('username').value;
+			let invalid = !valid;
+			if ((errors || invalid) && (username != '')) {
 				//this.el.nativeElement.querySelector('#username').focus();
-			} else {
-				this.usernameValid = true;
-				this.usernameMessage = data.message;
 			}
-			});
-		}
-     },1000);
-  	}
+			if (username !== '') {
+				this.authService.checkUsername(username).subscribe(data => {
+					this.dataRegister = data;
+					if (!this.dataRegister.success) {
+						this.usernameValid = false;
+						this.usernameMessage = this.dataRegister.message;
+						//this.el.nativeElement.querySelector('#username').focus();
+					} else {
+						this.usernameValid = true;
+						this.usernameMessage = this.dataRegister.message;
+					}
+				});
+			}
+		}, 1000);
+	}
 
 	checkEmail(errors, valid) {
-     this._timeout  = null;
-     if(this._timeout){ //if there is already a timeout in process cancel it
-       window.clearTimeout(this._timeout);
-     }
-     this._timeout = window.setTimeout(() => {
-        this._timeout = null;
-        const email = this.form.get('email').value;
-		let invalid = !valid;
-		if ((errors || invalid) && (email != '')) {
-			//this.el.nativeElement.querySelector('#email').focus();
+		this._timeout = null;
+		if (this._timeout) { //if there is already a timeout in process cancel it
+			window.clearTimeout(this._timeout);
 		}
-		if (email !== '') {
-			this.authService.checkEmail(email).subscribe(data => {
-			if (!data.success) {
-				this.emailValid = false;
-				this.emailMessage = data.message;
+		this._timeout = window.setTimeout(() => {
+			this._timeout = null;
+			const email = this.form.get('email').value;
+			let invalid = !valid;
+			if ((errors || invalid) && (email != '')) {
 				//this.el.nativeElement.querySelector('#email').focus();
-			} else {
-				this.emailValid = true;
-				this.emailMessage = data.message;
 			}
-			});
-		}
-     },1000);
-  	}
+			if (email !== '') {
+				this.authService.checkEmail(email).subscribe(data => {
+					this.dataRegister = data;
+					if (!this.dataRegister.success) {
+						this.emailValid = false;
+						this.emailMessage = this.dataRegister.message;
+						//this.el.nativeElement.querySelector('#email').focus();
+					} else {
+						this.emailValid = true;
+						this.emailMessage = this.dataRegister.message;
+					}
+				});
+			}
+		}, 1000);
+	}
 
-  ngOnInit() {
-  	this.el.nativeElement.querySelector('#username').focus();
-  }
+	ngOnInit() {
+		this.el.nativeElement.querySelector('#username').focus();
+	}
 
 }

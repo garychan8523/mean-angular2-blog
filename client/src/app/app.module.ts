@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+//import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+//import { JwtModule } from "@auth0/angular-jwt";
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -42,11 +44,11 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
-    FlashMessagesModule
+    FlashMessagesModule.forRoot()
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard, BlogService, SocketService],
   bootstrap: [AppComponent]

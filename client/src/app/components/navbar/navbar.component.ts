@@ -12,16 +12,16 @@ import { NgZone } from "@angular/core";
 export class NavbarComponent implements OnInit {
 
   constructor(
-  	public authService: AuthService,
-  	private router: Router,
-  	private flashMessagesService: FlashMessagesService,
+    public authService: AuthService,
+    private router: Router,
+    private flashMessagesService: FlashMessagesService,
     private zone: NgZone
   ) { }
 
   onLogoutClick() {
-  	this.authService.logout();
-  	this.flashMessagesService.show('logged out', { cssClass: 'alert-info', timeout: 2000});
-  	//this.router.navigate([this.router.url]);
+    this.authService.logout();
+    this.flashMessagesService.show('logged out', { cssClass: 'alert-info', timeout: 2000 });
+    //this.router.navigate([this.router.url]);
     this.zone.runOutsideAngular(() => {
       location.reload();
     });
@@ -29,9 +29,9 @@ export class NavbarComponent implements OnInit {
 
   isRootActive() {
     let current_path = location.pathname;
-    if(current_path == '/'){
+    if (current_path == '/') {
       return true;
-    }else{
+    } else {
       return false;
     }
     //return this.router.isActive('/', true);

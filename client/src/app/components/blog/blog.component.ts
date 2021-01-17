@@ -29,6 +29,7 @@ export class BlogComponent implements OnInit {
   overlay = false;
   newComment = [];
   enabledComments = [];
+  dataRegister: any = {};
 
   constructor(
     private zone: NgZone,
@@ -43,7 +44,7 @@ export class BlogComponent implements OnInit {
   }
 
   onEvent(event) {
-   event.stopPropagation();
+    event.stopPropagation();
   }
 
   createNewBlogForm() {
@@ -53,12 +54,12 @@ export class BlogComponent implements OnInit {
         Validators.maxLength(100),
         Validators.minLength(2),
         //this.specialCharacterValidation
-        ])],
+      ])],
       body: ['', Validators.compose([
         Validators.required,
         Validators.maxLength(1500),
         Validators.minLength(2)
-        ])]
+      ])]
     });
   }
 
@@ -68,7 +69,7 @@ export class BlogComponent implements OnInit {
         Validators.required,
         Validators.maxLength(1500),
         Validators.minLength(2)
-        ])]
+      ])]
     });
   }
 
@@ -100,9 +101,9 @@ export class BlogComponent implements OnInit {
   // }
 
   newBlogForm() {
-  	this.newPost = true;
+    this.newPost = true;
   }
-  
+
   deleteBlogPopup(blog) {
     this.overlay = true;
     this.deleteBlogDisplay = true;
@@ -142,14 +143,15 @@ export class BlogComponent implements OnInit {
     }
 
     this.blogService.newBlog(blog).subscribe(data => {
-      if (!data.success) {
+      this.dataRegister = data
+      if (!this.dataRegister.success) {
         this.messageClass = 'alert alert-danger';
-        this.message = data.message;
+        this.message = this.dataRegister.message;
         this.processing = false;
         this.enableFormNewBlogForm();
       } else {
         this.messageClass = 'alert alert-success';
-        this.message = data.message;
+        this.message = this.dataRegister.message;
         this.getAllBlogs();
         setTimeout(() => {
           this.newPost = false;
@@ -165,12 +167,13 @@ export class BlogComponent implements OnInit {
   deleteBlog() {
     this.processing = true;
     this.blogService.deleteBlog(this.deleteBlogPost._id).subscribe(data => {
-      if (!data.success) {
+      this.dataRegister = data
+      if (!this.dataRegister.success) {
         this.messageClass = 'alert alert-danger';
-        this.message = data.message;
+        this.message = this.dataRegister.message;
       } else {
         this.messageClass = 'alert alert-success';
-        this.message = data.message;
+        this.message = this.dataRegister.message;
         this.processing = false;
         this.overlay = false;
         this.deleteBlogDisplay = false;
@@ -190,12 +193,13 @@ export class BlogComponent implements OnInit {
   }
 
   resetForm() {
-    this.form.reset()﻿;
+    this.form.reset();
   }
 
   getAllBlogs() {
     this.blogService.getAllBlogs().subscribe(data => {
-      this.blogPosts = data.blogs;
+      this.dataRegister = data
+      this.blogPosts = this.dataRegister.blogs;
     });
   }
 
@@ -242,10 +246,11 @@ export class BlogComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
-      if(!profile.success){
+      this.dataRegister = profile
+      if (!this.dataRegister.success) {
         this.authService.logout();
       } else {
-        this.username = profile.user.username;
+        this.username = this.dataRegister.user.username;
       }
     });
 

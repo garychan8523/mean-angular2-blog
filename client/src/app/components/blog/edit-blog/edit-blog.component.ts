@@ -19,83 +19,87 @@ export class EditBlogComponent implements OnInit {
   processing = true;
   currentUrl;
   loading = true;
+  dataRegister: any = {};
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-  	private location: Location,
-  	private activatedRoute: ActivatedRoute,
-  	private blogService: BlogService,
-  	private router: Router
-  ) { 
+    private location: Location,
+    private activatedRoute: ActivatedRoute,
+    private blogService: BlogService,
+    private router: Router
+  ) {
     this.createEditBlogForm();
   }
 
   createEditBlogForm() {
     this.form = this.formBuilder.group({
-      title: [{value: '', disabled: true}, Validators.compose([
+      title: [{ value: '', disabled: true }, Validators.compose([
         Validators.required,
         Validators.maxLength(100),
         Validators.minLength(2)
-        ])],
-      body: [{value: '', disabled: true}, Validators.compose([
+      ])],
+      body: [{ value: '', disabled: true }, Validators.compose([
         Validators.required,
         Validators.maxLength(1500),
         Validators.minLength(2)
-        ])]
+      ])]
     });
   }
 
   updateBlogSubmit() {
-  	this.processing = true;
+    this.processing = true;
     this.form.controls['title'].disable();
     this.form.controls['body'].disable();
-  	let regex2 = /\n/g
-  	this.blog.body = this.blog.body.replace(regex2, "<br>");
-  	this.blogService.editBlog(this.blog).subscribe(data => {
-  		if (!data.success) {
-  			this.messageClass = 'alert alert-danger';
-        	this.message = data.message.errors.title.message || "Error";
-        	this.processing = false;
-          this.form.controls['title'].enable();
-          this.form.controls['body'].enable();
-  		} else {
-  			this.messageClass = 'alert alert-success';
-  			this.message = data.message;
-  			setTimeout(() => {
-  				this.router.navigate(['/blog']);
-  			}, 2000);
-  		}
-  	});
+    let regex2 = /\n/g
+    this.blog.body = this.blog.body.replace(regex2, "<br>");
+    this.blogService.editBlog(this.blog).subscribe(data => {
+      this.dataRegister = data;
+      if (!this.dataRegister.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = this.dataRegister.message.errors.title.message || "Error";
+        this.processing = false;
+        this.form.controls['title'].enable();
+        this.form.controls['body'].enable();
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = this.dataRegister.message;
+        setTimeout(() => {
+          this.router.navigate(['/blog']);
+        }, 2000);
+      }
+    });
   }
 
   goBack() {
-  	this.location.back();
+    this.location.back();
   }
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
-      if(!profile.success){
+      this.dataRegister = profile;
+      if (!this.dataRegister.success) {
         this.authService.logout();
         window.location.reload();
       }
     });
 
-  	this.currentUrl = this.activatedRoute.snapshot.params;
+    this.currentUrl = this.activatedRoute.snapshot.params;
     this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
-    	if (!data.success) {
-    		this.messageClass = 'alert alert-danger';
-        this.message = data.message;
-    	} else {
+      this.dataRegister = data;
+      if (!this.dataRegister.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = this.dataRegister.message;
+      } else {
         let regex = /<br\s*[\/]?>/gi;
-        data.blog.body = data.blog.body.replace(regex, "\n");
-       	this.blog = data.blog;
+        this.dataRegister.blog.body = this.dataRegister.blog.body.replace(regex, "\n");
+        this.blog = this.dataRegister.blog;
         this.processing = false;
         this.form.controls['title'].enable();
         this.form.controls['body'].enable();
-    		this.loading = false;
-    	}
-  	});
+        this.loading = false;
+      }
+    });
   }
 
 }

@@ -12,35 +12,38 @@ export class ProfileComponent implements OnInit {
 
   messageClass;
   message;
-	username;
+  username;
   email;
   loginRecords;
+  dataRegister: any = {};
 
   constructor(
-  	private authService: AuthService,
+    private authService: AuthService,
     private router: Router
   ) { }
 
   getLoginRecords() {
     this.authService.getLoginStatus().subscribe(records => {
-        if(records.success){
-          this.loginRecords = records.records;
-        }
-      })
+      this.dataRegister = records
+      if (this.dataRegister.success) {
+        this.loginRecords = this.dataRegister.records;
+      }
+    })
   }
 
   ngOnInit() {
-  	this.authService.getProfile().subscribe(profile => {
-      if(!profile.success){
+    this.authService.getProfile().subscribe(profile => {
+      this.dataRegister = profile
+      if (!this.dataRegister.success) {
         this.authService.logout();
         window.location.reload();
       } else {
-        this.username = profile.user.username;
-        this.email = profile.user.email;
+        this.username = this.dataRegister.user.username;
+        this.email = this.dataRegister.user.email;
       }
 
       this.getLoginRecords();
-  	});
+    });
   }
 
 }

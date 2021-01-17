@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   form;
   previousUrl;
   logerr = false;
+  dataRegister: any = {};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,18 +62,19 @@ export class LoginComponent implements OnInit {
     // Function to send login data to API
     this.authService.login(user).subscribe(data => {
       // Check if response was a success or error
-      if (!data.success) {
+      this.dataRegister = data;
+      if (!this.dataRegister.success) {
         this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-        this.message = data.message; // Set error message
+        this.message = this.dataRegister.message; // Set error message
         this.processing = false; // Enable submit button
         this.enableForm(); // Enable form for editting
         this.logerr = true;
         this.el.nativeElement.querySelector('#username').focus();
       } else {
         this.messageClass = 'alert alert-success'; // Set bootstrap success class
-        this.message = data.message; // Set success message
+        this.message = this.dataRegister.message; // Set success message
         // Function to store user's token in client local storage
-        this.authService.storeUserData(data.token, data.user);
+        this.authService.storeUserData(this.dataRegister.token, this.dataRegister.user);
         // After 2 seconds, redirect to dashboard page
         setTimeout(() => {
           if (this.previousUrl) {

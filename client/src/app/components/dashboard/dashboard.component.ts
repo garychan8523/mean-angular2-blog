@@ -8,13 +8,16 @@ import { AuthService } from '../../services/auth.service';
 })
 export class DashboardComponent implements OnInit {
 
+  dataRegister: any = {};
+
   constructor(
-  	private authService: AuthService
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
-  	this.authService.getProfile().subscribe(profile => {
-      if(!profile.success){
+    this.authService.getProfile().subscribe(profile => {
+      this.dataRegister = profile
+      if (!this.dataRegister.success) {
         this.authService.logout();
         window.location.reload();
       }
