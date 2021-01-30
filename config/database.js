@@ -2,9 +2,9 @@ const crypto = require('crypto').randomBytes(256).toString('hex');
 
 if (process.env.ENV && process.env.ENV == 'PRD') {
 	module.exports = {
-		uri: MONGO_CONN,
+		uri: process.env.MONGO_CONN,
 		secret: crypto,
-		db: MONGO_DB
+		db: process.env.MONGO_DB
 	}
 } else {
 	module.exports = {

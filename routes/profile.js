@@ -55,9 +55,7 @@ module.exports = (router) => {
                     .project({ username: 0, _id: 0, 'record.token': 0, 'record._id': 0 })
                     .allowDiskUse(true)
                     .cursor({ batchSize: 1000000 }).exec();
-                if (!cursor) {
-                    res.json({ success: false, message: 'record not found' });
-                } else {
+                try {
                     cursor.each(function (err, records) {
                         if (cursor && (err || records)) {
                             if (err) {
@@ -71,6 +69,8 @@ module.exports = (router) => {
                             }
                         }
                     });
+                } catch (error) {
+                    res.json({ success: false, message: 'record not found' });
                 }
                 // LoginState.findOne({ username: user.username },  { _id: 0, username: 0, __v: 0, "record.token": 0}, (err, records) => {
                 //     if(err){
