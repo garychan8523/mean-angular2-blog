@@ -57,7 +57,7 @@ export class BlogComponent implements OnInit {
       ])],
       body: ['', Validators.compose([
         Validators.required,
-        Validators.maxLength(1500),
+        Validators.maxLength(50000),
         Validators.minLength(2)
       ])]
     });
@@ -67,7 +67,7 @@ export class BlogComponent implements OnInit {
     this.commentForm = this.formBuilder.group({
       comment: ['', Validators.compose([
         Validators.required,
-        Validators.maxLength(1500),
+        Validators.maxLength(50000),
         Validators.minLength(2)
       ])]
     });

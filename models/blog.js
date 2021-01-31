@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 let titleLengthChecker = (title) => {
   if (!title) return false;
   else if (title.length < 2 || title.length > 100) {
-      return false;
+    return false;
   } else {
     return true;
   }
@@ -22,14 +22,14 @@ let titleLengthChecker = (title) => {
 
 const titleValidators = [
   {
-    validator: titleLengthChecker, 
+    validator: titleLengthChecker,
     message: 'title must be at least 2 but no more than 100 characters'
   }
 ];
 
 let bodyLengthChecker = (body) => {
   if (!body) return false;
-  else if (body.length < 1 || body.length > 1500) {
+  else if (body.length < 1 || body.length > 50000) {
     return false;
   } else {
     return true;
@@ -39,13 +39,13 @@ let bodyLengthChecker = (body) => {
 const bodyValidators = [
   {
     validator: bodyLengthChecker,
-    message: 'body must be at least 1 but no more than 1500 characters'
+    message: 'body must be at least 1 but no more than 50000 characters'
   }
 ];
 
 let commentLengthChecker = (comment) => {
   if (!comment[0]) return false;
-  else if (comment[0].length < 1  || comment[0].length > 1500) {
+  else if (comment[0].length < 1 || comment[0].length > 50000) {
     return false;
   } else {
     return true;
@@ -55,7 +55,7 @@ let commentLengthChecker = (comment) => {
 const commentValidators = [
   {
     validator: commentLengthChecker,
-    message: 'comment must be at least 1 but no more than 1500 characters'
+    message: 'comment must be at least 1 but no more than 50000 characters'
   }
 ];
 

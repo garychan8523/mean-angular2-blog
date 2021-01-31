@@ -49,13 +49,13 @@
 		<div
 			[ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
 			<textarea [disabled]="processing" contentEditable="true" name="body" rows="8" cols="80" placeholder="Body"
-				class="form-control card-text" maxlength="1500" formControlName="body"></textarea>
+				class="form-control card-text" maxlength="50000" formControlName="body"></textarea>
 			<div class="form-error-msg">
 				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i
 						class="fa fa-times"></i>This field is required</div>
 				<div
 					*ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">
-					<i class="fa fa-times"></i>Min length: 2, Max length: 1500
+					<i class="fa fa-times"></i>Min length: 2, Max length: 50000
 				</div>
 			</div>
 		</div>
@@ -187,7 +187,7 @@
 					<!-- <div [ngClass]="">
                         <ul class="help-block">
                             <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">This field is required.</li>
-                            <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) || (commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment length must between 2 to 1500 characters.</li>
+                            <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) || (commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment length must between 2 to 50000 characters.</li>
                         </ul>
                     </div> -->
 					<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"

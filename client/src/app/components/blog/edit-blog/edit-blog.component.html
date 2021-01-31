@@ -32,14 +32,14 @@
 		<div
 			[ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
 			<textarea contenteditable="true" name="body" rows="8" cols="80" placeholder="Body"
-				class="form-control card-text" maxlength="1500" formControlName="body"
+				class="form-control card-text" maxlength="50000" formControlName="body"
 				[(ngModel)]="blog.body"></textarea>
 			<div class="form-error-msg">
 				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i
 						class="fa fa-times"></i>This field is required</div>
 				<div
 					*ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">
-					<i class="fa fa-times"></i>Min length: 2, Max length: 1500
+					<i class="fa fa-times"></i>Min length: 2, Max length: 50000
 				</div>
 			</div>
 		</div>

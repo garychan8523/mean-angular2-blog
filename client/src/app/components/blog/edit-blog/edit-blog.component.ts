@@ -41,7 +41,7 @@ export class EditBlogComponent implements OnInit {
       ])],
       body: [{ value: '', disabled: true }, Validators.compose([
         Validators.required,
-        Validators.maxLength(1500),
+        Validators.maxLength(50000),
         Validators.minLength(2)
       ])]
     });
