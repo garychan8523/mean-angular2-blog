@@ -38,3 +38,19 @@
 .has-error input, .has-error textarea{
 	border: 1px solid #e60039;
 }
+
+.card-title{
+	font-weight: 600;
+	font-size: 1.0rem;
+}
+
+.card-body{
+	padding: 1rem !important;
+	overflow-y: scroll;
+	max-height: 28rem;
+}
+
+.card-text{
+	font-size: 0.92rem;
+}
+

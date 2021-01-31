@@ -28,8 +28,8 @@
 		<label for="title"></label>
 		<div
 			[ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-			<input [disabled]="processing" type="text" name="title" class="form-control" maxlength="100" size="100"
-				placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
+			<input [disabled]="processing" type="text" name="title" class="form-control card-title" maxlength="100"
+				size="100" placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
 			<div class="form-error-msg">
 				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i
 						class="fa fa-times"></i>This field is required</div>
@@ -49,7 +49,7 @@
 		<div
 			[ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
 			<textarea [disabled]="processing" contentEditable="true" name="body" rows="8" cols="80" placeholder="Body"
-				class="form-control" maxlength="1500" formControlName="body"></textarea>
+				class="form-control card-text" maxlength="1500" formControlName="body"></textarea>
 			<div class="form-error-msg">
 				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i
 						class="fa fa-times"></i>This field is required</div>
@@ -122,14 +122,14 @@
 			<small class="text-muted"> {{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
 			<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
 				<span class="dropdown">
-					<button disabled type="button" name="button" class="btn btn-sm btn-outline-success owner">
+					<button disabled type="button" name="button" class="btn btn-sm btn-upvote owner">
 						<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
 					</div>
 				</span>
 				<span class="dropdown">
-					<button disabled type="button" name="button" class="btn btn-sm btn-outline-danger owner">
+					<button disabled type="button" name="button" class="btn btn-sm btn-downvote owner">
 						<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
@@ -181,7 +181,7 @@
 				<form [formGroup]="commentForm">
 					<div [ngClass]="{'has-success': commentForm.controls.comment.valid}">
 						<textarea
-							style="margin-top: 4px; margin-bottom: 10px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px);"
+							style="margin-top: 4px; margin-bottom: 10px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px); font-size: 0.92rem;"
 							name="comment" rows="4" cols="30" class="form-control" formControlName="comment"></textarea>
 					</div>
 					<!-- <div [ngClass]="">
