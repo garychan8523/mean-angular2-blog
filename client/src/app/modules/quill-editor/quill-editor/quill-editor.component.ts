@@ -71,7 +71,7 @@ export class QuillEditorComponent implements OnInit {
       that.isContentDirty = true;
       that.blogContent = that.quill.getContents();
       that.blogLength = that.quill.getLength();
-      if (that.isContentDirty && that.quill.getLength() < 10) {
+      if (that.isContentDirty && that.quill.getLength() < 2) {
         that.isContentValid = false;
       } else {
         that.isContentValid = true;
