@@ -1,4 +1,4 @@
-<h5 class="page-header">Blog Feed</h5>
+<h5 class="page-header">{{pageTitle}}</h5>
 
 <div class="row" *ngIf="message">
 	<div [ngClass]="messageClass">
@@ -24,52 +24,72 @@
 <!-- new blog form -->
 <form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
 	<!-- title input -->
-	<div class="form-group">
-		<label for="title"></label>
-		<div
-			[ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-			<input [disabled]="processing" type="text" name="title" class="form-control card-title" maxlength="100"
-				size="100" placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
-			<div class="form-error-msg">
-				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i
-						class="fa fa-times"></i>This field is required</div>
-				<div
-					*ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
-					<i class="fa fa-times"></i>Min length: 2, Max length: 100
-				</div>
-				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i
-						class="fa fa-times"></i>Must be alphanumeric</div>
+	<label for="title"></label>
+	<div
+		[ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+		<input [disabled]="processing" type="text" name="title" class="form-control card-title" maxlength="70"
+			placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
+		<div class="form-error-msg">
+			<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i
+					class="fa fa-times"></i>This field is required</div>
+			<div
+				*ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
+				<i class="fa fa-times"></i>Min length: 2, Max length: 100
 			</div>
+			<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i
+					class="fa fa-times"></i>Must be alphanumeric</div>
 		</div>
 	</div>
 	<!-- title input -->
 	<!-- body input -->
-	<div class="form-group">
-		<label for="body"></label>
-		<div
-			[ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
-			<textarea [disabled]="processing" contentEditable="true" name="body" rows="8" cols="80" placeholder="Body"
-				class="form-control card-text" maxlength="50000" formControlName="body"></textarea>
-			<div class="form-error-msg">
-				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i
-						class="fa fa-times"></i>This field is required</div>
-				<div
-					*ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">
-					<i class="fa fa-times"></i>Min length: 2, Max length: 50000
-				</div>
+	<div>
+		<app-quill-editor></app-quill-editor>
+		<!-- <textarea [disabled]="processing" contentEditable="true" name="body" rows="8" cols="80" placeholder="Body"
+			class="form-control card-text" maxlength="50000" formControlName="body"></textarea> -->
+		<!-- <div class="form-error-msg">
+			<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i class="fa fa-times"></i>This
+				field is required</div>
+			<div
+				*ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">
+				<i class="fa fa-times"></i>Min length: 2, Max length: 50000
+			</div>
+		</div> -->
+	</div>
+	<!-- body input -->
+	<div class="blog-operation-button-group">
+		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
+			(click)="checkDiscard()">Back</button>
+		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left"
+			(click)="resetForm()">Clear</button>
+		<button [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2 " type="submit"
+			name="button" class="btn btn-sm btn-info btn-margin-left">Submit</button>
+	</div>
+</form>
+<!-- new blog form -->
+
+<!-- discard blog popup -->
+<div class="popup-modal-wrapper" *ngIf="discardBlogDisplay" (click)="goBack()">
+	<div class="col-md-6 popup-modal" (click)="onEvent($event)">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Confirm discard</h5>
+				<button type="button" name="button" class="close" data-dismiss="modal"
+					(click)="goBack()">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure to discard this blog? Changes will be lost. You
+					can use draft to save the blog with unpublished state.</p>
+			</div>
+			<div class="modal-footer">
+				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
+					(click)="closeDiscardBlogPopup()">Back</button>
+				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger"
+					(click)="discardBlog()">Discard</button>
 			</div>
 		</div>
 	</div>
-	<span style="opacity: 0.8;">Only these tags are allowed: p, b, i, u, s, font, strong, br, ol, li</span><br><br>
-	<!-- body input -->
-	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
-		(click)="goBack()">Back</button>
-	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left"
-		(click)="resetForm()">Clear</button>
-	<button [disabled]="!form.valid || processing" type="submit" name="button"
-		class="btn btn-sm btn-info btn-margin-left">Submit</button>
-</form>
-<!-- new blog form -->
+</div>
+<!-- discard blog popup -->
 
 <!-- delete blog popup -->
 <div class="popup-modal-wrapper" *ngIf="deleteBlogDisplay" (click)="goBack()">

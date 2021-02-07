@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 //import { JwtModule } from "@auth0/angular-jwt";
 import { ReactiveFormsModule } from '@angular/forms';
+import { QuillEditorModule } from './modules/quill-editor/quill-editor.module';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -48,7 +50,8 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
-    FlashMessagesModule.forRoot()
+    FlashMessagesModule.forRoot(),
+    QuillEditorModule,
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard, BlogService, SocketService],
   bootstrap: [AppComponent]

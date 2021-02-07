@@ -14,7 +14,7 @@ module.exports = (router) => {
         } else {
             const blog = new Blog({
                 title: req.body.title.replace(/<\/?.*?>/g, ''),
-                body: req.body.body.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
+                body: req.body.body,
                 createdBy: req.body.createdBy,
                 createdAt: Date.now() + new Date().getTimezoneOffset()
             });

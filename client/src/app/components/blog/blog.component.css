@@ -204,3 +204,7 @@ button[disabled] {
 	color: #525252;
 	border: none;
 }
+
+.blog-operation-button-group {
+	margin-top: 25px;
+}
