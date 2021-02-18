@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { BlogService } from '../../../services/blog.service';
+import { EventEmitterService } from '../../../services/event-emitter.service';
 
 @Component({
   selector: 'app-edit-blog',
@@ -27,6 +28,7 @@ export class EditBlogComponent implements OnInit {
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private blogService: BlogService,
+    private eventEmitterService: EventEmitterService,
     private router: Router
   ) {
     this.createEditBlogForm();
@@ -72,10 +74,13 @@ export class EditBlogComponent implements OnInit {
   }
 
   goBack() {
+    this.eventEmitterService.updateNavbarStatus('show');
     this.location.back();
   }
 
   ngOnInit() {
+    this.eventEmitterService.updateNavbarStatus('hide');
+
     this.authService.getProfile().subscribe(profile => {
       this.dataRegister = profile;
       if (!this.dataRegister.success) {

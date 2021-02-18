@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { EventEmitterService } from '../../services/event-emitter.service';
 import { NgZone } from "@angular/core";
 
 @Component({
@@ -11,12 +12,23 @@ import { NgZone } from "@angular/core";
 })
 export class NavbarComponent implements OnInit {
 
+  displayNavbar = true;
+
   constructor(
     public authService: AuthService,
+    private eventEmitterService: EventEmitterService,
     private router: Router,
     private flashMessagesService: FlashMessagesService,
     private zone: NgZone
   ) { }
+
+  showNavBar() {
+    this.displayNavbar = true;
+  }
+
+  hideNavBar() {
+    this.displayNavbar = false;
+  }
 
   onLogoutClick() {
     this.authService.logout();
@@ -38,6 +50,17 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.eventEmitterService.subscription == undefined) {
+      this.eventEmitterService.subscription = this.eventEmitterService.updateNavbarEvent.subscribe((action) => {
+
+        if (action == 'show') {
+          this.showNavBar();
+        }
+        if (action == 'hide') {
+          this.hideNavBar();
+        }
+      });
+    }
   }
 
 }

@@ -17,6 +17,7 @@ import { RegisterComponent } from './components/register/register.component'
 import { AuthService } from './services/auth.service';
 import { BlogService } from './services/blog.service';
 import { SocketService } from './services/socket.service';
+import { EventEmitterService } from './services/event-emitter.service';
 import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -53,7 +54,7 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
     FlashMessagesModule.forRoot(),
     QuillEditorModule,
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard, BlogService, SocketService],
+  providers: [AuthService, AuthGuard, NotAuthGuard, BlogService, SocketService, EventEmitterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

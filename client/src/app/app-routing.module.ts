@@ -43,13 +43,13 @@ const appRoutes: Routes = [
     component: AboutComponent
   },
   {
-    path: 'blog',
-    component: BlogComponent
-  },
-  {
-    path: 'edit-blog/:id',
+    path: 'blog/:id',
     component: EditBlogComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'blog',
+    component: BlogComponent
   },
   {
     path: 'delete-blog/:id',
@@ -61,16 +61,16 @@ const appRoutes: Routes = [
     component: PublicProfileComponent,
     canActivate: [AuthGuard]
   },
-  { path: '**', redirectTo: '/'}
+  { path: '**', redirectTo: '/' }
 ];
 
 
 @NgModule({
   declarations: [],
   imports: [RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    )],
+    appRoutes,
+    { enableTracing: true } // <-- debugging purposes only
+  )],
   providers: [],
   bootstrap: [],
   exports: [RouterModule]

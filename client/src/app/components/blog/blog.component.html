@@ -182,7 +182,7 @@
 				class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment(blog._id)">
 				<span class="fa fa-comments-o"></span>Comment</button>
 			<span *ngIf="authService.loggedIn() && username === blog.createdBy">
-				<a [routerLink]="['/edit-blog/', blog._id]"><button type="button" name="button"
+				<a [routerLink]="['/blog/', blog._id]"><button type="button" name="button"
 						class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a>
 				<!-- <a [routerLink]="['/delete-blog/', blog._id]"><button type="button" name="button" class="btn btn-sm btn-nobg"><span class="fa fa-trash-o"></span></button></a> -->
 				<a (click)="deleteBlogPopup(blog)"><button type="button" name="button" class="btn btn-sm btn-nobg"><span
