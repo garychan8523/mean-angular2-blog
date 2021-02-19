@@ -17,6 +17,7 @@ export class QuillEditorComponent implements OnInit {
   blogLength;
   isContentValid;
   isContentDirty = false;
+  isEditing = true;
 
 
   constructor(
@@ -32,6 +33,10 @@ export class QuillEditorComponent implements OnInit {
 
   getQuillTextLength() {
     return this.quill.getLength();
+  }
+
+  setEditing(isEditing) {
+    this.isEditing = isEditing;
   }
 
   ngOnInit(): void {

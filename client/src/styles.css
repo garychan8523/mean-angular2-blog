@@ -2,6 +2,24 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.snow.css';
 
+.ql-hide .ql-toolbar {
+	display: none;
+}
+
+.ql-hide .ql-container {
+	background-color: #f8f8fe;
+}
+
+.ql-disabled {
+	border: none !important;
+	border-top: none !important;
+}
+
+.ql-container .ql-disabled {
+	border: none !important;
+	border-top: none !important;
+}
+
 .ql-toolbar {
     border: none !important;
 }
@@ -9,12 +27,16 @@
 .ql-container {
 	margin-top: 5px;
 	border-radius: .25rem;
-	border-top: 1px solid #ccc !important;
+	border-top: 1px solid #ccc;
 	background-color: #fff;
 }
 
 * {
 	transition: 0.2s;
+}
+
+#editor {
+	transition: none !important;
 }
 
 body {

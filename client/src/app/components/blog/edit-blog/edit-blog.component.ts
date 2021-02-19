@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,12 +6,14 @@ import { AuthService } from '../../../services/auth.service';
 import { BlogService } from '../../../services/blog.service';
 import { EventEmitterService } from '../../../services/event-emitter.service';
 
+import { QuillEditorComponent } from '../../../modules/quill-editor/quill-editor/quill-editor.component';
+
 @Component({
   selector: 'app-edit-blog',
   templateUrl: './edit-blog.component.html',
   styleUrls: ['./edit-blog.component.css']
 })
-export class EditBlogComponent implements OnInit {
+export class EditBlogComponent implements OnInit, AfterViewInit {
 
   message;
   messageClass;
@@ -19,8 +21,11 @@ export class EditBlogComponent implements OnInit {
   form;
   processing = true;
   currentUrl;
-  loading = true;
+  loading = false;
   dataRegister: any = {};
+  blogContentResponse;
+  toolbarClass;
+  editMode = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,6 +37,38 @@ export class EditBlogComponent implements OnInit {
     private router: Router
   ) {
     this.createEditBlogForm();
+  }
+
+  setEditMode(bool) {
+    if (bool) {
+      this.editMode = true;
+      this.form.controls['title'].enable();
+      this.showToolbar(true);
+      this.editorComponent.setEditing(true);
+      this.editorComponent.quill.enable(true);
+    } else {
+      this.editMode = false;
+      this.form.controls['title'].disable();
+      this.showToolbar(false);
+      this.editorComponent.setEditing(false);
+      this.editorComponent.quill.enable(false);
+    }
+  }
+
+  @ViewChild(QuillEditorComponent)
+  editorComponent: QuillEditorComponent;
+  ngAfterViewInit() {
+    this.setEditMode(false);
+    this.editorComponent.quill.setContents(this.blogContentResponse.ops);
+    console.log(this.blogContentResponse.ops);
+  }
+
+  showToolbar(bool) {
+    if (bool) {
+      this.toolbarClass = '';
+    } else {
+      this.toolbarClass = 'ql-hide';
+    }
   }
 
   createEditBlogForm() {
@@ -50,32 +87,40 @@ export class EditBlogComponent implements OnInit {
   }
 
   updateBlogSubmit() {
-    this.processing = true;
-    this.form.controls['title'].disable();
-    this.form.controls['body'].disable();
-    let regex2 = /\n/g
-    this.blog.body = this.blog.body.replace(regex2, "<br>");
-    this.blogService.editBlog(this.blog).subscribe(data => {
-      this.dataRegister = data;
-      if (!this.dataRegister.success) {
-        this.messageClass = 'alert alert-danger';
-        this.message = this.dataRegister.message.errors.title.message || "Error";
-        this.processing = false;
-        this.form.controls['title'].enable();
-        this.form.controls['body'].enable();
-      } else {
-        this.messageClass = 'alert alert-success';
-        this.message = this.dataRegister.message;
-        setTimeout(() => {
-          this.router.navigate(['/blog']);
-        }, 2000);
-      }
-    });
+    // this.processing = true;
+    // this.form.controls['title'].disable();
+    // this.form.controls['body'].disable();
+    // let regex2 = /\n/g
+    // this.blog.body = this.blog.body.replace(regex2, "<br>");
+    // this.blogService.editBlog(this.blog).subscribe(data => {
+    //   this.dataRegister = data;
+    //   if (!this.dataRegister.success) {
+    //     this.messageClass = 'alert alert-danger';
+    //     this.message = this.dataRegister.message.errors.title.message || "Error";
+    //     this.processing = false;
+    //     this.form.controls['title'].enable();
+    //     this.form.controls['body'].enable();
+    //   } else {
+    //     this.messageClass = 'alert alert-success';
+    //     this.message = this.dataRegister.message;
+    //     setTimeout(() => {
+    //       this.router.navigate(['/blog']);
+    //     }, 2000);
+    //   }
+    // });
   }
 
   goBack() {
-    this.eventEmitterService.updateNavbarStatus('show');
-    this.location.back();
+    if (this.editMode) {
+      this.setEditMode(false);
+    } else {
+      this.eventEmitterService.updateNavbarStatus('show');
+      this.location.back();
+    }
+  }
+
+  enterEdit() {
+    this.setEditMode(true);
   }
 
   ngOnInit() {
@@ -96,13 +141,15 @@ export class EditBlogComponent implements OnInit {
         this.messageClass = 'alert alert-danger';
         this.message = this.dataRegister.message;
       } else {
+
+        this.blogContentResponse = JSON.parse(this.dataRegister.blog.body);
         let regex = /<br\s*[\/]?>/gi;
         this.dataRegister.blog.body = this.dataRegister.blog.body.replace(regex, "\n");
         this.blog = this.dataRegister.blog;
         this.processing = false;
         this.form.controls['title'].enable();
         this.form.controls['body'].enable();
-        this.loading = false;
+        //this.loading = false;
       }
     });
   }

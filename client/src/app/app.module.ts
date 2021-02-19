@@ -54,7 +54,14 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
     FlashMessagesModule.forRoot(),
     QuillEditorModule,
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard, BlogService, SocketService, EventEmitterService],
+  providers: [
+    AuthService,
+    AuthGuard,
+    NotAuthGuard,
+    BlogService,
+    SocketService,
+    EventEmitterService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
