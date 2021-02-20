@@ -31,6 +31,10 @@
 	background-color: #fff;
 }
 
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+	border-top: 1px solid #ccc;
+}
+
 * {
 	transition: 0.2s;
 }

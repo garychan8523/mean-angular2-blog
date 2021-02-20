@@ -17,13 +17,13 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
 
   message;
   messageClass;
+  storedBlog;
   blog;
   form;
   processing = true;
   currentUrl;
   loading = false;
   dataRegister: any = {};
-  blogContentResponse;
   toolbarClass;
   editMode = false;
 
@@ -59,8 +59,8 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
   editorComponent: QuillEditorComponent;
   ngAfterViewInit() {
     this.setEditMode(false);
-    this.editorComponent.quill.setContents(this.blogContentResponse.ops);
-    console.log(this.blogContentResponse.ops);
+    this.editorComponent.quill.setContents(JSON.parse(this.blog.body).ops);
+    //console.log(JSON.parse(this.blog.body).ops);
   }
 
   showToolbar(bool) {
@@ -77,42 +77,43 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         Validators.required,
         Validators.maxLength(100),
         Validators.minLength(2)
-      ])],
-      body: [{ value: '', disabled: true }, Validators.compose([
-        Validators.required,
-        Validators.maxLength(50000),
-        Validators.minLength(2)
       ])]
     });
   }
 
   updateBlogSubmit() {
-    // this.processing = true;
-    // this.form.controls['title'].disable();
-    // this.form.controls['body'].disable();
-    // let regex2 = /\n/g
-    // this.blog.body = this.blog.body.replace(regex2, "<br>");
-    // this.blogService.editBlog(this.blog).subscribe(data => {
-    //   this.dataRegister = data;
-    //   if (!this.dataRegister.success) {
-    //     this.messageClass = 'alert alert-danger';
-    //     this.message = this.dataRegister.message.errors.title.message || "Error";
-    //     this.processing = false;
-    //     this.form.controls['title'].enable();
-    //     this.form.controls['body'].enable();
-    //   } else {
-    //     this.messageClass = 'alert alert-success';
-    //     this.message = this.dataRegister.message;
-    //     setTimeout(() => {
-    //       this.router.navigate(['/blog']);
-    //     }, 2000);
-    //   }
-    // });
+    this.processing = true;
+    this.form.controls['title'].disable();
+    this.showToolbar(false);
+    this.editorComponent.quill.enable(false);
+
+    this.blog.body = JSON.stringify(this.editorComponent.quill.getContents());
+
+    this.blogService.editBlog(this.blog).subscribe(data => {
+      this.dataRegister = data;
+      if (!this.dataRegister.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = this.dataRegister.message.errors.title.message || "Error";
+        this.processing = false;
+        this.form.controls['title'].enable();
+        this.showToolbar(true);
+        this.editorComponent.quill.enable(true);
+      } else {
+        this.messageClass = 'alert alert-success';
+        this.message = this.dataRegister.message;
+        setTimeout(() => {
+          this.router.navigate(['/blog']);
+        }, 2000);
+      }
+    });
+
   }
 
   goBack() {
     if (this.editMode) {
       this.setEditMode(false);
+      this.blog = Object.assign({}, this.storedBlog);
+      this.editorComponent.quill.setContents(JSON.parse(this.blog.body).ops);
     } else {
       this.eventEmitterService.updateNavbarStatus('show');
       this.location.back();
@@ -141,14 +142,10 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         this.messageClass = 'alert alert-danger';
         this.message = this.dataRegister.message;
       } else {
-
-        this.blogContentResponse = JSON.parse(this.dataRegister.blog.body);
-        let regex = /<br\s*[\/]?>/gi;
-        this.dataRegister.blog.body = this.dataRegister.blog.body.replace(regex, "\n");
-        this.blog = this.dataRegister.blog;
+        this.blog = Object.assign({}, this.dataRegister.blog);
+        this.storedBlog = Object.assign({}, this.dataRegister.blog);
         this.processing = false;
         this.form.controls['title'].enable();
-        this.form.controls['body'].enable();
         //this.loading = false;
       }
     });

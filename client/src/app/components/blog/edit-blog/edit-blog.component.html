@@ -28,7 +28,7 @@
 	</div>
 
 	<app-quill-editor [ngClass]="toolbarClass"></app-quill-editor>
-	<br><br>
+	<br>
 
 	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
 		(click)="goBack()">Back</button>
@@ -41,6 +41,6 @@
 			class="btn btn-sm btn-danger btn-margin-left">Delete</button>
 	</a>
 	<!-- 	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="resetForm()">Clear</button> -->
-	<button *ngIf="editMode" [disabled]="!form.valid || processing" type="submit" name="save"
-		class="btn btn-sm btn-info btn-margin-left">Save Changes</button>
+	<button *ngIf="editMode" [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2"
+		type="submit" name="save" class="btn btn-sm btn-info btn-margin-left">Save Changes</button>
 </form>

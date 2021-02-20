@@ -61,7 +61,7 @@
 			(click)="checkDiscard()">Back</button>
 		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left"
 			(click)="resetForm()">Clear</button>
-		<button [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2 " type="submit"
+		<button [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2" type="submit"
 			name="button" class="btn btn-sm btn-info btn-margin-left">Submit</button>
 	</div>
 </form>
