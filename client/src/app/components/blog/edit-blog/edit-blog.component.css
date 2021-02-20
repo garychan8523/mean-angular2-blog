@@ -59,7 +59,7 @@
 	font-size: 0.92rem;
 }
 
-input[name="title"]:disabled {
+.title-view input[name="title"] {
 	border: none;
 	font-size: 2.5rem;
 	letter-spacing: 1px;
