@@ -7,7 +7,7 @@
 
 <form [formGroup]="form" (submit)="updateBlogSubmit()" [ngClass]="{'view-offset': !editMode}" class="view-container"
 	*ngIf="!loading">
-	<div class="form-group" style="width: 800px;">
+	<div class="form-group">
 		<label for="title"></label>
 		<div
 			[ngClass]="{'title-view': !editMode,'has-success': form.controls.title.valid && editMode, 'has-error': form.controls.title.dirty && form.controls.title.errors && editMode}">
