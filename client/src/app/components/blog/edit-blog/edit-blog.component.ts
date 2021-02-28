@@ -21,6 +21,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
   blog;
   form;
   processing = true;
+  username;
   currentUrl;
   loading = false;
   dataRegister: any = {};
@@ -29,7 +30,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private blogService: BlogService,
@@ -127,15 +128,15 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.eventEmitterService.updateNavbarStatus('hide');
-
     this.authService.getProfile().subscribe(profile => {
       this.dataRegister = profile;
       if (!this.dataRegister.success) {
-        this.authService.logout();
-        window.location.reload();
+        //this.authService.logout();
+        //window.location.reload();
+      } else {
+        this.username = this.dataRegister.user.username;
       }
     });
-
     this.currentUrl = this.activatedRoute.snapshot.params;
     this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
       this.dataRegister = data;

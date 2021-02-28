@@ -44,8 +44,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'blog/:id',
-    component: EditBlogComponent,
-    canActivate: [AuthGuard]
+    component: EditBlogComponent
   },
   {
     path: 'blog',

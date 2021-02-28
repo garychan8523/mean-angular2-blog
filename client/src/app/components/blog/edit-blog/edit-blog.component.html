@@ -33,8 +33,8 @@
 	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
 		(click)="goBack()">Back</button>
 
-	<button *ngIf="!editMode" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left"
-		(click)="enterEdit()">Edit</button>
+	<button *ngIf="authService.loggedIn() && username === blog.createdBy && !editMode" type="button" name="edit"
+		class="btn btn-sm btn-info btn-margin-left" (click)="enterEdit()">Edit</button>
 
 	<a *ngIf="editMode" [routerLink]="['/delete-blog/', blog._id]">
 		<button [disabled]="processing" type="button" name="button"
