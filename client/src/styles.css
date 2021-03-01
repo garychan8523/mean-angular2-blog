@@ -54,10 +54,12 @@ form[name="blogForm"] {
 
 .ql-editor p,blockquote {
 	font-size: 1.17em;
+	letter-spacing: 1px;
 }
 
 .ql-editor h1,h2,h3,h4,h5,h6,p,blockquote {
 	line-height: 1.6;
+	letter-spacing: 1px;
 }
 
 * {
