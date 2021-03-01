@@ -5,13 +5,15 @@
 	</div>
 </div>
 
-<form [formGroup]="form" (submit)="updateBlogSubmit()" [ngClass]="{'view-offset': !editMode}" class="view-container"
+<form [formGroup]="form" (submit)="updateBlogSubmit()"
+	[ngClass]="{'viewmode': !editMode, 'editmode': editMode, 'view-offset': !editMode}" class="view-container"
 	*ngIf="!loading">
 	<div class="form-group">
 		<label for="title"></label>
 		<div
 			[ngClass]="{'title-view': !editMode,'has-success': form.controls.title.valid && editMode, 'has-error': form.controls.title.dirty && form.controls.title.errors && editMode}">
-			<input type="text" name="title" class="form-control card-title" maxlength="100" size="100"
+			<div *ngIf="!editMode" class="title-view">{{ blog.title }}</div>
+			<input *ngIf="editMode" type="text" name="title" class="form-control card-title" maxlength="100" size="100"
 				placeholder="Title" autocomplete="off" formControlName="title" [(ngModel)]="blog.title"
 				[autofocus]="true">
 			<div class="form-error-msg">

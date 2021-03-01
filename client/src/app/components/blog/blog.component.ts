@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { SocketService } from '../../services/socket.service';
+import { EventEmitterService } from '../../services/event-emitter.service';
 
 import { QuillEditorComponent } from '../../modules/quill-editor/quill-editor/quill-editor.component';
 @Component({
@@ -40,6 +41,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
     public authService: AuthService,
     private blogService: BlogService,
     private socketService: SocketService,
+    private eventEmitterService: EventEmitterService,
     private router: Router
   ) {
     this.createNewBlogForm();
@@ -274,6 +276,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.eventEmitterService.updateNavbarStatus('show');
     this.authService.getProfile().subscribe(profile => {
       this.dataRegister = profile
       if (!this.dataRegister.success) {

@@ -103,8 +103,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         this.messageClass = 'alert alert-success';
         this.message = this.dataRegister.message;
         setTimeout(() => {
-          this.eventEmitterService.updateNavbarStatus('show');
-          this.router.navigate(['/blog']);
+          window.location.reload();
+          // this.eventEmitterService.updateNavbarStatus('show');
+          // this.router.navigate(['/blog']);
         }, 2000);
       }
     });
