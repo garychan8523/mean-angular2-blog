@@ -84,6 +84,11 @@ button.close{
 	margin: 0 auto 15px auto;
 }
 
+.card-title-box{
+	display: inline-block;
+	cursor: pointer;
+}
+
 .card-title{
 	font-weight: 600;
 	font-size: 1.0rem;

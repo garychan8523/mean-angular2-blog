@@ -39,6 +39,10 @@
 	transition: 0.2s;
 }
 
+div:focus {
+  outline: 0;
+}
+
 #editor {
 	transition: none !important;
 }
