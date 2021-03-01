@@ -104,6 +104,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
   // }
 
   newBlogForm() {
+    this.eventEmitterService.updateNavbarStatus('hide');
     this.newPost = true;
     this.pageTitle = "New blog";
   }
@@ -182,6 +183,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
           this.message = false;
           this.form.reset();
           this.enableFormNewBlogForm();
+          this.eventEmitterService.updateNavbarStatus('show');
         }, 2000);
       }
     })
@@ -209,12 +211,14 @@ export class BlogComponent implements OnInit, AfterViewInit {
   }
 
   discardBlog() {
+    this.eventEmitterService.updateNavbarStatus('show');
     this.resetForm();
     this.goBack();
   }
 
   goBack() {
     //window.location.reload();
+    this.eventEmitterService.updateNavbarStatus('show');
     this.overlay = false;
     this.newPost = false;
     this.pageTitle = "Blog Feed";

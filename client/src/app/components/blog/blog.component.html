@@ -1,4 +1,4 @@
-<h5 class="page-header">{{pageTitle}}</h5>
+<h5 class="page-header" [ngClass]="{'nonavmode': newPost}">{{pageTitle}}</h5>
 
 <div class="row" *ngIf="message">
 	<div [ngClass]="messageClass">
@@ -22,7 +22,7 @@
 	<span class="fa fa-refresh"></span>Refresh</button>
 
 <!-- new blog form -->
-<form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
+<form [formGroup]="form" name="blogForm" [ngClass]="{'editmode': newPost}" (submit)="onBlogSubmit()" *ngIf="newPost">
 	<!-- title input -->
 	<label for="title"></label>
 	<div
@@ -130,7 +130,7 @@
 <br>
 <br>
 
-<div *ngIf="!newPost && !loadingBlogs">
+<div *ngIf="!newPost && !loadingBlogs" style="max-width: 800px; margin: auto;">
 	<div id="{{ blog._id }}" class="card" *ngFor="let blog of blogPosts">
 		<div class="card-body">
 			<div [routerLink]="['/blog/', blog._id]" class="card-title-box">

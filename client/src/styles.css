@@ -2,6 +2,23 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.snow.css';
 
+.nonavmode {
+	margin-top: -70px;
+}
+
+.page-header.nonavmode {
+	padding-bottom: 40px;
+}
+
+.editmode {
+	margin-top: -50px !important;
+}
+
+form[name="blogForm"] {
+	max-width: 800px;
+	margin: auto;
+}
+
 .ql-hide .ql-toolbar {
 	display: none;
 }
@@ -35,11 +52,11 @@
 	border-top: 1px solid #ccc;
 }
 
-.ql-editor p {
+.ql-editor p,blockquote {
 	font-size: 1.17em;
 }
 
-.ql-editor h1,h2,h3,h4,h5,h6,p {
+.ql-editor h1,h2,h3,h4,h5,h6,p,blockquote {
 	line-height: 1.6;
 }
 
