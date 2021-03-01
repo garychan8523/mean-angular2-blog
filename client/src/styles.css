@@ -52,14 +52,14 @@ form[name="blogForm"] {
 	border-top: 1px solid #ccc;
 }
 
-.ql-editor p,blockquote {
+.ql-editor p, .ql-editor blockquote {
 	font-size: 1.17em;
-	letter-spacing: 1px;
+	letter-spacing: 0.6px;
 }
 
-.ql-editor h1,h2,h3,h4,h5,h6,p,blockquote {
+.ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6, .ql-editor p, .ql-editor blockquote {
 	line-height: 1.6;
-	letter-spacing: 1px;
+	letter-spacing: 0.6px;
 }
 
 * {
@@ -93,6 +93,19 @@ body {
 	background-color: rgba(0, 0, 0, 0.4);
 	z-index: 1050;
 	backdrop-filter: blur(2px);
+}
+
+.btn-transparent{
+	color: #fff;
+	border-color: #fff;
+	border-width: 2px;
+	opacity: 0.8;
+}
+
+.btn-transparent:hover{
+	color: #fff;
+	border-color: #ccc;
+	border-width: 2px;
 }
 
 .btn-primary:disabled, .btn-info:disabled{
