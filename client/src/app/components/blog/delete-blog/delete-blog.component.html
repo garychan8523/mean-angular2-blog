@@ -10,26 +10,28 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Confirm deletion</h4>
-      <button type="button" name="button" class="close" data-dismiss="modal">&times;</button>
+      <!-- <button type="button" name="button" class="close" data-dismiss="modal">&times;</button> -->
     </div>
     <div class="modal-body">
       <p>are you sure to delete this blog?</p>
 
       <div class="card">
-  	<div class="card-body">
-      	<h5 class="card-title">{{ blog.title }}</h5>
-      	<p class="card-text"><span [innerHTML]="blog.body"></span></p>
-    </div>
-    <div class="card-footer">
-    	<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
-    	<small class="text-muted"> on {{ blog.createdAt | date: 'dd MMM yyyy'}}</small>
-    </div>
-  </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ blog.title }}</h5>
+          <p class="card-text"><span [innerHTML]="blog.body"></span></p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
+          <small class="text-muted"> on {{ blog.createdAt | date: 'dd MMM yyyy'}}</small>
+        </div>
+      </div>
 
     </div>
     <div class="modal-footer">
-      <a routerLink="/blog"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button></a>
-      <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteBlog()">Delete</button>
+      <a routerLink="/blog"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
+          (click)="goBack()">Back</button></a>
+      <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger"
+        (click)="deleteBlog()">Delete</button>
     </div>
   </div>
 </div>

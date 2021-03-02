@@ -1,13 +1,18 @@
+.view-container {
+	max-width: 800px;
+	margin: auto;
+}
+
+.view-offset {
+	margin-top: -60px;
+}
+
 .btn-sm{
 	padding: .12rem .25rem;
 }
 
 .btn-margin-left {
 	margin-left: 5px;
-}
-
-.form-group{
-	width: 920px;
 }
 
 .form-error-msg{
@@ -54,3 +59,18 @@
 	font-size: 0.92rem;
 }
 
+.title-view {
+	font-size: 2rem;
+	font-weight: 600;
+	letter-spacing: 1px;
+}
+
+.title-view input[name="title"] {
+	border: none;
+	font-size: 2.5rem;
+	letter-spacing: 1px;
+}
+
+.title-view input {
+	background-color: #f8f8fe;
+}

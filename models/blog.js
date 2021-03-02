@@ -27,9 +27,10 @@ const titleValidators = [
   }
 ];
 
+// backend would accept up to 60000 for json syntax overhead
 let bodyLengthChecker = (body) => {
   if (!body) return false;
-  else if (body.length < 1 || body.length > 50000) {
+  else if (body.length < 1 || body.length > 60000) {
     return false;
   } else {
     return true;
@@ -43,9 +44,10 @@ const bodyValidators = [
   }
 ];
 
+// backend would accept up to 60000 for json syntax overhead
 let commentLengthChecker = (comment) => {
   if (!comment[0]) return false;
-  else if (comment[0].length < 1 || comment[0].length > 50000) {
+  else if (comment[0].length < 1 || comment[0].length > 60000) {
     return false;
   } else {
     return true;

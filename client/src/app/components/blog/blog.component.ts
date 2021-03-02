@@ -1,23 +1,27 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { SocketService } from '../../services/socket.service';
+import { EventEmitterService } from '../../services/event-emitter.service';
 
+import { QuillEditorComponent } from '../../modules/quill-editor/quill-editor/quill-editor.component';
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css']
 })
 
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, AfterViewInit {
 
+  pageTitle = "Blog Feed";
   messageClass;
   message = false;
   notificationClass;
   notification = false;
   newPost = false;
+  discardBlogDisplay = false;
   deleteBlogDisplay = false;
   deleteBlogPost;
   loadingBlogs = false;
@@ -37,10 +41,16 @@ export class BlogComponent implements OnInit {
     public authService: AuthService,
     private blogService: BlogService,
     private socketService: SocketService,
+    private eventEmitterService: EventEmitterService,
     private router: Router
   ) {
     this.createNewBlogForm();
     this.createCommentForm();
+  }
+
+  @ViewChild(QuillEditorComponent)
+  editorComponent: QuillEditorComponent;
+  ngAfterViewInit(): void {
   }
 
   onEvent(event) {
@@ -54,11 +64,6 @@ export class BlogComponent implements OnInit {
         Validators.maxLength(100),
         Validators.minLength(2),
         //this.specialCharacterValidation
-      ])],
-      body: ['', Validators.compose([
-        Validators.required,
-        Validators.maxLength(50000),
-        Validators.minLength(2)
       ])]
     });
   }
@@ -83,12 +88,10 @@ export class BlogComponent implements OnInit {
 
   enableFormNewBlogForm() {
     this.form.get('title').enable();
-    this.form.get('body').enable();
   }
 
   disableFormNewBlogForm() {
     this.form.get('title').disable();
-    this.form.get('body').disable();
   }
 
   // specialCharacterValidation(controls) {
@@ -101,7 +104,27 @@ export class BlogComponent implements OnInit {
   // }
 
   newBlogForm() {
+    this.eventEmitterService.updateNavbarStatus('hide');
     this.newPost = true;
+    this.pageTitle = "New blog";
+  }
+
+  checkDiscard() {
+    if ((this.form.get('title').value && this.form.get('title').value.length > 0) || (this.editorComponent.getQuillTextLength() && this.editorComponent.getQuillTextLength() > 1)) {
+      this.discardBlogPopup();
+    } else {
+      this.resetForm();
+      this.goBack();
+    }
+  }
+
+  discardBlogPopup() {
+    this.overlay = true;
+    this.discardBlogDisplay = true;
+  }
+  closeDiscardBlogPopup() {
+    this.overlay = false;
+    this.discardBlogDisplay = false;
   }
 
   deleteBlogPopup(blog) {
@@ -138,7 +161,7 @@ export class BlogComponent implements OnInit {
 
     const blog = {
       title: this.form.get('title').value,
-      body: this.form.get('body').value,
+      body: JSON.stringify(this.editorComponent.quill.getContents()),
       createdBy: this.username
     }
 
@@ -155,10 +178,12 @@ export class BlogComponent implements OnInit {
         this.getAllBlogs();
         setTimeout(() => {
           this.newPost = false;
+          this.pageTitle = "Blog Feed";
           this.processing = false;
           this.message = false;
           this.form.reset();
           this.enableFormNewBlogForm();
+          this.eventEmitterService.updateNavbarStatus('show');
         }, 2000);
       }
     })
@@ -185,15 +210,25 @@ export class BlogComponent implements OnInit {
     });
   }
 
+  discardBlog() {
+    this.eventEmitterService.updateNavbarStatus('show');
+    this.resetForm();
+    this.goBack();
+  }
+
   goBack() {
     //window.location.reload();
+    this.eventEmitterService.updateNavbarStatus('show');
     this.overlay = false;
     this.newPost = false;
+    this.pageTitle = "Blog Feed";
     this.deleteBlogDisplay = false;
+    this.discardBlogDisplay = false;
   }
 
   resetForm() {
     this.form.reset();
+    this.editorComponent.resetQuillEditor();
   }
 
   getAllBlogs() {
@@ -245,6 +280,7 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.eventEmitterService.updateNavbarStatus('show');
     this.authService.getProfile().subscribe(profile => {
       this.dataRegister = profile
       if (!this.dataRegister.success) {

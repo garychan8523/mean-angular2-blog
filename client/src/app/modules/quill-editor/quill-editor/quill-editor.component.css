@@ -1,0 +1,17 @@
+#editor {
+    min-height: 400px;
+}
+
+.ql-valid {
+    border: 2px solid #00cd9a !important;
+}
+
+.ql-invalid {
+    border: 1px solid #e60039 !important;
+}
+
+.ql-counter {
+    color: #aaa;
+    font-size: 11px;
+    float: right;
+}

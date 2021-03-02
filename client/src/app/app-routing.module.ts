@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AboutComponent } from './components/about/about.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { BlogComponent } from './components/blog/blog.component';
@@ -43,13 +44,16 @@ const appRoutes: Routes = [
     component: AboutComponent
   },
   {
-    path: 'blog',
-    component: BlogComponent
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent
   },
   {
-    path: 'edit-blog/:id',
-    component: EditBlogComponent,
-    canActivate: [AuthGuard]
+    path: 'blog/:id',
+    component: EditBlogComponent
+  },
+  {
+    path: 'blog',
+    component: BlogComponent
   },
   {
     path: 'delete-blog/:id',
@@ -61,16 +65,16 @@ const appRoutes: Routes = [
     component: PublicProfileComponent,
     canActivate: [AuthGuard]
   },
-  { path: '**', redirectTo: '/'}
+  { path: '**', redirectTo: '/' }
 ];
 
 
 @NgModule({
   declarations: [],
   imports: [RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    )],
+    appRoutes,
+    { enableTracing: true } // <-- debugging purposes only
+  )],
   providers: [],
   bootstrap: [],
   exports: [RouterModule]

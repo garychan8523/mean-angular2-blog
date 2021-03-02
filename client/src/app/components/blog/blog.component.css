@@ -84,6 +84,11 @@ button.close{
 	margin: 0 auto 15px auto;
 }
 
+.card-title-box{
+	display: inline-block;
+	cursor: pointer;
+}
+
 .card-title{
 	font-weight: 600;
 	font-size: 1.0rem;
@@ -203,4 +208,8 @@ button[disabled] {
 	background-color: #fefefe;
 	color: #525252;
 	border: none;
+}
+
+.blog-operation-button-group {
+	margin-top: 25px;
 }

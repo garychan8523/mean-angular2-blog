@@ -1,6 +1,79 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+
+.nonavmode {
+	margin-top: -70px;
+}
+
+.page-header.nonavmode {
+	padding-bottom: 40px;
+}
+
+.editmode {
+	margin-top: -50px !important;
+}
+
+form[name="blogForm"] {
+	max-width: 800px;
+	margin: auto;
+}
+
+.ql-hide .ql-toolbar {
+	display: none;
+}
+
+.ql-hide .ql-container {
+	background-color: #f8f8fe;
+}
+
+.ql-disabled {
+	border: none !important;
+	border-top: none !important;
+}
+
+.ql-container .ql-disabled {
+	border: none !important;
+	border-top: none !important;
+}
+
+.ql-toolbar {
+    border: none !important;
+}
+
+.ql-container {
+	margin-top: 5px;
+	border-radius: .25rem;
+	border-top: 1px solid #ccc;
+	background-color: #fff;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+	border-top: 1px solid #ccc;
+}
+
+.ql-editor p, .ql-editor blockquote {
+	font-size: 1.17em;
+	letter-spacing: 0.6px;
+}
+
+.ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6, .ql-editor p, .ql-editor blockquote {
+	line-height: 1.6;
+	letter-spacing: 0.6px;
+}
+
 * {
 	transition: 0.2s;
+}
+
+div:focus {
+  outline: 0;
+}
+
+.editmode #editor {
+	transition: none !important;
+	max-height: 500px;
+	overflow-y: auto;
 }
 
 body {
@@ -17,9 +90,31 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: #000;
-	opacity: 0.4;
+	background-color: rgba(0, 0, 0, 0.4);
 	z-index: 1050;
+	backdrop-filter: blur(2px);
+}
+
+.btn-transparent{
+	color: #fff;
+	opacity: 0.8;
+}
+
+.btn-transparent:hover{
+	color: #fff;
+}
+
+.btn-transparent-outline{
+	color: #fff;
+	border-color: #fff;
+	border-width: 2px;
+	opacity: 0.8;
+}
+
+.btn-transparent-outline:hover{
+	color: #fff;
+	border-color: #ccc;
+	border-width: 2px;
 }
 
 .btn-primary:disabled, .btn-info:disabled{

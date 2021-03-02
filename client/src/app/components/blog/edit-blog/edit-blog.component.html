@@ -1,58 +1,36 @@
-<h5 class="page-header">Edit Blog</h5>
-
+<!-- <h5 class="page-header">Edit Blog</h5> -->
 <div class="row" *ngIf="message">
 	<div [ngClass]="messageClass">
 		{{ message }}
 	</div>
 </div>
 
-<form [formGroup]="form" (submit)="updateBlogSubmit()" *ngIf="!loading">
+<form [formGroup]="form" (submit)="updateBlogSubmit()" [ngClass]="{'viewmode': !editMode, 'editmode': editMode, 'view-offset': !editMode}" class="view-container" *ngIf="!loading">
 	<div class="form-group">
 		<label for="title"></label>
-		<div
-			[ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-			<input type="text" name="title" class="form-control card-title" maxlength="100" size="100"
-				placeholder="Title" autocomplete="off" formControlName="title" [(ngModel)]="blog.title"
-				[autofocus]="true">
+		<div [ngClass]="{'title-view': !editMode,'has-success': form.controls.title.valid && editMode, 'has-error': form.controls.title.dirty && form.controls.title.errors && editMode}">
+			<div *ngIf="!editMode" class="title-view">{{ blog.title }}</div>
+			<input *ngIf="editMode" type="text" name="title" class="form-control card-title" maxlength="100" size="100" placeholder="Title" autocomplete="off" formControlName="title" [(ngModel)]="blog.title" [autofocus]="true">
 			<div class="form-error-msg">
-				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i
-						class="fa fa-times"></i>This field is required</div>
-				<div
-					*ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
+				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i class="fa fa-times"></i>This field is required</div>
+				<div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
 					<i class="fa fa-times"></i>Min length: 2, Max length: 100
 				</div>
-				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i
-						class="fa fa-times"></i>Must be alphanumeric</div>
+				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i class="fa fa-times"></i>Must be alphanumeric</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="form-group">
-		<label for="body"></label>
-		<div
-			[ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
-			<textarea contenteditable="true" name="body" rows="8" cols="80" placeholder="Body"
-				class="form-control card-text" maxlength="50000" formControlName="body"
-				[(ngModel)]="blog.body"></textarea>
-			<div class="form-error-msg">
-				<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i
-						class="fa fa-times"></i>This field is required</div>
-				<div
-					*ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">
-					<i class="fa fa-times"></i>Min length: 2, Max length: 50000
-				</div>
-			</div>
-		</div>
-	</div>
-	<span style="opacity: 0.8;">Only these tags are allowed: p, b, i, u, s, font, strong, br, ol, li</span><br><br>
+	<app-quill-editor [ngClass]="toolbarClass"></app-quill-editor>
+	<br>
 
-	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
-		(click)="goBack()">Back</button>
-	<a [routerLink]="['/delete-blog/', blog._id]">
-		<button [disabled]="processing" type="button" name="button"
-			class="btn btn-sm btn-danger btn-margin-left">Delete</button>
+	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
+
+	<button *ngIf="authService.loggedIn() && username === blog.createdBy && !editMode" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left" (click)="enterEdit()">Edit</button>
+
+	<a *ngIf="editMode" [routerLink]="['/delete-blog/', blog._id]">
+		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left">Delete</button>
 	</a>
 	<!-- 	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="resetForm()">Clear</button> -->
-	<button [disabled]="!form.valid || processing" type="submit" name="save"
-		class="btn btn-sm btn-info btn-margin-left">Save Changes</button>
+	<button *ngIf="editMode" [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2" type="submit" name="save" class="btn btn-sm btn-info btn-margin-left">Save Changes</button>
 </form>

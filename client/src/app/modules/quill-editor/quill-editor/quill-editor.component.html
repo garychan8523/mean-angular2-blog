@@ -1,0 +1,6 @@
+<div id="editor"
+    [ngClass]="{'ql-valid': isContentValid && isContentDirty && isEditing, 'ql-invalid': !isContentValid && isContentDirty && isEditing}">
+</div>
+
+<span *ngIf="isEditing" class="ql-counter">{{ blogLength-1 || 0 }} / 50000</span>
+<!-- Value: {{ blogContent | json }} -->

@@ -14,7 +14,7 @@ module.exports = (router) => {
         } else {
             const blog = new Blog({
                 title: req.body.title.replace(/<\/?.*?>/g, ''),
-                body: req.body.body.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
+                body: req.body.body,
                 createdBy: req.body.createdBy,
                 createdAt: Date.now() + new Date().getTimezoneOffset()
             });
@@ -38,7 +38,7 @@ module.exports = (router) => {
         }
     });
 
-    router.get('/singleBlog/:id', checkAuth, (req, res) => {
+    router.get('/singleBlog/:id', (req, res) => {
         if (!req.params.id) {
             res.json({ success: false, message: 'No blog id provided' });
         } else {
@@ -49,21 +49,22 @@ module.exports = (router) => {
                     if (!blog) {
                         res.json({ success: false, message: 'Blog not found' });
                     } else {
-                        User.findOne({ _id: req.decoded.userId }, (err, user) => {
-                            if (err) {
-                                res.json({ success: false, message: err });
-                            } else {
-                                if (!user) {
-                                    res.json({ success: false, message: 'Unable to authenticate user' });
-                                } else {
-                                    if (user.username !== blog.createdBy) {
-                                        res.json({ success: false, message: 'Not authorized' });
-                                    } else {
-                                        res.json({ success: true, blog: blog });
-                                    }
-                                }
-                            }
-                        });
+                        res.json({ success: true, blog: blog });
+                        // User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                        //     if (err) {
+                        //         res.json({ success: false, message: err });
+                        //     } else {
+                        //         if (!user) {
+                        //             res.json({ success: false, message: 'Unable to authenticate user' });
+                        //         } else {
+                        //             if (user.username !== blog.createdBy) {
+                        //                 res.json({ success: false, message: 'Not authorized' });
+                        //             } else {
+                        //                 res.json({ success: true, blog: blog });
+                        //             }
+                        //         }
+                        //     }
+                        // });
                     }
                 }
             });
