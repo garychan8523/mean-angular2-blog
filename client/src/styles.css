@@ -97,12 +97,21 @@ body {
 
 .btn-transparent{
 	color: #fff;
+	opacity: 0.8;
+}
+
+.btn-transparent:hover{
+	color: #fff;
+}
+
+.btn-transparent-outline{
+	color: #fff;
 	border-color: #fff;
 	border-width: 2px;
 	opacity: 0.8;
 }
 
-.btn-transparent:hover{
+.btn-transparent-outline:hover{
 	color: #fff;
 	border-color: #ccc;
 	border-width: 2px;
