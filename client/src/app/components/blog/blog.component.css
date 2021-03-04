@@ -84,6 +84,10 @@ button.close{
 	margin: 0 auto 15px auto;
 }
 
+.no-margin{
+	margin-bottom: 0;
+}
+
 .card-title-box{
 	display: inline-block;
 	cursor: pointer;
@@ -212,4 +216,8 @@ button[disabled] {
 
 .blog-operation-button-group {
 	margin-top: 25px;
+}
+
+.leadin-textarea {
+	height: 120px;
 }

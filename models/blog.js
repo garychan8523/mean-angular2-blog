@@ -27,6 +27,22 @@ const titleValidators = [
   }
 ];
 
+let leadinLengthChecker = (leadin) => {
+  if (!leadin) return false;
+  else if (leadin.length > 200) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const leadinValidators = [
+  {
+    validator: leadinLengthChecker,
+    message: 'lead-in must be no more than 200 characters'
+  }
+];
+
 // backend would accept up to 60000 for json syntax overhead
 let bodyLengthChecker = (body) => {
   if (!body) return false;
@@ -63,6 +79,7 @@ const commentValidators = [
 
 const blogSchema = new Schema({
   title: { type: String, required: true, validate: titleValidators },
+  leadin: { type: String, validate: leadinValidators },
   body: { type: String, required: true, validate: bodyValidators },
   createdBy: { type: String },
   createdAt: { type: Date, default: Date.now() },
