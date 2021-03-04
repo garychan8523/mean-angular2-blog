@@ -94,8 +94,10 @@ module.exports = (router) => {
                                         res.json({ success: false, message: 'Not authorized.' });
                                     } else {
                                         blog.title = req.body.title.replace(/<\/?.*?>/g, '');
-                                        blog.leadin = req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
-                                            blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
+                                        if (req.body.leadin) {
+                                            blog.leadin = req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
+                                        }
+                                        blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
                                         blog.save((err) => {
                                             if (err) {
                                                 console.log(err);

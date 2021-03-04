@@ -157,7 +157,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         this.blog = (Object.assign({}, this.dataRegister.blog));
         // this.leadinView = this.blog.leadin.replace(/\n/g, "<br>");
         this.leadinView = this.blog.leadin;
-        this.blog.leadin = this.blog.leadin.replace(/<br>/g, "\n");
+        if (this.blog.leadin) {
+          this.blog.leadin = this.blog.leadin.replace(/<br>/g, "\n");
+        }
         this.storedBlog = Object.assign({}, this.blog);
         this.processing = false;
         this.form.controls['title'].enable();

@@ -28,8 +28,7 @@ const titleValidators = [
 ];
 
 let leadinLengthChecker = (leadin) => {
-  if (!leadin) return false;
-  else if (leadin.length > 200) {
+  if (leadin && leadin.length > 200) {
     return false;
   } else {
     return true;
