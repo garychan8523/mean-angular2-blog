@@ -142,14 +142,14 @@
 			<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
 				<span class="dropdown">
 					<button disabled type="button" name="button" class="btn btn-sm btn-upvote owner">
-						<span class="far fa-thumbs-up"></span>{{ blog.likes }}</button>
+						<span class="far fa-thumbs-up"></span> {{ blog.likes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
 					</div>
 				</span>
 				<span class="dropdown">
 					<button disabled type="button" name="button" class="btn btn-sm btn-downvote owner">
-						<span class="far fa-thumbs-down"></span>{{ blog.dislikes }}</button>
+						<span class="far fa-thumbs-down"></span> {{ blog.dislikes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
 							disliker }}</a>
@@ -160,14 +160,14 @@
 			<span *ngIf="authService.loggedIn() && (username !== blog.createdBy)">
 				<span class="dropdown">
 					<button [disabled]="blog.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="likeBlog(blog._id)">
-						<span class="far fa-thumbs-up"></span>{{ blog.likes }}</button>
+						<span class="far fa-thumbs-up"></span> {{ blog.likes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
 					</div>
 				</span>
 				<span class="dropdown">
 					<button [disabled]="blog.dislikedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="dislikeBlog(blog._id)">
-						<span class="far fa-thumbs-down"></span>{{ blog.dislikes }}</button>
+						<span class="far fa-thumbs-down"></span> {{ blog.dislikes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
 							disliker }}</a>
@@ -176,7 +176,7 @@
 			</span>
 
 			<button [disabled]="newComment.indexOf(blog._id) > -1" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment(blog._id)">
-				<span class="far fa-comments"></span></button>
+				<span class="far fa-comments"></span> 0</button>
 			<span *ngIf="authService.loggedIn() && username === blog.createdBy">
 				<!-- <a [routerLink]="['/blog/', blog._id]"><button type="button" name="button"
 						class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a> -->
@@ -184,8 +184,8 @@
 				<!-- <a (click)="deleteBlogPopup(blog)"><button type="button" name="button" class="btn btn-sm btn-nobg"><span
 							class="fa fa-trash-o"></span></button></a> -->
 			</span>
-			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)"><span class="fa fa-eye"></span></button>
-			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)"><span class="fa fa-eye-slash"></span></button>
+			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)"><span class="far fa-eye"></span> 0</button>
+			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)"><span class="far fa-eye-slash"></span> 0</button>
 			<!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)">Show comments</span> -->
 			<!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)">Hide comments</span> -->
 
