@@ -14,10 +14,10 @@
 
 <div class="overlay" (click)="goBack()" *ngIf="overlay"></div>
 
-<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" (click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
+<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" (click)="newBlogForm()"><span class="far fa-edit"></span> <b>New</b></button>
 
 <button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" *ngIf="!newPost" (click)="reloadBlogs()">
-	<span class="fa fa-refresh"></span>Refresh</button>
+	<span class="fas fa-redo-alt"></span> Refresh</button>
 
 <br>
 <!-- new blog form -->
@@ -142,14 +142,14 @@
 			<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
 				<span class="dropdown">
 					<button disabled type="button" name="button" class="btn btn-sm btn-upvote owner">
-						<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
+						<span class="far fa-thumbs-up"></span>{{ blog.likes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
 					</div>
 				</span>
 				<span class="dropdown">
 					<button disabled type="button" name="button" class="btn btn-sm btn-downvote owner">
-						<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
+						<span class="far fa-thumbs-down"></span>{{ blog.dislikes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
 							disliker }}</a>
@@ -160,14 +160,14 @@
 			<span *ngIf="authService.loggedIn() && (username !== blog.createdBy)">
 				<span class="dropdown">
 					<button [disabled]="blog.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="likeBlog(blog._id)">
-						<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
+						<span class="far fa-thumbs-up"></span>{{ blog.likes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
 					</div>
 				</span>
 				<span class="dropdown">
 					<button [disabled]="blog.dislikedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="dislikeBlog(blog._id)">
-						<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
+						<span class="far fa-thumbs-down"></span>{{ blog.dislikes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
 							disliker }}</a>
@@ -176,7 +176,7 @@
 			</span>
 
 			<button [disabled]="newComment.indexOf(blog._id) > -1" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment(blog._id)">
-				<span class="fa fa-comments-o"></span>Comment</button>
+				<span class="far fa-comments"></span></button>
 			<span *ngIf="authService.loggedIn() && username === blog.createdBy">
 				<!-- <a [routerLink]="['/blog/', blog._id]"><button type="button" name="button"
 						class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a> -->
