@@ -19,7 +19,7 @@
 		</div>
 
 		<div [ngClass]="{'title-view': !editMode,'has-success': form.controls.leadin.valid && editMode, 'has-error': form.controls.leadin.dirty && form.controls.leadin.errors && editMode}">
-			<textarea *ngIf="editMode" [disabled]="processing" name="leadin" class="form-control card-title leadin-textarea" maxlength="200" placeholder="Lead-in" formControlName="leadin" [(ngModel)]="blog.leadin" [autofocus]="true"></textarea>
+			<textarea *ngIf="editMode" [disabled]="processing" name="leadin" class="form-control leadin-view leadin-textarea" maxlength="200" placeholder="Lead-in" formControlName="leadin" [(ngModel)]="blog.leadin" [autofocus]="true"></textarea>
 			<div class="form-error-msg">
 				<div *ngIf="(form.controls.leadin.dirty && form.controls.leadin.errors?.maxlength)">
 					<i class="fa fa-times"></i>Max length: 200
