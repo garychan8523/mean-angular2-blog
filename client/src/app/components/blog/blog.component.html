@@ -38,10 +38,10 @@
 	<!-- leadin input -->
 	<!-- <label for="title"></label> -->
 	<div [ngClass]="{'has-success': form.controls.leadin.dirty && form.controls.leadin.valid, 'has-error': form.controls.leadin.dirty && form.controls.leadin.errors}">
-		<textarea [disabled]="processing" name="leadin" class="form-control card-title leadin-textarea" maxlength="200" placeholder="Lead-in" formControlName="leadin" [autofocus]="true"></textarea>
+		<textarea [disabled]="processing" name="leadin" class="form-control card-title leadin-textarea" maxlength="300" placeholder="Lead-in" formControlName="leadin" [autofocus]="true"></textarea>
 		<div class="form-error-msg">
 			<div *ngIf="(form.controls.leadin.dirty && form.controls.leadin.errors?.maxlength)">
-				<i class="fa fa-times"></i>Max length: 200
+				<i class="fa fa-times"></i>Max length: 300
 			</div>
 		</div>
 	</div>

@@ -83,7 +83,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         Validators.minLength(2)
       ])],
       leadin: [{ value: '', disabled: true }, Validators.compose([
-        Validators.maxLength(200)
+        Validators.maxLength(300)
       ])]
     });
   }

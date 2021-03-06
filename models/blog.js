@@ -28,7 +28,7 @@ const titleValidators = [
 ];
 
 let leadinLengthChecker = (leadin) => {
-  if (leadin && leadin.length > 200) {
+  if (leadin && leadin.length > 300) {
     return false;
   } else {
     return true;
@@ -38,7 +38,7 @@ let leadinLengthChecker = (leadin) => {
 const leadinValidators = [
   {
     validator: leadinLengthChecker,
-    message: 'lead-in must be no more than 200 characters'
+    message: 'lead-in must be no more than 300 characters'
   }
 ];
 

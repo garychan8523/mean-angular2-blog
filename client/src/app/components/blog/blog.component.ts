@@ -66,7 +66,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
         //this.specialCharacterValidation
       ])],
       leadin: ['', Validators.compose([
-        Validators.maxLength(200),
+        Validators.maxLength(300),
         //this.specialCharacterValidation
       ])]
     });
