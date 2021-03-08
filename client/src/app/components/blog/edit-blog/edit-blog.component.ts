@@ -27,6 +27,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
   dataRegister: any = {};
   toolbarClass;
   editMode = false;
+  leadinView;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,12 +45,14 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
     if (bool) {
       this.editMode = true;
       this.form.controls['title'].enable();
+      this.form.controls['leadin'].enable();
       this.showToolbar(true);
       this.editorComponent.setEditing(true);
       this.editorComponent.quill.enable(true);
     } else {
       this.editMode = false;
       this.form.controls['title'].disable();
+      this.form.controls['leadin'].disable();
       this.showToolbar(false);
       this.editorComponent.setEditing(false);
       this.editorComponent.quill.enable(false);
@@ -78,6 +81,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         Validators.required,
         Validators.maxLength(100),
         Validators.minLength(2)
+      ])],
+      leadin: [{ value: '', disabled: true }, Validators.compose([
+        Validators.maxLength(300)
       ])]
     });
   }
@@ -85,9 +91,11 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
   updateBlogSubmit() {
     this.processing = true;
     this.form.controls['title'].disable();
+    this.form.controls['leadin'].disable();
     this.showToolbar(false);
     this.editorComponent.quill.enable(false);
 
+    // this.blog.leadin = this.blog.leadin.replace(/\n/g, "<br>");
     this.blog.body = JSON.stringify(this.editorComponent.quill.getContents());
 
     this.blogService.editBlog(this.blog).subscribe(data => {
@@ -97,6 +105,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         this.message = this.dataRegister.message.errors.title.message || "Error";
         this.processing = false;
         this.form.controls['title'].enable();
+        this.form.controls['leadin'].enable();
         this.showToolbar(true);
         this.editorComponent.quill.enable(true);
       } else {
@@ -132,7 +141,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
     this.authService.getProfile().subscribe(profile => {
       this.dataRegister = profile;
       if (!this.dataRegister.success) {
-        //this.authService.logout();
+        this.authService.logout();
         //window.location.reload();
       } else {
         this.username = this.dataRegister.user.username;
@@ -145,10 +154,16 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         this.messageClass = 'alert alert-danger';
         this.message = this.dataRegister.message;
       } else {
-        this.blog = Object.assign({}, this.dataRegister.blog);
-        this.storedBlog = Object.assign({}, this.dataRegister.blog);
+        this.blog = (Object.assign({}, this.dataRegister.blog));
+        // this.leadinView = this.blog.leadin.replace(/\n/g, "<br>");
+        this.leadinView = this.blog.leadin;
+        if (this.blog.leadin) {
+          this.blog.leadin = this.blog.leadin.replace(/<br>/g, "\n");
+        }
+        this.storedBlog = Object.assign({}, this.blog);
         this.processing = false;
         this.form.controls['title'].enable();
+        this.form.controls['leadin'].enable();
         //this.loading = false;
       }
     });

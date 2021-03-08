@@ -63,6 +63,7 @@
 	font-size: 2rem;
 	font-weight: 600;
 	letter-spacing: 1px;
+	transition: none;
 }
 
 .title-view input[name="title"] {
@@ -73,4 +74,18 @@
 
 .title-view input {
 	background-color: #f8f8fe;
+}
+
+.leadin-view {
+	padding: 12px 15px;
+	margin-top: 10px;
+	font-size: 1em;
+	letter-spacing: 0.6px;
+	text-align: justify;
+	font-family: Helvetica, Arial, sans-serif;
+	transition: none;
+}
+
+.leadin-textarea {
+	height: 120px;
 }

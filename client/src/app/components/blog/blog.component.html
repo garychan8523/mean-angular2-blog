@@ -14,33 +14,39 @@
 
 <div class="overlay" (click)="goBack()" *ngIf="overlay"></div>
 
-<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost"
-	(click)="newBlogForm()"><span class="fa fa-pencil-square-o"></span>New</button>
+<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" (click)="newBlogForm()"><span class="far fa-edit"></span> <b>New</b></button>
 
-<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left"
-	*ngIf="!newPost" (click)="reloadBlogs()">
-	<span class="fa fa-refresh"></span>Refresh</button>
+<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" *ngIf="!newPost" (click)="reloadBlogs()">
+	<span class="fas fa-redo-alt"></span> Refresh</button>
 
+<br>
 <!-- new blog form -->
 <form [formGroup]="form" name="blogForm" [ngClass]="{'editmode': newPost}" (submit)="onBlogSubmit()" *ngIf="newPost">
 	<!-- title input -->
-	<label for="title"></label>
-	<div
-		[ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-		<input [disabled]="processing" type="text" name="title" class="form-control card-title" maxlength="70"
-			placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
+	<!-- <label for="title"></label> -->
+	<div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+		<input [disabled]="processing" type="text" name="title" class="form-control card-title" maxlength="70" placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
 		<div class="form-error-msg">
-			<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i
-					class="fa fa-times"></i>This field is required</div>
-			<div
-				*ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
+			<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i class="fa fa-times"></i>This field is required</div>
+			<div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
 				<i class="fa fa-times"></i>Min length: 2, Max length: 100
 			</div>
-			<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i
-					class="fa fa-times"></i>Must be alphanumeric</div>
 		</div>
 	</div>
 	<!-- title input -->
+
+	<!-- leadin input -->
+	<!-- <label for="title"></label> -->
+	<div [ngClass]="{'has-success': form.controls.leadin.dirty && form.controls.leadin.valid, 'has-error': form.controls.leadin.dirty && form.controls.leadin.errors}">
+		<textarea [disabled]="processing" name="leadin" class="form-control leadin-view leadin-textarea" maxlength="300" placeholder="Lead-in (optional)" formControlName="leadin" [autofocus]="true"></textarea>
+		<div class="form-error-msg">
+			<div *ngIf="(form.controls.leadin.dirty && form.controls.leadin.errors?.maxlength)">
+				<i class="fa fa-times"></i>Max length: 300
+			</div>
+		</div>
+	</div>
+	<!-- leadin input -->
+
 	<!-- body input -->
 	<div>
 		<app-quill-editor></app-quill-editor>
@@ -57,12 +63,9 @@
 	</div>
 	<!-- body input -->
 	<div class="blog-operation-button-group">
-		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
-			(click)="checkDiscard()">Back</button>
-		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left"
-			(click)="resetForm()">Clear</button>
-		<button [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2" type="submit"
-			name="button" class="btn btn-sm btn-info btn-margin-left">Submit</button>
+		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="checkDiscard()">Back</button>
+		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left" (click)="resetForm()">Clear</button>
+		<button [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2" type="submit" name="button" class="btn btn-sm btn-info btn-margin-left">Submit</button>
 	</div>
 </form>
 <!-- new blog form -->
@@ -73,18 +76,15 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">Confirm discard</h5>
-				<button type="button" name="button" class="close" data-dismiss="modal"
-					(click)="closeDiscardBlogPopup()">&times;</button>
+				<button type="button" name="button" class="close" data-dismiss="modal" (click)="closeDiscardBlogPopup()">&times;</button>
 			</div>
 			<div class="modal-body">
 				<p>Are you sure to discard this blog? Changes will be lost. You
 					can use draft to save the blog with unpublished state.</p>
 			</div>
 			<div class="modal-footer">
-				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
-					(click)="closeDiscardBlogPopup()">Back</button>
-				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger"
-					(click)="discardBlog()">Discard</button>
+				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="closeDiscardBlogPopup()">Back</button>
+				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="discardBlog()">Discard</button>
 			</div>
 		</div>
 	</div>
@@ -97,8 +97,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">Confirm deletion</h5>
-				<button type="button" name="button" class="close" data-dismiss="modal"
-					(click)="goBack()">&times;</button>
+				<button type="button" name="button" class="close" data-dismiss="modal" (click)="goBack()">&times;</button>
 			</div>
 			<div class="modal-body">
 				<p>Are you sure to delete this blog? We won't be able to find it anymore after deletion completed. You
@@ -117,10 +116,8 @@
 
 			</div>
 			<div class="modal-footer">
-				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
-					(click)="goBack()">Back</button>
-				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger"
-					(click)="deleteBlog()">Delete</button>
+				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
+				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteBlog()">Delete</button>
 			</div>
 		</div>
 	</div>
@@ -134,10 +131,10 @@
 	<div id="{{ blog._id }}" class="card" *ngFor="let blog of blogPosts">
 		<div class="card-body">
 			<div [routerLink]="['/blog/', blog._id]" class="card-title-box">
-				<h5 class="card-title">{{ blog.title }}</h5>
+				<h5 class="card-title" [ngClass]="{'no-margin': !blog.leadin}">{{ blog.title }}</h5>
 			</div>
 			<!-- <p class="card-text">{{ blog.body }}</p> -->
-			<p class="card-text"><span [innerHTML]="blog.body"></span></p>
+			<p class="card-text"><span [innerHTML]="blog.leadin"></span></p>
 		</div>
 		<div class="card-footer">
 			<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
@@ -145,14 +142,14 @@
 			<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
 				<span class="dropdown">
 					<button disabled type="button" name="button" class="btn btn-sm btn-upvote owner">
-						<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
+						<span class="far fa-thumbs-up"></span> {{ blog.likes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
 					</div>
 				</span>
 				<span class="dropdown">
 					<button disabled type="button" name="button" class="btn btn-sm btn-downvote owner">
-						<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
+						<span class="far fa-thumbs-down"></span> {{ blog.dislikes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
 							disliker }}</a>
@@ -162,17 +159,15 @@
 
 			<span *ngIf="authService.loggedIn() && (username !== blog.createdBy)">
 				<span class="dropdown">
-					<button [disabled]="blog.likedBy.indexOf(username) > -1" type="button" name="button"
-						class="btn btn-sm btn-nobg" (click)="likeBlog(blog._id)">
-						<span class="fa fa-thumbs-up"></span>{{ blog.likes }}</button>
+					<button [disabled]="blog.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="likeBlog(blog._id)">
+						<span class="far fa-thumbs-up"></span> {{ blog.likes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', liker]" href="#" *ngFor="let liker of blog.likedBy">{{ liker }}</a>
 					</div>
 				</span>
 				<span class="dropdown">
-					<button [disabled]="blog.dislikedBy.indexOf(username) > -1" type="button" name="button"
-						class="btn btn-sm btn-nobg" (click)="dislikeBlog(blog._id)">
-						<span class="fa fa-thumbs-down"></span>{{ blog.dislikes }}</button>
+					<button [disabled]="blog.dislikedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-sm btn-nobg" (click)="dislikeBlog(blog._id)">
+						<span class="far fa-thumbs-down"></span> {{ blog.dislikes }}</button>
 					<div class="dropdown-content">
 						<a [routerLink]="['/user/', disliker]" href="#" *ngFor="let disliker of blog.dislikedBy">{{
 							disliker }}</a>
@@ -180,9 +175,8 @@
 				</span>
 			</span>
 
-			<button [disabled]="newComment.indexOf(blog._id) > -1" type="button" name="button"
-				class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment(blog._id)">
-				<span class="fa fa-comments-o"></span>Comment</button>
+			<button [disabled]="newComment.indexOf(blog._id) > -1" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="authService.loggedIn()" (click)="draftComment(blog._id)">
+				<span class="far fa-comments"></span> 0</button>
 			<span *ngIf="authService.loggedIn() && username === blog.createdBy">
 				<!-- <a [routerLink]="['/blog/', blog._id]"><button type="button" name="button"
 						class="btn btn-sm btn-nobg"><span class="fa fa-pencil"></span></button></a> -->
@@ -190,21 +184,15 @@
 				<!-- <a (click)="deleteBlogPopup(blog)"><button type="button" name="button" class="btn btn-sm btn-nobg"><span
 							class="fa fa-trash-o"></span></button></a> -->
 			</span>
-			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg"
-				*ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0"
-				(click)="expand(blog._id)"><span class="fa fa-eye"></span></button>
-			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg"
-				*ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)"><span
-					class="fa fa-eye-slash"></span></button>
+			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)"><span class="far fa-eye"></span> 0</button>
+			<button style="padding-right: 0" type="button" name="button" class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)"><span class="far fa-eye-slash"></span> 0</button>
 			<!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" (click)="expand(blog._id)">Show comments</span> -->
 			<!-- <span class="btn btn-sm btn-nobg" *ngIf="enabledComments.indexOf(blog._id) > -1" (click)="collapse(blog._id)">Hide comments</span> -->
 
 			<div *ngIf="newComment.indexOf(blog._id) > -1" style="padding-bottom: 5px;">
 				<form [formGroup]="commentForm">
 					<div [ngClass]="{'has-success': commentForm.controls.comment.valid}">
-						<textarea
-							style="margin-top: 4px; margin-bottom: 10px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px); font-size: 0.92rem;"
-							name="comment" rows="4" cols="30" class="form-control" formControlName="comment"></textarea>
+						<textarea style="margin-top: 4px; margin-bottom: 10px; margin-left: 10px; margin-right: 10px; width: calc(100% - 20px); font-size: 0.92rem;" name="comment" rows="4" cols="30" class="form-control" formControlName="comment"></textarea>
 					</div>
 					<!-- <div [ngClass]="">
                         <ul class="help-block">
@@ -212,10 +200,8 @@
                             <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) || (commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment length must between 2 to 50000 characters.</li>
                         </ul>
                     </div> -->
-					<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
-						(click)="cancelSubmission(blog._id)">Back</button>
-					<button [disabled]="!commentForm.valid || processing" type="submit" name="button"
-						class="btn btn-sm btn-info btn-margin-left" (click)="postComment(blog._id)">Submit</button>
+					<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="cancelSubmission(blog._id)">Back</button>
+					<button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info btn-margin-left" (click)="postComment(blog._id)">Submit</button>
 				</form>
 			</div>
 

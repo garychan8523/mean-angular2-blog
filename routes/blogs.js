@@ -14,6 +14,7 @@ module.exports = (router) => {
         } else {
             const blog = new Blog({
                 title: req.body.title.replace(/<\/?.*?>/g, ''),
+                leadin: req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
                 body: req.body.body,
                 createdBy: req.body.createdBy,
                 createdAt: Date.now() + new Date().getTimezoneOffset()
@@ -93,9 +94,15 @@ module.exports = (router) => {
                                         res.json({ success: false, message: 'Not authorized.' });
                                     } else {
                                         blog.title = req.body.title.replace(/<\/?.*?>/g, '');
+                                        if (req.body.leadin) {
+                                            blog.leadin = req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
+                                        } else if (req.body.leadin.length == 0) {
+                                            blog.leadin = '';
+                                        }
                                         blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
                                         blog.save((err) => {
                                             if (err) {
+                                                console.log(err);
                                                 res.json({ success: false, message: err });
                                             } else {
                                                 res.json({ success: true, message: 'blog updated.' });

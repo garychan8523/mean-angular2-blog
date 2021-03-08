@@ -15,7 +15,7 @@ import { QuillEditorComponent } from '../../modules/quill-editor/quill-editor/qu
 
 export class BlogComponent implements OnInit, AfterViewInit {
 
-  pageTitle = "Blog Feed";
+  pageTitle = "Feed";
   messageClass;
   message = false;
   notificationClass;
@@ -64,6 +64,10 @@ export class BlogComponent implements OnInit, AfterViewInit {
         Validators.maxLength(100),
         Validators.minLength(2),
         //this.specialCharacterValidation
+      ])],
+      leadin: ['', Validators.compose([
+        Validators.maxLength(300),
+        //this.specialCharacterValidation
       ])]
     });
   }
@@ -88,10 +92,12 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
   enableFormNewBlogForm() {
     this.form.get('title').enable();
+    this.form.get('leadin').enable();
   }
 
   disableFormNewBlogForm() {
     this.form.get('title').disable();
+    this.form.get('leadin').disable();
   }
 
   // specialCharacterValidation(controls) {
@@ -110,7 +116,9 @@ export class BlogComponent implements OnInit, AfterViewInit {
   }
 
   checkDiscard() {
-    if ((this.form.get('title').value && this.form.get('title').value.length > 0) || (this.editorComponent.getQuillTextLength() && this.editorComponent.getQuillTextLength() > 1)) {
+    if ((this.form.get('title').value && this.form.get('title').value.length > 0)
+      || (this.form.get('leadin').value && this.form.get('leadin').value.length > 0)
+      || (this.editorComponent.getQuillTextLength() && this.editorComponent.getQuillTextLength() > 1)) {
       this.discardBlogPopup();
     } else {
       this.resetForm();
@@ -161,6 +169,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
     const blog = {
       title: this.form.get('title').value,
+      leadin: this.form.get('leadin').value,
       body: JSON.stringify(this.editorComponent.quill.getContents()),
       createdBy: this.username
     }
@@ -178,7 +187,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
         this.getAllBlogs();
         setTimeout(() => {
           this.newPost = false;
-          this.pageTitle = "Blog Feed";
+          this.pageTitle = "Feed";
           this.processing = false;
           this.message = false;
           this.form.reset();
@@ -221,7 +230,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
     this.eventEmitterService.updateNavbarStatus('show');
     this.overlay = false;
     this.newPost = false;
-    this.pageTitle = "Blog Feed";
+    this.pageTitle = "Feed";
     this.deleteBlogDisplay = false;
     this.discardBlogDisplay = false;
   }
@@ -235,6 +244,9 @@ export class BlogComponent implements OnInit, AfterViewInit {
     this.blogService.getAllBlogs().subscribe(data => {
       this.dataRegister = data
       this.blogPosts = this.dataRegister.blogs;
+      this.blogPosts.array.forEach(blog => {
+        blog.leadin = blog.leadin.replace(/\n/g, "<br>");
+      });
     });
   }
 

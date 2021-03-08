@@ -7,7 +7,6 @@
 
 <form [formGroup]="form" (submit)="updateBlogSubmit()" [ngClass]="{'viewmode': !editMode, 'editmode': editMode, 'view-offset': !editMode}" class="view-container" *ngIf="!loading">
 	<div class="form-group">
-		<label for="title"></label>
 		<div [ngClass]="{'title-view': !editMode,'has-success': form.controls.title.valid && editMode, 'has-error': form.controls.title.dirty && form.controls.title.errors && editMode}">
 			<div *ngIf="!editMode" class="title-view">{{ blog.title }}</div>
 			<input *ngIf="editMode" type="text" name="title" class="form-control card-title" maxlength="100" size="100" placeholder="Title" autocomplete="off" formControlName="title" [(ngModel)]="blog.title" [autofocus]="true">
@@ -16,9 +15,21 @@
 				<div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
 					<i class="fa fa-times"></i>Min length: 2, Max length: 100
 				</div>
-				<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation"><i class="fa fa-times"></i>Must be alphanumeric</div>
 			</div>
 		</div>
+
+		<div [ngClass]="{'title-view': !editMode,'has-success': form.controls.leadin.valid && editMode, 'has-error': form.controls.leadin.dirty && form.controls.leadin.errors && editMode}">
+			<textarea *ngIf="editMode" [disabled]="processing" name="leadin" class="form-control leadin-view leadin-textarea" maxlength="300" placeholder="Lead-in (optional)" formControlName="leadin" [(ngModel)]="blog.leadin" [autofocus]="true"></textarea>
+			<div class="form-error-msg">
+				<div *ngIf="(form.controls.leadin.dirty && form.controls.leadin.errors?.maxlength)">
+					<i class="fa fa-times"></i>Max length: 300
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div [ngClass]="{'leadin-view': !editMode}">
+		<p *ngIf="!editMode" class="ql-align-justify" [innerHTML]="leadinView"></p>
 	</div>
 
 	<app-quill-editor [ngClass]="toolbarClass"></app-quill-editor>
