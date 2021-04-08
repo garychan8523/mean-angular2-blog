@@ -127,7 +127,6 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
       this.blog = Object.assign({}, this.storedBlog);
       this.editorComponent.quill.setContents(JSON.parse(this.blog.body).ops);
     } else {
-      this.eventEmitterService.updateNavbarStatus('show');
       this.location.back();
     }
   }

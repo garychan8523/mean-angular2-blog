@@ -9,6 +9,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { ProfileComponent } from './components/profile/profile.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { BlogComponent } from './components/blog/blog.component';
+import { CreateBlogComponent } from './components/blog/create-blog/create-blog.component';
 import { EditBlogComponent } from './components/blog/edit-blog/edit-blog.component';
 import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -46,6 +47,11 @@ const appRoutes: Routes = [
   {
     path: 'privacy-policy',
     component: PrivacyPolicyComponent
+  },
+  {
+    path: 'blog/create',
+    component: CreateBlogComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'blog/:id',

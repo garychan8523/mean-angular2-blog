@@ -14,8 +14,7 @@
 
 <div class="overlay" (click)="goBack()" *ngIf="overlay"></div>
 
-<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" (click)="newBlogForm()"><span class="far fa-edit"></span> <b>New</b></button>
-
+<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" routerLink="/blog/create"><span class="far fa-edit"></span> <b>Create</b></button>
 <button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" *ngIf="!newPost" (click)="reloadBlogs()">
 	<span class="fas fa-redo-alt"></span> Refresh</button>
 

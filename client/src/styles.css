@@ -129,7 +129,7 @@ body {
 	width: 100%;
 	height: 70px;
 	margin: 0;
-	display: flex;
+	display: grid;
 	flex-wrap: wrap;
 }
 
@@ -151,11 +151,11 @@ body {
 	border: none;
 }
 
-@media (min-width: 768px){
+/* @media (min-width: 768px){
 	.alert{
 		margin: auto;
 	}
-}
+} */
 
 .alert p {
 	display: inline;
@@ -163,7 +163,6 @@ body {
 
 .alert-alert-info {
 	padding: .4rem 1.25rem;
-	margin: auto;
 	display:inline-block;
 	z-index: 150;
 	border: none;

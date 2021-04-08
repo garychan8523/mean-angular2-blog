@@ -29,6 +29,7 @@ import { EditBlogComponent } from './components/blog/edit-blog/edit-blog.compone
 import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { CreateBlogComponent } from './components/blog/create-blog/create-blog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
     EditBlogComponent,
     DeleteBlogComponent,
     PublicProfileComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    CreateBlogComponent
   ],
   imports: [
     BrowserModule,

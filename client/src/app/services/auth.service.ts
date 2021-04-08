@@ -97,6 +97,9 @@ export class AuthService {
 
   // Function to check if user is logged in
   loggedIn() {
+    if (!this.authToken) {
+      this.loadToken();
+    }
     return !this.helper.isTokenExpired(this.authToken);
   }
 
