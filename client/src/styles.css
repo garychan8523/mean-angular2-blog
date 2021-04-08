@@ -2,6 +2,11 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.snow.css';
 
+.headroom--not-top.headroom--pinned .nav-border,
+.headroom--not-top.headroom--unpinned .nav-border {
+	border-bottom: none;
+}
+
 .nonavmode {
 	margin-top: -70px;
 }
