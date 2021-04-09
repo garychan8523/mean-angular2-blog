@@ -31,6 +31,9 @@ import { PublicProfileComponent } from './components/public-profile/public-profi
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { CreateBlogComponent } from './components/blog/create-blog/create-blog.component';
 
+import { RouteReuseStrategy } from '@angular/router';
+import { RouteStrategyService } from './route-strategy.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +67,8 @@ import { CreateBlogComponent } from './components/blog/create-blog/create-blog.c
     NotAuthGuard,
     BlogService,
     SocketService,
-    EventEmitterService
+    EventEmitterService,
+    { provide: RouteReuseStrategy, useClass: RouteStrategyService }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,12 +1,12 @@
-import { Component, OnInit, NgZone, ViewChild, AfterViewInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, NgZone, ViewChild, AfterViewInit, ComponentRef, Directive, ViewContainerRef, ComponentFactoryResolver, Host } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { SocketService } from '../../services/socket.service';
 import { EventEmitterService } from '../../services/event-emitter.service';
 
 import { QuillEditorComponent } from '../../modules/quill-editor/quill-editor/quill-editor.component';
+
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',
@@ -41,8 +41,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
     public authService: AuthService,
     private blogService: BlogService,
     private socketService: SocketService,
-    private eventEmitterService: EventEmitterService,
-    private router: Router
+    private eventEmitterService: EventEmitterService
   ) {
     this.createNewBlogForm();
     this.createCommentForm();

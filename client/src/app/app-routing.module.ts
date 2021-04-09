@@ -59,7 +59,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'blog',
-    component: BlogComponent
+    component: BlogComponent,
+    data: { shouldReuse: true, showNavbar: true }
   },
   {
     path: 'delete-blog/:id',
