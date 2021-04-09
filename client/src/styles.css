@@ -7,14 +7,6 @@
 	border-bottom: none;
 }
 
-.nonavmode {
-	margin-top: -70px;
-}
-
-.page-header.nonavmode {
-	padding-bottom: 40px;
-}
-
 .editmode {
 	margin-top: -50px !important;
 }
@@ -128,7 +120,7 @@ body {
 }
 
 .flash-messages {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -136,6 +128,7 @@ body {
 	margin: 0;
 	display: grid;
 	flex-wrap: wrap;
+	z-index: 5000;
 }
 
 .row {

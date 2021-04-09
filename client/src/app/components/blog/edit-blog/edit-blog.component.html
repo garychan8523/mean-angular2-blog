@@ -1,11 +1,4 @@
-<!-- <h5 class="page-header">Edit Blog</h5> -->
-<div class="row" *ngIf="message">
-	<div [ngClass]="messageClass">
-		{{ message }}
-	</div>
-</div>
-
-<form [formGroup]="form" (submit)="updateBlogSubmit()" [ngClass]="{'viewmode': !editMode, 'editmode': editMode, 'view-offset': !editMode}" class="view-container" *ngIf="!loading">
+<form *ngIf="!loading" [formGroup]="form" (submit)="updateBlogSubmit()" [ngClass]="{'viewmode': !editMode, 'editmode': editMode, 'view-offset': !editMode}" class="view-container">
 	<div class="form-group">
 		<div [ngClass]="{'title-view': !editMode,'has-success': form.controls.title.valid && editMode, 'has-error': form.controls.title.dirty && form.controls.title.errors && editMode}">
 			<div *ngIf="!editMode" class="title-view">{{ blog.title }}</div>

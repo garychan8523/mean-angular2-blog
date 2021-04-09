@@ -1,10 +1,4 @@
-<h5 class="page-header" [ngClass]="{'nonavmode': newPost}">{{pageTitle}}</h5>
-
-<div class="row" *ngIf="message">
-	<div [ngClass]="messageClass">
-		{{ message }}
-	</div>
-</div>
+<h5 class="page-header">Feed</h5>
 
 <div class="notification-box" *ngIf="notification">
 	<div [ngClass]="notificationClass">
@@ -12,121 +6,11 @@
 	</div>
 </div>
 
-<div class="overlay" (click)="goBack()" *ngIf="overlay"></div>
+<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn()" routerLink="/blog/create"><span class="far fa-edit"></span> <b>Create</b></button>
+<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" (click)="reloadBlogs()"><span class="fas fa-redo-alt"></span> Refresh</button>
+<br><br>
 
-<button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn() && !newPost" routerLink="/blog/create"><span class="far fa-edit"></span> <b>Create</b></button>
-<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" *ngIf="!newPost" (click)="reloadBlogs()">
-	<span class="fas fa-redo-alt"></span> Refresh</button>
-
-<br>
-<!-- new blog form -->
-<form [formGroup]="form" name="blogForm" [ngClass]="{'editmode': newPost}" (submit)="onBlogSubmit()" *ngIf="newPost">
-	<!-- title input -->
-	<!-- <label for="title"></label> -->
-	<div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-		<input [disabled]="processing" type="text" name="title" class="form-control card-title" maxlength="70" placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
-		<div class="form-error-msg">
-			<div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i class="fa fa-times"></i>This field is required</div>
-			<div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
-				<i class="fa fa-times"></i>Min length: 2, Max length: 100
-			</div>
-		</div>
-	</div>
-	<!-- title input -->
-
-	<!-- leadin input -->
-	<!-- <label for="title"></label> -->
-	<div [ngClass]="{'has-success': form.controls.leadin.dirty && form.controls.leadin.valid, 'has-error': form.controls.leadin.dirty && form.controls.leadin.errors}">
-		<textarea [disabled]="processing" name="leadin" class="form-control leadin-view leadin-textarea" maxlength="300" placeholder="Lead-in (optional)" formControlName="leadin" [autofocus]="true"></textarea>
-		<div class="form-error-msg">
-			<div *ngIf="(form.controls.leadin.dirty && form.controls.leadin.errors?.maxlength)">
-				<i class="fa fa-times"></i>Max length: 300
-			</div>
-		</div>
-	</div>
-	<!-- leadin input -->
-
-	<!-- body input -->
-	<div>
-		<app-quill-editor></app-quill-editor>
-		<!-- <textarea [disabled]="processing" contentEditable="true" name="body" rows="8" cols="80" placeholder="Body"
-			class="form-control card-text" maxlength="50000" formControlName="body"></textarea> -->
-		<!-- <div class="form-error-msg">
-			<div *ngIf="form.controls.body.dirty && form.controls.body.errors?.required"><i class="fa fa-times"></i>This
-				field is required</div>
-			<div
-				*ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">
-				<i class="fa fa-times"></i>Min length: 2, Max length: 50000
-			</div>
-		</div> -->
-	</div>
-	<!-- body input -->
-	<div class="blog-operation-button-group">
-		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="checkDiscard()">Back</button>
-		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left" (click)="resetForm()">Clear</button>
-		<button [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2" type="submit" name="button" class="btn btn-sm btn-info btn-margin-left">Submit</button>
-	</div>
-</form>
-<!-- new blog form -->
-
-<!-- discard blog popup -->
-<div class="popup-modal-wrapper" *ngIf="discardBlogDisplay" (click)="goBack()">
-	<div class="col-md-6 popup-modal" (click)="onEvent($event)">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Confirm discard</h5>
-				<button type="button" name="button" class="close" data-dismiss="modal" (click)="closeDiscardBlogPopup()">&times;</button>
-			</div>
-			<div class="modal-body">
-				<p>Are you sure to discard this blog? Changes will be lost. You
-					can use draft to save the blog with unpublished state.</p>
-			</div>
-			<div class="modal-footer">
-				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="closeDiscardBlogPopup()">Back</button>
-				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="discardBlog()">Discard</button>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- discard blog popup -->
-
-<!-- delete blog popup -->
-<div class="popup-modal-wrapper" *ngIf="deleteBlogDisplay" (click)="goBack()">
-	<div class="col-md-6 popup-modal" (click)="onEvent($event)">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Confirm deletion</h5>
-				<button type="button" name="button" class="close" data-dismiss="modal" (click)="goBack()">&times;</button>
-			</div>
-			<div class="modal-body">
-				<p>Are you sure to delete this blog? We won't be able to find it anymore after deletion completed. You
-					can go back and perform an edit if you only want to modify the content.</p>
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">{{ deleteBlogPost.title }}</h5>
-						<p class="card-text"><span [innerHTML]="deleteBlogPost.body"></span></p>
-					</div>
-					<div class="card-footer">
-						<small class="text-muted"><strong>{{ deleteBlogPost.createdBy }}</strong></small>
-						<small class="text-muted"> {{ deleteBlogPost.createdAt | date: "on dd MMM yyyy 'at' HH:mm"
-							}}</small>
-					</div>
-				</div>
-
-			</div>
-			<div class="modal-footer">
-				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
-				<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteBlog()">Delete</button>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- delete blog popup -->
-
-<br>
-<br>
-
-<div *ngIf="!newPost && !loadingBlogs" style="max-width: 800px; margin: auto;">
+<div *ngIf="!loadingBlogs" style="max-width: 800px; margin: auto;">
 	<div id="{{ blog._id }}" class="card" *ngFor="let blog of blogPosts">
 		<div class="card-body">
 			<div [routerLink]="['/blog/', blog._id]" class="card-title-box">

@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { BlogService } from '../../../services/blog.service';
 import { EventEmitterService } from '../../../services/event-emitter.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 import { QuillEditorComponent } from '../../../modules/quill-editor/quill-editor/quill-editor.component';
 
@@ -16,7 +17,6 @@ import { QuillEditorComponent } from '../../../modules/quill-editor/quill-editor
 export class EditBlogComponent implements OnInit, AfterViewInit {
 
   message;
-  messageClass;
   storedBlog;
   blog;
   form;
@@ -36,7 +36,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private blogService: BlogService,
     private eventEmitterService: EventEmitterService,
-    private router: Router
+    private flashMessagesService: FlashMessagesService
   ) {
     this.createEditBlogForm();
   }
@@ -101,20 +101,17 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
     this.blogService.editBlog(this.blog).subscribe(data => {
       this.dataRegister = data;
       if (!this.dataRegister.success) {
-        this.messageClass = 'alert alert-danger';
         this.message = this.dataRegister.message.errors.title.message || "Error";
+        this.flashMessagesService.show(this.message, { cssClass: 'alert-danger', timeout: 5000 });
         this.processing = false;
         this.form.controls['title'].enable();
         this.form.controls['leadin'].enable();
         this.showToolbar(true);
         this.editorComponent.quill.enable(true);
       } else {
-        this.messageClass = 'alert alert-success';
-        this.message = this.dataRegister.message;
+        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 2000 });
         setTimeout(() => {
           window.location.reload();
-          // this.eventEmitterService.updateNavbarStatus('show');
-          // this.router.navigate(['/blog']);
         }, 2000);
       }
     });
@@ -133,9 +130,11 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
 
   enterEdit() {
     this.setEditMode(true);
+    window.scroll(0, 0);
   }
 
   ngOnInit() {
+    this.loading = true;
     this.eventEmitterService.updateNavbarStatus('hide');
     this.authService.getProfile().subscribe(profile => {
       this.dataRegister = profile;
@@ -150,8 +149,7 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
     this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
       this.dataRegister = data;
       if (!this.dataRegister.success) {
-        this.messageClass = 'alert alert-danger';
-        this.message = this.dataRegister.message;
+        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
       } else {
         this.blog = (Object.assign({}, this.dataRegister.blog));
         // this.leadinView = this.blog.leadin.replace(/\n/g, "<br>");
@@ -163,9 +161,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit {
         this.processing = false;
         this.form.controls['title'].enable();
         this.form.controls['leadin'].enable();
-        //this.loading = false;
       }
     });
+    this.loading = false;
   }
 
 }

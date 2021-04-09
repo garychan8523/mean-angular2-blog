@@ -19,8 +19,6 @@ export class CreateBlogComponent implements OnInit {
   processing = false;
   username;
 
-  message = false;
-  messageClass;
   dataRegister: any = {};
 
   deleteBlogPost;
@@ -30,7 +28,7 @@ export class CreateBlogComponent implements OnInit {
   deleteBlogDisplay = false;
 
   constructor(
-    private _location: Location,
+    private location: Location,
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private blogService: BlogService,
@@ -136,17 +134,14 @@ export class CreateBlogComponent implements OnInit {
     this.blogService.deleteBlog(this.deleteBlogPost._id).subscribe(data => {
       this.dataRegister = data
       if (!this.dataRegister.success) {
-        this.messageClass = 'alert alert-danger';
-        this.message = this.dataRegister.message;
+        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
       } else {
-        this.messageClass = 'alert alert-success';
-        this.message = this.dataRegister.message;
+        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
         this.processing = false;
         this.overlay = false;
         this.deleteBlogDisplay = false;
         //this.getAllBlogs();
         setTimeout(() => {
-          this.message = false;
         }, 2000);
       }
     });
@@ -165,7 +160,7 @@ export class CreateBlogComponent implements OnInit {
     //this.pageTitle = "Feed";
     this.deleteBlogDisplay = false;
     this.discardBlogDisplay = false;
-    this._location.back();
+    this.location.back();
   }
 
   cancelAction() {
