@@ -1,3 +1,7 @@
+* {
+	transition: none;
+}
+
 #editor {
     min-height: 400px;
 }
