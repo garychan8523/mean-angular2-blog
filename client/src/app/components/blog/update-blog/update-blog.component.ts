@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
 import { QuillEditorComponent } from 'src/app/modules/quill-editor/quill-editor/quill-editor.component';
 
 import { AuthService } from '../../../services/auth.service';
@@ -9,11 +11,11 @@ import { EventEmitterService } from '../../../services/event-emitter.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
-  selector: 'app-create-blog',
-  templateUrl: './create-blog.component.html',
-  styleUrls: ['./create-blog.component.css']
+  selector: 'app-update-blog',
+  templateUrl: './update-blog.component.html',
+  styleUrls: ['./update-blog.component.css']
 })
-export class CreateBlogComponent implements OnInit {
+export class UpdateBlogComponent implements OnInit {
 
   form;
   processing = false;
@@ -27,15 +29,22 @@ export class CreateBlogComponent implements OnInit {
   discardBlogDisplay = false;
   deleteBlogDisplay = false;
 
+  currentUrl;
+  editMode = false;
+  blog;
+  leadinView;
+  storedBlog;
+
   constructor(
     private location: Location,
+    private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private blogService: BlogService,
     private eventEmitterService: EventEmitterService,
     private flashMessagesService: FlashMessagesService,
   ) {
-    this.createNewBlogForm();
+    this.initBlogForm();
   }
 
   @ViewChild(QuillEditorComponent)
@@ -55,9 +64,36 @@ export class CreateBlogComponent implements OnInit {
         this.username = this.dataRegister.user.username;
       }
     });
+
+    this.currentUrl = this.activatedRoute.snapshot.params;
+    if (this.currentUrl.id) {
+      this.editMode = true;
+
+      this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
+        this.dataRegister = data;
+        if (!this.dataRegister.success) {
+          this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+        } else {
+          this.blog = (Object.assign({}, this.dataRegister.blog));
+
+          this.form.controls['title'].setValue(this.blog.title);
+          this.leadinView = this.blog.leadin;
+          if (this.blog.leadin) {
+            this.blog.leadin = this.blog.leadin.replace(/<br>/g, "\n");
+            this.form.controls['leadin'].setValue(this.blog.leadin);
+            this.form.controls['leadin'].markAsDirty();
+          }
+          this.editorComponent.quill.setContents(JSON.parse(this.blog.body).ops);
+
+          this.storedBlog = Object.assign({}, this.blog);
+          // this.form.controls['title'].enable();
+          // this.form.controls['leadin'].enable();
+        }
+      });
+    }
   }
 
-  createNewBlogForm() {
+  initBlogForm() {
     this.form = this.formBuilder.group({
       title: ['', Validators.compose([
         Validators.required,
@@ -72,50 +108,78 @@ export class CreateBlogComponent implements OnInit {
     });
   }
 
-  enableFormNewBlogForm() {
+  enableBlogForm() {
     this.processing = false;
     this.form.get('title').enable();
     this.form.get('leadin').enable();
   }
 
-  disableFormNewBlogForm() {
+  disableBlogForm() {
     this.processing = true;
     this.form.get('title').disable();
     this.form.get('leadin').disable();
   }
 
   onBlogSubmit() {
-    this.disableFormNewBlogForm();
+    this.disableBlogForm();
 
-    const blog = {
+    let blog = {
       title: this.form.get('title').value,
       leadin: this.form.get('leadin').value,
       body: JSON.stringify(this.editorComponent.quill.getContents()),
       createdBy: this.username
     }
 
-    this.blogService.newBlog(blog).subscribe(data => {
-      this.dataRegister = data
-      if (!this.dataRegister.success) {
-        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
-        this.enableFormNewBlogForm();
-      } else {
-        setTimeout(() => {
-          this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
-          this.goBack();
-        }, 1000);
-      }
-    })
+    if (!this.editMode) {
+      this.blogService.newBlog(blog).subscribe(data => {
+        this.dataRegister = data
+        if (!this.dataRegister.success) {
+          this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+          this.enableBlogForm();
+        } else {
+          setTimeout(() => {
+            this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
+            this.goBack();
+          }, 1000);
+        }
+      })
+    } else {
+      blog['_id'] = this.currentUrl.id;
+      this.blogService.editBlog(blog).subscribe(data => {
+        this.dataRegister = data;
+        if (!this.dataRegister.success) {
+          this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+          this.enableBlogForm();
+        } else {
+          setTimeout(() => {
+            this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
+            this.goBack();
+          }, 1000);
+        }
+      });
+    }
+
   }
 
   checkDiscard() {
-    if ((this.form.get('title').value && this.form.get('title').value.length > 0)
-      || (this.form.get('leadin').value && this.form.get('leadin').value.length > 0)
-      || (this.editorComponent.getQuillTextLength() && this.editorComponent.getQuillTextLength() > 1)) {
-      this.discardBlogPopup();
+    if (this.editMode) {
+      if (this.form.get('title').value != this.storedBlog.title
+        || this.form.get('leadin').value != this.storedBlog.leadin
+        || JSON.stringify(this.editorComponent.quill.getContents()) != this.blog.body) {
+        this.discardBlogPopup();
+      } else {
+        this.resetForm();
+        this.goBack();
+      }
     } else {
-      this.resetForm();
-      this.goBack();
+      if ((this.form.get('title').value && this.form.get('title').value.length > 0)
+        || (this.form.get('leadin').value && this.form.get('leadin').value.length > 0)
+        || (this.editorComponent.getQuillTextLength() && this.editorComponent.getQuillTextLength() > 1)) {
+        this.discardBlogPopup();
+      } else {
+        this.resetForm();
+        this.goBack();
+      }
     }
   }
 

@@ -25,11 +25,11 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { BlogComponent } from './components/blog/blog.component';
-import { EditBlogComponent } from './components/blog/edit-blog/edit-blog.component';
+import { ViewBlogComponent } from './components/blog/view-blog/view-blog.component';
 import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
-import { CreateBlogComponent } from './components/blog/create-blog/create-blog.component';
+import { UpdateBlogComponent } from './components/blog/update-blog/update-blog.component';
 
 import { RouteReuseStrategy } from '@angular/router';
 import { RouteStrategyService } from './route-strategy.service';
@@ -46,11 +46,11 @@ import { RouteStrategyService } from './route-strategy.service';
     LoginComponent,
     ProfileComponent,
     BlogComponent,
-    EditBlogComponent,
+    ViewBlogComponent,
     DeleteBlogComponent,
     PublicProfileComponent,
     PrivacyPolicyComponent,
-    CreateBlogComponent
+    UpdateBlogComponent
   ],
   imports: [
     BrowserModule,

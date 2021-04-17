@@ -9,8 +9,8 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { ProfileComponent } from './components/profile/profile.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { BlogComponent } from './components/blog/blog.component';
-import { CreateBlogComponent } from './components/blog/create-blog/create-blog.component';
-import { EditBlogComponent } from './components/blog/edit-blog/edit-blog.component';
+import { UpdateBlogComponent } from './components/blog/update-blog/update-blog.component';
+import { ViewBlogComponent } from './components/blog/view-blog/view-blog.component';
 import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
@@ -50,12 +50,17 @@ const appRoutes: Routes = [
   },
   {
     path: 'blog/create',
-    component: CreateBlogComponent,
+    component: UpdateBlogComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'blog/update/:id',
+    component: UpdateBlogComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'blog/:id',
-    component: EditBlogComponent
+    component: ViewBlogComponent
   },
   {
     path: 'blog',
