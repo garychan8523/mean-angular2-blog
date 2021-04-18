@@ -1,0 +1,21 @@
+<form *ngIf="!loading" class="view-container viewmode view-offset">
+	<div class="form-group">
+		<div class="title-view">{{ blog.title }}</div>
+	</div>
+
+	<div class="leadin-view">
+		<p class="ql-align-justify" [innerHTML]="leadinView"></p>
+	</div>
+
+	<app-quill-editor *ngIf="!loading" class="ql-hide"></app-quill-editor>
+	<br>
+
+	<button type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
+
+	<button *ngIf="authService.loggedIn() && username === blog.createdBy" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/update/', blog._id]">Edit</button>
+
+	<!-- <a *ngIf="editMode" [routerLink]="['/delete-blog/', blog._id]">
+		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left">Delete</button>
+	</a> -->
+	<!-- 	<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="resetForm()">Clear</button> -->
+</form>

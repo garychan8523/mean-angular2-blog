@@ -6,11 +6,11 @@ module.exports = (router) => {
 
     router.post('/newBlog', checkAuth, (req, res) => {
         if (!req.body.title) {
-            res.json({ success: false, message: 'blog title is required.' });
+            res.json({ success: false, message: 'blog title is required' });
         } else if (!req.body.body) {
-            res.json({ success: false, message: 'blog body is required.' });
+            res.json({ success: false, message: 'blog body is required' });
         } else if (!req.body.createdBy) {
-            res.json({ success: false, message: 'blog creator is required.' });
+            res.json({ success: false, message: 'blog creator is required' });
         } else {
             const blog = new Blog({
                 title: req.body.title.replace(/<\/?.*?>/g, ''),
@@ -74,24 +74,24 @@ module.exports = (router) => {
 
     router.put('/updateBlog', checkAuth, (req, res) => {
         if (!req.body._id) {
-            res.json({ success: false, message: 'No blog id provided.' });
+            res.json({ success: false, message: 'No blog id provided' });
         } else {
             Blog.findOne({ _id: req.body._id }, (err, blog) => {
                 if (err) {
-                    res.json({ success: false, message: 'Invalid blog id.' });
+                    res.json({ success: false, message: 'Invalid blog id' });
                 } else {
                     if (!blog) {
-                        res.json({ success: false, message: 'Blog id not found.' });
+                        res.json({ success: false, message: 'Blog id not found' });
                     } else {
                         User.findOne({ _id: req.decoded.userId }, (err, user) => {
                             if (err) {
                                 res.json({ success: false, message: err });
                             } else {
                                 if (!user) {
-                                    res.json({ success: false, message: 'Unable to authenticate user.' });
+                                    res.json({ success: false, message: 'Unable to authenticate user' });
                                 } else {
                                     if (user.username !== blog.createdBy) {
-                                        res.json({ success: false, message: 'Not authorized.' });
+                                        res.json({ success: false, message: 'Not authorized' });
                                     } else {
                                         blog.title = req.body.title.replace(/<\/?.*?>/g, '');
                                         if (req.body.leadin) {
@@ -105,7 +105,7 @@ module.exports = (router) => {
                                                 console.log(err);
                                                 res.json({ success: false, message: err });
                                             } else {
-                                                res.json({ success: true, message: 'blog updated.' });
+                                                res.json({ success: true, message: 'blog updated' });
                                             }
                                         });
                                     }
@@ -120,30 +120,30 @@ module.exports = (router) => {
 
     router.delete('/deleteBlog/:id', checkAuth, (req, res) => {
         if (!req.params.id) {
-            res.json({ success: false, message: 'No blog id provided.' });
+            res.json({ success: false, message: 'No blog id provided' });
         } else {
             Blog.findOne({ _id: req.params.id }, (err, blog) => {
                 if (err) {
-                    res.json({ success: false, message: 'Invalid blog id.' });
+                    res.json({ success: false, message: 'Invalid blog id' });
                 } else {
                     if (!blog) {
-                        res.json({ success: false, message: 'Blog id not found.' });
+                        res.json({ success: false, message: 'Blog id not found' });
                     } else {
                         User.findOne({ _id: req.decoded.userId }, (err, user) => {
                             if (err) {
                                 res.json({ success: false, message: err });
                             } else {
                                 if (!user) {
-                                    res.json({ success: false, message: 'Unable to authenticate user.' });
+                                    res.json({ success: false, message: 'Unable to authenticate user' });
                                 } else {
                                     if (user.username !== blog.createdBy) {
-                                        res.json({ success: false, message: 'Not authorized.' });
+                                        res.json({ success: false, message: 'Not authorized' });
                                     } else {
                                         blog.remove((err) => {
                                             if (err) {
                                                 res.json({ success: false, message: err });
                                             } else {
-                                                res.json({ success: true, message: 'blog removed.' });
+                                                res.json({ success: true, message: 'blog removed' });
                                             }
                                         })
                                     }
@@ -158,27 +158,27 @@ module.exports = (router) => {
 
     router.put('/likeBlog', checkAuth, (req, res) => {
         if (!req.body.id) {
-            res.json({ success: false, message: 'No blog id provided.' });
+            res.json({ success: false, message: 'No blog id provided' });
         } else {
             Blog.findOne({ _id: req.body.id }, (err, blog) => {
                 if (err) {
-                    res.json({ success: false, message: 'Invalid blog id.' });
+                    res.json({ success: false, message: 'Invalid blog id' });
                 } else {
                     if (!blog) {
-                        res.json({ success: false, message: 'Blog id not found.' });
+                        res.json({ success: false, message: 'Blog id not found' });
                     } else {
                         User.findOne({ _id: req.decoded.userId }, (err, user) => {
                             if (err) {
                                 res.json({ success: false, message: err });
                             } else {
                                 if (!user) {
-                                    res.json({ success: false, message: 'Unable to authenticate user.' });
+                                    res.json({ success: false, message: 'Unable to authenticate user' });
                                 } else {
                                     if (user.username === blog.createdBy) {
-                                        res.json({ success: false, message: 'Cannot like your own post.' });
+                                        res.json({ success: false, message: 'Cannot like your own post' });
                                     } else {
                                         if (blog.likedBy.includes(user.username)) {
-                                            res.json({ success: false, message: 'You already liked this post.' });
+                                            res.json({ success: false, message: 'You already liked this post' });
                                         } else {
                                             if (blog.dislikedBy.includes(user.username)) {
                                                 blog.dislikes--;
@@ -190,7 +190,7 @@ module.exports = (router) => {
                                                     if (err) {
                                                         res.json({ success: false, message: err });
                                                     } else {
-                                                        res.json({ success: true, message: 'Blog liked.' });
+                                                        res.json({ success: true, message: 'Blog liked' });
                                                     }
                                                 });
                                             } else {
@@ -200,7 +200,7 @@ module.exports = (router) => {
                                                     if (err) {
                                                         res.json({ success: false, message: err });
                                                     } else {
-                                                        res.json({ success: true, message: 'Blog liked.' });
+                                                        res.json({ success: true, message: 'Blog liked' });
                                                     }
                                                 });
                                             }
@@ -217,27 +217,27 @@ module.exports = (router) => {
 
     router.put('/dislikeBlog', checkAuth, (req, res) => {
         if (!req.body.id) {
-            res.json({ success: false, message: 'No blog id provided.' });
+            res.json({ success: false, message: 'No blog id provided' });
         } else {
             Blog.findOne({ _id: req.body.id }, (err, blog) => {
                 if (err) {
-                    res.json({ success: false, message: 'Invalid blog id.' });
+                    res.json({ success: false, message: 'Invalid blog id' });
                 } else {
                     if (!blog) {
-                        res.json({ success: false, message: 'Blog id not found.' });
+                        res.json({ success: false, message: 'Blog id not found' });
                     } else {
                         User.findOne({ _id: req.decoded.userId }, (err, user) => {
                             if (err) {
                                 res.json({ success: false, message: err });
                             } else {
                                 if (!user) {
-                                    res.json({ success: false, message: 'Unable to authenticate user.' });
+                                    res.json({ success: false, message: 'Unable to authenticate user' });
                                 } else {
                                     if (user.username === blog.createdBy) {
-                                        res.json({ success: false, message: 'Cannot dislike your own post.' });
+                                        res.json({ success: false, message: 'Cannot dislike your own post' });
                                     } else {
                                         if (blog.dislikedBy.includes(user.username)) {
-                                            res.json({ success: false, message: 'You already disliked this post.' });
+                                            res.json({ success: false, message: 'You already disliked this post' });
                                         } else {
                                             if (blog.likedBy.includes(user.username)) {
                                                 blog.likes--;
@@ -249,7 +249,7 @@ module.exports = (router) => {
                                                     if (err) {
                                                         res.json({ success: false, message: err });
                                                     } else {
-                                                        res.json({ success: true, message: 'Blog disliked.' });
+                                                        res.json({ success: true, message: 'Blog disliked' });
                                                     }
                                                 });
                                             } else {
@@ -259,7 +259,7 @@ module.exports = (router) => {
                                                     if (err) {
                                                         res.json({ success: false, message: err });
                                                     } else {
-                                                        res.json({ success: true, message: 'Blog disliked.' });
+                                                        res.json({ success: true, message: 'Blog disliked' });
                                                     }
                                                 });
                                             }
@@ -276,24 +276,24 @@ module.exports = (router) => {
 
     router.post('/comment', checkAuth, (req, res) => {
         if (!req.body.comment) {
-            res.json({ success: false, message: 'no comment provided.' });
+            res.json({ success: false, message: 'no comment provided' });
         } else {
             if (!req.body.id) {
-                res.json({ success: false, message: 'no id provided.' });
+                res.json({ success: false, message: 'no id provided' });
             } else {
                 Blog.findOne({ _id: req.body.id }, (err, blog) => {
                     if (err) {
-                        res.json({ success: false, message: 'Invalid blog id.' });
+                        res.json({ success: false, message: 'Invalid blog id' });
                     } else {
                         if (!blog) {
-                            res.json({ success: false, message: 'Blog id not found.' });
+                            res.json({ success: false, message: 'Blog id not found' });
                         } else {
                             User.findOne({ _id: req.decoded.userId }, (err, user) => {
                                 if (err) {
                                     res.json({ success: false, message: err });
                                 } else {
                                     if (!user) {
-                                        res.json({ success: false, message: 'Unable to authenticate user.' });
+                                        res.json({ success: false, message: 'Unable to authenticate user' });
                                     } else {
                                         blog.comments.push({
                                             comment: req.body.comment,
@@ -303,7 +303,7 @@ module.exports = (router) => {
                                             if (err) {
                                                 res.json({ success: false, message: err });
                                             } else {
-                                                res.json({ success: true, message: 'comment saved.' });
+                                                res.json({ success: true, message: 'comment saved' });
                                             }
                                         });
                                     }

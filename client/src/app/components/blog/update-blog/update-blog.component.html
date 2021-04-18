@@ -1,0 +1,92 @@
+<div class="overlay" (click)="cancelAction()" *ngIf="overlay"></div>
+
+<form [formGroup]="form" name="blogForm" class="editmode" (submit)="onBlogSubmit()">
+    <!-- title input -->
+    <!-- <label for="title"></label> -->
+    <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+        <input [disabled]="processing" type="text" name="title" class="form-control card-title" maxlength="70" placeholder="Title" autocomplete="off" formControlName="title" [autofocus]="true">
+        <div class="form-error-msg">
+            <div *ngIf="form.controls.title.dirty && form.controls.title.errors?.required"><i class="fa fa-times"></i>This field is required</div>
+            <div *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">
+                <i class="fa fa-times"></i>Min length: 2, Max length: 100
+            </div>
+        </div>
+    </div>
+    <!-- title input -->
+
+    <!-- leadin input -->
+    <!-- <label for="title"></label> -->
+    <div [ngClass]="{'has-success': form.controls.leadin.dirty && form.controls.leadin.valid, 'has-error': form.controls.leadin.dirty && form.controls.leadin.errors}">
+        <textarea [disabled]="processing" name="leadin" class="form-control leadin-view leadin-textarea" maxlength="300" placeholder="Lead-in (optional)" formControlName="leadin" [autofocus]="true"></textarea>
+        <div class="form-error-msg">
+            <div *ngIf="(form.controls.leadin.dirty && form.controls.leadin.errors?.maxlength)">
+                <i class="fa fa-times"></i>Max length: 300
+            </div>
+        </div>
+    </div>
+    <!-- leadin input -->
+
+    <!-- body input -->
+    <div>
+        <app-quill-editor></app-quill-editor>
+    </div>
+    <!-- body input -->
+    <div class="blog-operation-button-group">
+        <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="checkDiscard()">Back</button>
+        <button *ngIf="!processing" [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2" type="submit" name="button" class="btn btn-sm btn-info btn-margin-left">Submit</button>
+    </div>
+</form>
+
+<!-- discard blog popup -->
+<div class="popup-modal-wrapper" *ngIf="discardBlogDisplay" (click)="cancelAction()">
+    <div class="col-md-6 popup-modal" (click)="onEvent($event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm discard</h5>
+                <button type="button" name="button" class="close" data-dismiss="modal" (click)="cancelAction()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to discard this blog? Changes will be lost. You
+                    can use draft to save the blog with unpublished state.</p>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="cancelAction()">Back</button>
+                <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="discardBlog()">Discard</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- discard blog popup -->
+
+<!-- delete blog popup -->
+<div class="popup-modal-wrapper" *ngIf="deleteBlogDisplay" (click)="cancelAction()">
+    <div class="col-md-6 popup-modal" (click)="onEvent($event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm deletion</h5>
+                <button type="button" name="button" class="close" data-dismiss="modal" (click)="cancelAction()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to delete this blog? We won't be able to find it anymore after deletion completed. You
+                    can go back and perform an edit if you only want to modify the content.</p>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ deleteBlogPost.title }}</h5>
+                        <p class="card-text"><span [innerHTML]="deleteBlogPost.body"></span></p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted"><strong>{{ deleteBlogPost.createdBy }}</strong></small>
+                        <small class="text-muted"> {{ deleteBlogPost.createdAt | date: "on dd MMM yyyy 'at' HH:mm"
+                            }}</small>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="cancelAction()">Back</button>
+                <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteBlog()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- delete blog popup -->

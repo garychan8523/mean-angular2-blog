@@ -1,12 +1,12 @@
-import { Component, OnInit, NgZone, ViewChild, AfterViewInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, NgZone, ViewChild, AfterViewInit, ComponentRef, Directive, ViewContainerRef, ComponentFactoryResolver, Host } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { SocketService } from '../../services/socket.service';
 import { EventEmitterService } from '../../services/event-emitter.service';
 
 import { QuillEditorComponent } from '../../modules/quill-editor/quill-editor/quill-editor.component';
+
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',
@@ -15,22 +15,14 @@ import { QuillEditorComponent } from '../../modules/quill-editor/quill-editor/qu
 
 export class BlogComponent implements OnInit, AfterViewInit {
 
-  pageTitle = "Feed";
-  messageClass;
-  message = false;
   notificationClass;
   notification = false;
-  newPost = false;
-  discardBlogDisplay = false;
-  deleteBlogDisplay = false;
-  deleteBlogPost;
   loadingBlogs = false;
   form;
   commentForm;
   processing = false;
   username;
   blogPosts;
-  overlay = false;
   newComment = [];
   enabledComments = [];
   dataRegister: any = {};
@@ -41,8 +33,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
     public authService: AuthService,
     private blogService: BlogService,
     private socketService: SocketService,
-    private eventEmitterService: EventEmitterService,
-    private router: Router
+    private eventEmitterService: EventEmitterService
   ) {
     this.createNewBlogForm();
     this.createCommentForm();
@@ -109,37 +100,11 @@ export class BlogComponent implements OnInit, AfterViewInit {
   //   }
   // }
 
-  newBlogForm() {
-    this.eventEmitterService.updateNavbarStatus('hide');
-    this.newPost = true;
-    this.pageTitle = "New blog";
-  }
-
-  checkDiscard() {
-    if ((this.form.get('title').value && this.form.get('title').value.length > 0)
-      || (this.form.get('leadin').value && this.form.get('leadin').value.length > 0)
-      || (this.editorComponent.getQuillTextLength() && this.editorComponent.getQuillTextLength() > 1)) {
-      this.discardBlogPopup();
-    } else {
-      this.resetForm();
-      this.goBack();
-    }
-  }
-
-  discardBlogPopup() {
-    this.overlay = true;
-    this.discardBlogDisplay = true;
-  }
-  closeDiscardBlogPopup() {
-    this.overlay = false;
-    this.discardBlogDisplay = false;
-  }
-
-  deleteBlogPopup(blog) {
-    this.overlay = true;
-    this.deleteBlogDisplay = true;
-    this.deleteBlogPost = blog;
-  }
+  // deleteBlogPopup(blog) {
+  //   this.overlay = true;
+  //   this.deleteBlogDisplay = true;
+  //   this.deleteBlogPost = blog;
+  // }
 
   reloadBlogs() {
     this.loadingBlogs = true;
@@ -163,82 +128,35 @@ export class BlogComponent implements OnInit, AfterViewInit {
     this.processing = false;
   }
 
-  onBlogSubmit() {
-    this.processing = true;
-    this.disableFormNewBlogForm();
-
-    const blog = {
-      title: this.form.get('title').value,
-      leadin: this.form.get('leadin').value,
-      body: JSON.stringify(this.editorComponent.quill.getContents()),
-      createdBy: this.username
-    }
-
-    this.blogService.newBlog(blog).subscribe(data => {
-      this.dataRegister = data
-      if (!this.dataRegister.success) {
-        this.messageClass = 'alert alert-danger';
-        this.message = this.dataRegister.message;
-        this.processing = false;
-        this.enableFormNewBlogForm();
-      } else {
-        this.messageClass = 'alert alert-success';
-        this.message = this.dataRegister.message;
-        this.getAllBlogs();
-        setTimeout(() => {
-          this.newPost = false;
-          this.pageTitle = "Feed";
-          this.processing = false;
-          this.message = false;
-          this.form.reset();
-          this.enableFormNewBlogForm();
-          this.eventEmitterService.updateNavbarStatus('show');
-        }, 2000);
-      }
-    })
-  }
-
-  deleteBlog() {
-    this.processing = true;
-    this.blogService.deleteBlog(this.deleteBlogPost._id).subscribe(data => {
-      this.dataRegister = data
-      if (!this.dataRegister.success) {
-        this.messageClass = 'alert alert-danger';
-        this.message = this.dataRegister.message;
-      } else {
-        this.messageClass = 'alert alert-success';
-        this.message = this.dataRegister.message;
-        this.processing = false;
-        this.overlay = false;
-        this.deleteBlogDisplay = false;
-        this.getAllBlogs();
-        setTimeout(() => {
-          this.message = false;
-        }, 2000);
-      }
-    });
-  }
-
-  discardBlog() {
-    this.eventEmitterService.updateNavbarStatus('show');
-    this.resetForm();
-    this.goBack();
-  }
+  // deleteBlog() {
+  //   this.processing = true;
+  //   this.blogService.deleteBlog(this.deleteBlogPost._id).subscribe(data => {
+  //     this.dataRegister = data
+  //     if (!this.dataRegister.success) {
+  //       this.messageClass = 'alert alert-danger';
+  //       this.message = this.dataRegister.message;
+  //     } else {
+  //       this.messageClass = 'alert alert-success';
+  //       this.message = this.dataRegister.message;
+  //       this.processing = false;
+  //       this.overlay = false;
+  //       this.deleteBlogDisplay = false;
+  //       this.getAllBlogs();
+  //       setTimeout(() => {
+  //         this.message = false;
+  //       }, 2000);
+  //     }
+  //   });
+  // }
 
   goBack() {
-    //window.location.reload();
     this.eventEmitterService.updateNavbarStatus('show');
-    this.overlay = false;
-    this.newPost = false;
-    this.pageTitle = "Feed";
-    this.deleteBlogDisplay = false;
-    this.discardBlogDisplay = false;
   }
 
-  resetForm() {
-    this.form.reset();
-    this.editorComponent.resetQuillEditor();
-  }
+  // resetForm() {
+  //   this.form.reset();
+  //   this.editorComponent.resetQuillEditor();
+  // }
 
   getAllBlogs() {
     this.blogService.getAllBlogs().subscribe(data => {

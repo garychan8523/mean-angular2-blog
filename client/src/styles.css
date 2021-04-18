@@ -2,12 +2,9 @@
 @import '~quill/dist/quill.core.css';
 @import '~quill/dist/quill.snow.css';
 
-.nonavmode {
-	margin-top: -70px;
-}
-
-.page-header.nonavmode {
-	padding-bottom: 40px;
+.headroom--not-top.headroom--pinned .nav-border,
+.headroom--not-top.headroom--unpinned .nav-border {
+	border-bottom: none;
 }
 
 .editmode {
@@ -30,6 +27,10 @@ form[name="blogForm"] {
 .ql-disabled {
 	border: none !important;
 	border-top: none !important;
+}
+
+.ql-disabled.ql-valid {
+	background-color: #E9ECEF !important;
 }
 
 .ql-container .ql-disabled {
@@ -123,14 +124,15 @@ body {
 }
 
 .flash-messages {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 70px;
+	height: 0;
 	margin: 0;
-	display: flex;
+	display: grid;
 	flex-wrap: wrap;
+	z-index: 200;
 }
 
 .row {
@@ -151,11 +153,11 @@ body {
 	border: none;
 }
 
-@media (min-width: 768px){
+/* @media (min-width: 768px){
 	.alert{
 		margin: auto;
 	}
-}
+} */
 
 .alert p {
 	display: inline;
@@ -163,7 +165,6 @@ body {
 
 .alert-alert-info {
 	padding: .4rem 1.25rem;
-	margin: auto;
 	display:inline-block;
 	z-index: 150;
 	border: none;
