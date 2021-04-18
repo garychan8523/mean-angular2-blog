@@ -55,6 +55,7 @@ export class UpdateBlogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.processing = true;
     this.eventEmitterService.updateNavbarStatus('hide');
     this.authService.getProfile().subscribe(profile => {
       this.dataRegister = profile
@@ -91,6 +92,8 @@ export class UpdateBlogComponent implements OnInit {
         }
       });
     }
+
+    this.processing = false;
   }
 
   initBlogForm() {
@@ -112,12 +115,14 @@ export class UpdateBlogComponent implements OnInit {
     this.processing = false;
     this.form.get('title').enable();
     this.form.get('leadin').enable();
+    this.editorComponent.quill.enable(true);
   }
 
   disableBlogForm() {
     this.processing = true;
     this.form.get('title').disable();
     this.form.get('leadin').disable();
+    this.editorComponent.quill.enable(false);
   }
 
   onBlogSubmit() {

@@ -29,6 +29,10 @@ form[name="blogForm"] {
 	border-top: none !important;
 }
 
+.ql-disabled.ql-valid {
+	background-color: #E9ECEF !important;
+}
+
 .ql-container .ql-disabled {
 	border: none !important;
 	border-top: none !important;
