@@ -48,14 +48,6 @@ button.close{
 	padding: 0 2px 0 2px;
 }
 
-.btn-secondary{
-	color: #eee;
-}
-
-.btn-sm{
-	padding: .12rem .25rem;
-}
-
 .btn-upvote{
 	color: #006700;
 }
@@ -74,10 +66,6 @@ button.close{
 
 .btn-nobg:hover{
 	color: #222;
-}
-
-.btn-margin-left {
-	margin-left: 5px;
 }
 
 .card{

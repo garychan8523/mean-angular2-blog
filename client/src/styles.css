@@ -136,7 +136,6 @@ body {
 }
 
 .row {
-	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -175,6 +174,18 @@ body {
 .btn-primary:disabled {
 	background-color: #868e96 !important; /* overrides bootstrap setting */
 	border-color: #868e96 !important; /* overrides bootstrap setting */
+}
+
+.btn-secondary {
+	color: #eee;
+}
+
+.btn-sm {
+	padding: .12rem .25rem;
+}
+
+.btn-margin-left {
+	margin-left: 5px;
 }
 
 .page-header{
