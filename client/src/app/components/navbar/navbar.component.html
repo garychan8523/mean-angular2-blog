@@ -17,7 +17,7 @@
         <!-- set navbar-right -->
         <ul class="navbar-nav mr-auto">
           <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-            <a class="nav-link" routerLink="/blog">Feed</a>
+            <a class="nav-link" routerLink="/feed">Feed</a>
           </li>
           <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
             <a class="nav-link" routerLink="/dashboard">Channel</a>

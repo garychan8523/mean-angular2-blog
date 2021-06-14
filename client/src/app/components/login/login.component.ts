@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 import { ElementRef } from '@angular/core';
+
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +13,6 @@ import { ElementRef } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  messageClass;
-  message;
   processing = false;
   form;
   previousUrl;
@@ -24,63 +24,53 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private authGuard: AuthGuard,
-    private el: ElementRef
+    private el: ElementRef,
+    private flashMessagesService: FlashMessagesService
   ) {
-    this.createForm(); // Create Login Form when component is constructed
+    this.createForm();
   }
 
-  // Function to create login form
   createForm() {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required], // Username field
-      password: ['', Validators.required] // Password field
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
-  // Function to disable form
   disableForm() {
-    this.form.controls['username'].disable(); // Disable username field
-    this.form.controls['password'].disable(); // Disable password field
+    this.form.controls['username'].disable();
+    this.form.controls['password'].disable();
   }
 
-  // Function to enable form
   enableForm() {
-    this.form.controls['username'].enable(); // Enable username field
-    this.form.controls['password'].enable(); // Enable password field
+    this.form.controls['username'].enable();
+    this.form.controls['password'].enable();
   }
 
-  // Functiont to submit form and login user
   onLoginSubmit() {
-    this.processing = true; // Used to submit button while is being processed
-    this.disableForm(); // Disable form while being process
-    // Create user object from user's input
+    this.processing = true;
+    this.disableForm();
     const user = {
-      username: this.form.get('username').value, // Username input field
-      password: this.form.get('password').value // Password input field
+      username: this.form.get('username').value,
+      password: this.form.get('password').value
     }
 
-    // Function to send login data to API
     this.authService.login(user).subscribe(data => {
-      // Check if response was a success or error
       this.dataRegister = data;
       if (!this.dataRegister.success) {
-        this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-        this.message = this.dataRegister.message; // Set error message
-        this.processing = false; // Enable submit button
-        this.enableForm(); // Enable form for editting
+        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+        this.processing = false;
+        this.enableForm();
         this.logerr = true;
         this.el.nativeElement.querySelector('#username').focus();
       } else {
-        this.messageClass = 'alert alert-success'; // Set bootstrap success class
-        this.message = this.dataRegister.message; // Set success message
-        // Function to store user's token in client local storage
+        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
         this.authService.storeUserData(this.dataRegister.token, this.dataRegister.user);
-        // After 2 seconds, redirect to dashboard page
         setTimeout(() => {
           if (this.previousUrl) {
             this.router.navigate([this.previousUrl]);
           } else {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/feed']);
           }
         }, 2000);
       }
@@ -93,8 +83,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.authGuard.redirectUrl) {
-      this.messageClass = 'alert alert-danger';
-      this.message = 'you must be logged';
+      this.flashMessagesService.show('you must be logged', { cssClass: 'alert-danger', timeout: 5000 });
       this.previousUrl = this.authGuard.redirectUrl;
       this.authGuard.redirectUrl = undefined;
     }
