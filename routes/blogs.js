@@ -64,7 +64,6 @@ module.exports = (router) => {
     });
 
     router.get('/singleBlog/:blogId', (req, res) => {
-        console.log('8523a')
         res.json({ success: true, blog: req.blog });
     });
 
