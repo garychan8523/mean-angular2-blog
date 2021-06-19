@@ -58,12 +58,14 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
     this.currentUrl = this.activatedRoute.snapshot.params;
     this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
       this.dataRegister = data;
-      if (!this.dataRegister.success) {
-        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+      if (!this.dataRegister.blog) {
+        this.flashMessagesService.show('something wrong', { cssClass: 'alert-danger', timeout: 5000 });
       } else {
         this.blog = (Object.assign({}, this.dataRegister.blog));
         this.leadinView = this.blog.leadin;
       }
+    }, err => {
+      this.flashMessagesService.show(err.error.message, { cssClass: 'alert-danger', timeout: 5000 });
     });
     this.loading = false;
   }

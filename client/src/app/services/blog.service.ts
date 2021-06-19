@@ -45,7 +45,7 @@ export class BlogService {
 
   editBlog(blog) {
     this.createAuthenticationHeaders();
-    return this.http.put(this.domain + 'blogs/updateBlog/', blog, this.options);
+    return this.http.put(this.domain + 'blogs/updateBlog/' + blog._id, blog, this.options);
   }
 
   deleteBlog(id) {
