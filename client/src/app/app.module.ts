@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ChannelComponent } from './components/channel/channel.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RegisterComponent } from './components/register/register.component'
 import { AuthService } from './services/auth.service';
@@ -40,7 +40,7 @@ import { RouteStrategyService } from './route-strategy.service';
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    DashboardComponent,
+    ChannelComponent,
     FooterComponent,
     RegisterComponent,
     AboutComponent,

@@ -20,7 +20,7 @@
             <a class="nav-link" routerLink="/feed">Feed</a>
           </li>
           <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-            <a class="nav-link" routerLink="/dashboard">Channel</a>
+            <a class="nav-link" routerLink="/channel">Channel</a>
           </li>
           <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
             <a class="nav-link" routerLink="/profile">Profile</a>

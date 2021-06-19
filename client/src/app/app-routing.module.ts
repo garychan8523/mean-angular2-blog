@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './components/home/home.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ChannelComponent } from './components/channel/channel.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AboutComponent } from './components/about/about.component';
@@ -22,8 +22,8 @@ const appRoutes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent,
+    path: 'channel',
+    component: ChannelComponent,
     canActivate: [AuthGuard]
   },
   {
