@@ -30,6 +30,7 @@ import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.c
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { UpdateBlogComponent } from './components/blog/update-blog/update-blog.component';
+import { BlogSettingComponent } from './components/blog/blog-setting/blog-setting.component';
 
 import { RouteReuseStrategy } from '@angular/router';
 import { RouteStrategyService } from './route-strategy.service';
@@ -50,7 +51,8 @@ import { RouteStrategyService } from './route-strategy.service';
     DeleteBlogComponent,
     PublicProfileComponent,
     PrivacyPolicyComponent,
-    UpdateBlogComponent
+    UpdateBlogComponent,
+    BlogSettingComponent
   ],
   imports: [
     BrowserModule,

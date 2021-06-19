@@ -4,7 +4,7 @@
   <div>
     <a *ngIf="!authService.loggedIn()" routerLink="/register" class="btn btn-transparent-outline">Register</a>
     <a *ngIf="!authService.loggedIn()" routerLink="/login" href="#" class="btn btn-transparent">Login</a>
-    <a *ngIf="authService.loggedIn()" routerLink="/blog" href="#" class="btn btn-transparent-outline">Blog</a>
+    <a *ngIf="authService.loggedIn()" routerLink="/feed" href="#" class="btn btn-transparent-outline">Blog</a>
   </div>
 </div>
 

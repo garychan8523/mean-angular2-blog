@@ -1,0 +1,59 @@
+<div class="page-container">
+
+    <h5 class="page-header" style="margin-top: -60px;">Publication Setting</h5>
+    <div *ngIf="processing">Processing ...<br><br></div>
+    <form *ngIf="!processing" [formGroup]="publishForm" (submit)="onSettingSubmit()">
+        <b>Blog title</b> ({{blog.createdAt | date: "'created on' dd MMM yyyy 'at' HH:mm"}})
+        <div class="row-content">{{blog.title}}</div>
+
+        <b>Publish status</b>
+        <div style="margin: 10px 0 40px 0;">
+            <span>
+                <div style="float: left;line-height: 28px;">{{publishForm.get('published').value ? "Visible (Public)" : "Not visible (Private)"}}</div>
+                <div style="float: right;">
+                    <label class="switch">
+                        <input type="checkbox" [checked]="publishForm.get('published').value" (change)="togglePublished()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </span>
+        </div>
+
+        <br>
+        <b>Publish date</b>
+        <div class="row-content">
+            <div *ngIf="neverPublished">This blog has never been published (Draft)</div>
+            <div *ngIf="publishedDate">This blog has been published {{publishedDate | date: "' on' dd MMM yyyy 'at' HH:mm"}}</div>
+        </div>
+        <div *ngIf="neverPublished && publishForm.get('published').value">
+            <select formControlName="schedule" class="publish-form-input">
+                <option value="" disabled>Select schedule option</option>
+                <option selected value="now">Publish Now</option>
+                <option value="custom">Publish at custom datetime</option>
+            </select>
+            <br>
+            <input *ngIf="publishForm.get('schedule').value == 'custom'" type="datetime-local" id="publishdatetime" class="publish-form-input" [value]="publishForm.get('publishedAt').value" (change)="dateChanged($event)">
+        </div>
+
+
+        <!-- <br>
+        <b>Category</b>
+        <div>
+            <p>Coming soon ...</p>
+        </div>
+
+        <br>
+        <b>Channel</b>
+        <div>
+            <p>Coming soon ...</p>
+        </div> -->
+
+        <div class=" blog-operation-button-group">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
+            <button *ngIf="!processing" type="button" class="btn btn-sm btn-danger btn-margin-left" (click)="resetPublishForm()">Reset</button>
+            <button *ngIf="!processing" type="submit" class="btn btn-sm btn-info btn-margin-left" [disabled]="publishForm.get('published').value == storedBlog.published">Confirm</button>
+        </div>
+
+    </form>
+
+</div>

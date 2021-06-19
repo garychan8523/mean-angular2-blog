@@ -89,7 +89,9 @@ const blogSchema = new Schema({
   comments: [{
     comment: { type: String, validate: commentValidators },
     commentator: { type: String }
-  }]
+  }],
+  published: { type: Boolean, required: false },
+  publishedAt: { type: Date, required: false }
 }, { usePushEach: true });
 
 module.exports = mongoose.model('Blog', blogSchema);

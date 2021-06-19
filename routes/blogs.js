@@ -284,5 +284,55 @@ module.exports = (router) => {
         }
     });
 
+    router.patch('/setting/:blogId', (req, res, next) => {
+        let settingPatchObj = req.body.settingPatchObj;
+        // console.log(settingPatchObj.blogId);
+        // console.log(settingPatchObj.published);
+        // console.log(settingPatchObj.publishedAt);
+
+        Blog.bulkWrite([
+            {
+                updateOne: {
+                    filter: {
+                        _id: settingPatchObj.blogId,
+                        publishedAt: { $exists: false }
+                    },
+                    update: {
+                        publishedAt: settingPatchObj.publishedAt
+                    }
+                }
+            },
+            {
+                updateOne: {
+                    filter: {
+                        _id: settingPatchObj.blogId
+                    },
+                    update: {
+                        published: settingPatchObj.published
+                    }
+                }
+            }
+        ]).then(result => {
+            // console.log(result.insertedCount, result.modifiedCount, result.deletedCount);
+
+            let message;
+            if (result.modifiedCount == 0) {
+                message = 'no update';
+            } else if (result.modifiedCount == 1) {
+                message = 'updated blog visibility';
+            } else if (result.modifiedCount == 2) {
+                message = 'updated blog visibility and publish date';
+            }
+
+            if (message) {
+                res.json({ success: true, message: message });
+            } else {
+                next(new Error('something wrong'));
+            }
+        }).catch((err) => {
+            next(new Error(err));
+        });
+    });
+
     return router;
 };

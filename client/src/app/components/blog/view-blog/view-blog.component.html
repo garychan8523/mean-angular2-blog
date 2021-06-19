@@ -11,8 +11,8 @@
 	<br>
 
 	<button type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
-
-	<button *ngIf="authService.loggedIn() && username === blog.createdBy" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/update/', blog._id]">Edit</button>
+	<button *ngIf="authService.loggedIn() && username === blog.createdBy" [disabled]="loading" type="button" name="button" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/setting/', blog._id]">Setting</button>
+	<button *ngIf="authService.loggedIn() && username === blog.createdBy" [disabled]="loading" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/update/', blog._id]">Edit</button>
 
 	<!-- <a *ngIf="editMode" [routerLink]="['/delete-blog/', blog._id]">
 		<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left">Delete</button>
