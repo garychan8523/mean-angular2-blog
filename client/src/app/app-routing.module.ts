@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './components/home/home.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ChannelComponent } from './components/channel/channel.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AboutComponent } from './components/about/about.component';
@@ -10,6 +10,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { BlogComponent } from './components/blog/blog.component';
 import { UpdateBlogComponent } from './components/blog/update-blog/update-blog.component';
+import { BlogSettingComponent } from './components/blog/blog-setting/blog-setting.component';
 import { ViewBlogComponent } from './components/blog/view-blog/view-blog.component';
 import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -21,8 +22,8 @@ const appRoutes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent,
+    path: 'channel',
+    component: ChannelComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -59,11 +60,16 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'blog/setting/:id',
+    component: BlogSettingComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'blog/:id',
     component: ViewBlogComponent
   },
   {
-    path: 'blog',
+    path: 'feed',
     component: BlogComponent,
     data: { shouldReuse: true, showNavbar: true }
   },

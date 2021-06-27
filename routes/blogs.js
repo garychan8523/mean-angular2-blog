@@ -4,6 +4,30 @@ const checkAuth = require('../middleware/auth');
 
 module.exports = (router) => {
 
+    router.param('blogId', function (req, res, next, blogId) {
+        // console.log('fetching blog')
+        try {
+            if (!blogId) {
+                throw 'missing blog id';
+            } else {
+                Blog.findOne({ _id: blogId }, (err, blog) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        if (!blog) {
+                            throw 'blog not found';
+                        } else {
+                            req.blog = blog
+                            next();
+                        }
+                    }
+                });
+            }
+        } catch (err) {
+            next(new Error(err));
+        }
+    });
+
     router.post('/newBlog', checkAuth, (req, res) => {
         if (!req.body.title) {
             res.json({ success: false, message: 'blog title is required' });
@@ -39,121 +63,65 @@ module.exports = (router) => {
         }
     });
 
-    router.get('/singleBlog/:id', (req, res) => {
-        if (!req.params.id) {
-            res.json({ success: false, message: 'No blog id provided' });
-        } else {
-            Blog.findOne({ _id: req.params.id }, (err, blog) => {
-                if (err) {
-                    res.json({ success: false, message: 'Not a valid blog id' });
-                } else {
-                    if (!blog) {
-                        res.json({ success: false, message: 'Blog not found' });
-                    } else {
-                        res.json({ success: true, blog: blog });
-                        // User.findOne({ _id: req.decoded.userId }, (err, user) => {
-                        //     if (err) {
-                        //         res.json({ success: false, message: err });
-                        //     } else {
-                        //         if (!user) {
-                        //             res.json({ success: false, message: 'Unable to authenticate user' });
-                        //         } else {
-                        //             if (user.username !== blog.createdBy) {
-                        //                 res.json({ success: false, message: 'Not authorized' });
-                        //             } else {
-                        //                 res.json({ success: true, blog: blog });
-                        //             }
-                        //         }
-                        //     }
-                        // });
-                    }
-                }
-            });
-        }
+    router.get('/singleBlog/:blogId', (req, res) => {
+        res.json({ success: true, blog: req.blog });
     });
 
-    router.put('/updateBlog', checkAuth, (req, res) => {
-        if (!req.body._id) {
-            res.json({ success: false, message: 'No blog id provided' });
-        } else {
-            Blog.findOne({ _id: req.body._id }, (err, blog) => {
-                if (err) {
-                    res.json({ success: false, message: 'Invalid blog id' });
+    router.put('/updateBlog/:blogId', checkAuth, (req, res) => {
+        let blog = req.blog;
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
-                    if (!blog) {
-                        res.json({ success: false, message: 'Blog id not found' });
+                    if (user.username !== blog.createdBy) {
+                        res.json({ success: false, message: 'Not authorized' });
                     } else {
-                        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                        blog.title = req.body.title.replace(/<\/?.*?>/g, '');
+                        if (req.body.leadin) {
+                            blog.leadin = req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
+                        } else if (req.body.leadin.length == 0) {
+                            blog.leadin = '';
+                        }
+                        blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
+                        blog.save((err) => {
                             if (err) {
                                 res.json({ success: false, message: err });
                             } else {
-                                if (!user) {
-                                    res.json({ success: false, message: 'Unable to authenticate user' });
-                                } else {
-                                    if (user.username !== blog.createdBy) {
-                                        res.json({ success: false, message: 'Not authorized' });
-                                    } else {
-                                        blog.title = req.body.title.replace(/<\/?.*?>/g, '');
-                                        if (req.body.leadin) {
-                                            blog.leadin = req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
-                                        } else if (req.body.leadin.length == 0) {
-                                            blog.leadin = '';
-                                        }
-                                        blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
-                                        blog.save((err) => {
-                                            if (err) {
-                                                console.log(err);
-                                                res.json({ success: false, message: err });
-                                            } else {
-                                                res.json({ success: true, message: 'blog updated' });
-                                            }
-                                        });
-                                    }
-                                }
+                                res.json({ success: true, message: 'blog updated' });
                             }
                         });
                     }
                 }
-            });
-        }
+            }
+        });
     });
 
-    router.delete('/deleteBlog/:id', checkAuth, (req, res) => {
-        if (!req.params.id) {
-            res.json({ success: false, message: 'No blog id provided' });
-        } else {
-            Blog.findOne({ _id: req.params.id }, (err, blog) => {
-                if (err) {
-                    res.json({ success: false, message: 'Invalid blog id' });
+    router.delete('/deleteBlog/:blogId', checkAuth, (req, res) => {
+        let blog = req.blog;
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
-                    if (!blog) {
-                        res.json({ success: false, message: 'Blog id not found' });
+                    if (user.username !== blog.createdBy) {
+                        res.json({ success: false, message: 'Not authorized' });
                     } else {
-                        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                        blog.remove((err) => {
                             if (err) {
                                 res.json({ success: false, message: err });
                             } else {
-                                if (!user) {
-                                    res.json({ success: false, message: 'Unable to authenticate user' });
-                                } else {
-                                    if (user.username !== blog.createdBy) {
-                                        res.json({ success: false, message: 'Not authorized' });
-                                    } else {
-                                        blog.remove((err) => {
-                                            if (err) {
-                                                res.json({ success: false, message: err });
-                                            } else {
-                                                res.json({ success: true, message: 'blog removed' });
-                                            }
-                                        })
-                                    }
-                                }
+                                res.json({ success: true, message: 'blog removed' });
                             }
-                        });
+                        })
                     }
                 }
-            })
-        }
+            }
+        });
     });
 
     router.put('/likeBlog', checkAuth, (req, res) => {
@@ -314,6 +282,56 @@ module.exports = (router) => {
                 });
             }
         }
+    });
+
+    router.patch('/setting/:blogId', (req, res, next) => {
+        let settingPatchObj = req.body.settingPatchObj;
+        // console.log(settingPatchObj.blogId);
+        // console.log(settingPatchObj.published);
+        // console.log(settingPatchObj.publishedAt);
+
+        Blog.bulkWrite([
+            {
+                updateOne: {
+                    filter: {
+                        _id: settingPatchObj.blogId,
+                        publishedAt: { $exists: false }
+                    },
+                    update: {
+                        publishedAt: settingPatchObj.publishedAt
+                    }
+                }
+            },
+            {
+                updateOne: {
+                    filter: {
+                        _id: settingPatchObj.blogId
+                    },
+                    update: {
+                        published: settingPatchObj.published
+                    }
+                }
+            }
+        ]).then(result => {
+            // console.log(result.insertedCount, result.modifiedCount, result.deletedCount);
+
+            let message;
+            if (result.modifiedCount == 0) {
+                message = 'no update';
+            } else if (result.modifiedCount == 1) {
+                message = 'updated blog visibility';
+            } else if (result.modifiedCount == 2) {
+                message = 'updated blog visibility and publish date';
+            }
+
+            if (message) {
+                res.json({ success: true, message: message });
+            } else {
+                next(new Error('something wrong'));
+            }
+        }).catch((err) => {
+            next(new Error(err));
+        });
     });
 
     return router;

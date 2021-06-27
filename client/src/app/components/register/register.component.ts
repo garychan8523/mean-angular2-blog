@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ViewChildren } from '@angular/core';
 import { ElementRef } from '@angular/core';
 
+import { FlashMessagesService } from 'angular2-flash-messages';
+
 @Component({
 	selector: 'app-register',
 	templateUrl: './register.component.html',
@@ -12,8 +14,6 @@ import { ElementRef } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 	form;
-	message;
-	messageClass;
 	processing = false;
 	emailValid = true;
 	emailMessage;
@@ -26,7 +26,8 @@ export class RegisterComponent implements OnInit {
 		private fb: FormBuilder,
 		private authService: AuthService,
 		private router: Router,
-		private el: ElementRef
+		private el: ElementRef,
+		private flashMessagesService: FlashMessagesService
 	) {
 		this.createForm();
 	}
@@ -118,13 +119,11 @@ export class RegisterComponent implements OnInit {
 		this.authService.registerUser(user).subscribe(data => {
 			this.dataRegister = data;
 			if (!this.dataRegister.success) {
-				this.messageClass = 'alert alert-danger';
-				this.message = this.dataRegister.message;
+				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
 				this.processing = false;
 				this.enableForm();
 			} else {
-				this.messageClass = 'alert alert-success';
-				this.message = this.dataRegister.message;
+				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
 				setTimeout(() => {
 					this.router.navigate(['/login']);
 				}, 2000);

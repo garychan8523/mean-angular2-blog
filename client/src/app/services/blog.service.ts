@@ -45,7 +45,12 @@ export class BlogService {
 
   editBlog(blog) {
     this.createAuthenticationHeaders();
-    return this.http.put(this.domain + 'blogs/updateBlog/', blog, this.options);
+    return this.http.put(this.domain + 'blogs/updateBlog/' + blog._id, blog, this.options);
+  }
+
+  patchBlogSetting(patchObj) {
+    this.createAuthenticationHeaders();
+    return this.http.patch(this.domain + 'blogs/setting/' + patchObj.settingPatchObj.blogId, patchObj, this.options);
   }
 
   deleteBlog(id) {

@@ -50,6 +50,12 @@ app.use('/authentication', authentication);
 app.use('/profile', profile);
 app.use('/blogs', blogs);
 
+app.use((err, req, res, next) => {
+	res.status(500).send({
+		message: err.message,
+	});
+});
+
 // moddileware: end
 
 if (process.env.ENV && process.env.ENV == 'PRD') {
