@@ -18,7 +18,7 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
   blog;
   username;
   currentUrl;
-  loading = false;
+  loading = true;
   dataRegister: any = {};
   leadinView;
 
@@ -66,8 +66,9 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
       }
     }, err => {
       this.flashMessagesService.show(err.error.message, { cssClass: 'alert-danger', timeout: 5000 });
+    }, () => {
+      this.loading = false;
     });
-    this.loading = false;
   }
 
 }
