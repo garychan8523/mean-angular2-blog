@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild, AfterViewInit, ComponentRef, Directive, ViewContainerRef, ComponentFactoryResolver, Host } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, AfterViewChecked } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
@@ -13,7 +13,7 @@ import { QuillEditorComponent } from '../../modules/quill-editor/quill-editor/qu
   styleUrls: ['./blog.component.css']
 })
 
-export class BlogComponent implements OnInit, AfterViewInit {
+export class BlogComponent implements OnInit, AfterViewChecked {
 
   notificationClass;
   notification = false;

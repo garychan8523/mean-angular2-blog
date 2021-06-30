@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -13,7 +13,7 @@ import { QuillEditorComponent } from '../../../modules/quill-editor/quill-editor
   templateUrl: './view-blog.component.html',
   styleUrls: ['./view-blog.component.css']
 })
-export class ViewBlogComponent implements OnInit, AfterViewInit {
+export class ViewBlogComponent implements OnInit, AfterViewChecked {
 
   blog;
   username;
