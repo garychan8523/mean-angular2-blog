@@ -41,7 +41,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
   @ViewChild(QuillEditorComponent)
   editorComponent: QuillEditorComponent;
-  ngAfterViewInit(): void {
+  ngAfterViewChecked(): void {
   }
 
   onEvent(event) {

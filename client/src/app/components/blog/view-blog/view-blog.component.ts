@@ -34,7 +34,7 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
 
   @ViewChild(QuillEditorComponent)
   editorComponent: QuillEditorComponent;
-  ngAfterViewInit() {
+  ngAfterViewChecked() {
     this.editorComponent.setEditing(false);
     this.editorComponent.quill.enable(false);
     this.editorComponent.quill.setContents(JSON.parse(this.blog.body).ops);
