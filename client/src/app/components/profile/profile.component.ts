@@ -12,7 +12,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 
 export class ProfileComponent implements OnInit {
 
-  navigation;
+  mobile;
   routing;
 
   constructor(
@@ -23,6 +23,9 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
     this.authService.getProfile().subscribe((profile: any) => {
       if (!profile.success) {
         this.authService.logout();
@@ -35,15 +38,6 @@ export class ProfileComponent implements OnInit {
         this.router.navigateByUrl('/profile/(profile-content:personal-details)');
       }
     });
-  }
-
-  updateRouting(routeName) {
-    console.log('updateRouting');
-    console.log(routeName)
-    this.routing = routeName;
-    //this.router.navigate([{ outlets: { 'profile-content': routeName } }]);
-    this.router.navigateByUrl('/profile/(profile-content:' + routeName + ')');
-
   }
 
 }

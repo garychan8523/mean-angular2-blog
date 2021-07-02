@@ -19,4 +19,8 @@
         flex: 0 0 100%;
         max-width: 100%;
      }
+     .col-9 { 
+        flex: 0 0 100%;
+        max-width: 100%;
+     }
 }

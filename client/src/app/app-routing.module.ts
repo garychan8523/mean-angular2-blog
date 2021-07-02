@@ -47,7 +47,8 @@ const appRoutes: Routes = [
       { path: 'login-status', component: LoginStatusComponent, outlet: 'profile-content' },
       { path: 'unpublished', component: UnpublishedComponent, outlet: 'profile-content' },
     ],
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { shouldReuse: true, showNavbar: true }
   },
   {
     path: 'about',

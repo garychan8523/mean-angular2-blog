@@ -8,9 +8,9 @@
 <div class="row">
   <div class="col-3">
     <div class="nav flex-column nav-pills" aria-orientation="vertical">
-      <a class="nav-link" [ngClass]="{'active': routing.includes('personal-details')}" (click)="updateRouting('personal-details')">Personal Details</a>
-      <a class="nav-link" [ngClass]="{'active': routing.includes('login-status')}" (click)="updateRouting('login-status')">Login status</a>
-      <a class="nav-link" [ngClass]="{'active': routing.includes('unpublished')}" (click)="updateRouting('unpublished')">Unpublished (Draft)</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['personal-details'] }}]">Personal Details</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['login-status'] }}]">Login status</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['unpublished'] }}]">Unpublished (Draft)</a>
     </div>
   </div>
 
@@ -18,39 +18,13 @@
     <div class="tab-content" id="v-pills-tabContent">
       <div class="tab-pane fade show active" id="v-pills-profile-content">
         <ul class="list-group">
+          <div *ngIf="mobile">
+            <hr>
+          </div>
           <router-outlet name="profile-content"></router-outlet>
         </ul>
       </div>
     </div>
   </div>
-
-  <!-- <div class="col-9">
-    <div class="tab-content" id="v-pills-tabContent">
-
-      <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-        <ul class="list-group">
-          <li class="list-group-item">username: {{ username }}</li>
-        </ul>
-      </div>
-
-      <div class="tab-pane fade" id="v-pills-login-status" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-        <ul class="list-group">
-          <li class="list-group-item" *ngFor="let record of loginRecords">
-             <div ng-class="record.force_logout ? 'login-status-active' : 'login-status-inactive'"></div>
-  <div class="{{ (record.force_logout || record.loggedout) ? 'login-status-inactive' : 'login-status-active' }}"></div>
-  ip address: {{ record.ipaddress }} <br>
-  Device: {{ record.device }} <br>
-  Location: {{ record.location }} <br>
-  Login at: {{ record.loginAt | date: "dd MMM yyyy HH:mm:ss" }} <br>
-  Expire at: {{ record.expireAt | date: "dd MMM yyyy HH:mm:ss" }} <br>
-  Logged out: {{record.loggedout ? "true" : "false" }} <br>
-  </li>
-  </ul>
-</div>
-
-<div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
-</div>
-</div> -->
 
 </div>
