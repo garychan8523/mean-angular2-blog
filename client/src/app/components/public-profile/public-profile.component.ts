@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { FlashMessagesService } from 'angular2-flash-messages';
+
 @Component({
 	selector: 'app-public-profile',
 	templateUrl: './public-profile.component.html',
@@ -13,13 +15,12 @@ export class PublicProfileComponent implements OnInit {
 	username;
 	email;
 	foundProfile = false;
-	messageClass;
-	message;
 	dataRegister: any = {};
 
 	constructor(
 		private authService: AuthService,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private flashMessagesService: FlashMessagesService
 	) { }
 
 	ngOnInit() {
@@ -28,8 +29,7 @@ export class PublicProfileComponent implements OnInit {
 			this.dataRegister = data;
 			if (!this.dataRegister.success) {
 				this.foundProfile = false;
-				this.messageClass = 'alert alert-danger';
-				this.message = this.dataRegister.message;
+				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
 			} else {
 				this.foundProfile = true;
 				this.username = this.dataRegister.user.username;
