@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-unpublished',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UnpublishedComponent implements OnInit {
 
-  constructor() { }
+  loading;
+  unpublishedBlogs;
+
+  constructor(
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
+    this.getUnpublishedBlogs();
+  }
+
+  getUnpublishedBlogs() {
+    this.loading = true;
+    this.authService.getUnpublishedBlogs().subscribe((data: any) => {
+      this.unpublishedBlogs = data.blogs;
+      this.loading = false;
+    });
+    setTimeout(() => { this.loading = false; }, 5000);
   }
 
 }

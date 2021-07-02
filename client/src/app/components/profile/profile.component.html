@@ -3,13 +3,14 @@
     <div class="nav flex-column nav-pills" aria-orientation="vertical">
       <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['personal-details'] }}]">Personal Details</a>
       <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['login-status'] }}]">Login status</a>
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['unpublished'] }}]">Unpublished (Draft)</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['unpublished-draft'] }}]">Unpublished (Draft)</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['published-private'] }}]">Published (Private)</a>
     </div>
   </div>
 
   <div class="col-9">
-    <div class="tab-content" id="v-pills-tabContent">
-      <div class="tab-pane fade show active" id="v-pills-profile-content">
+    <div class="tab-content">
+      <div class="tab-pane fade show active">
         <ul class="list-group">
           <div *ngIf="mobile">
             <hr>

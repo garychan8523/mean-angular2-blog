@@ -37,6 +37,7 @@ import { RouteStrategyService } from './route-strategy.service';
 import { PersonalDetailsComponent } from './components/profile/profile-components/personal-details/personal-details.component';
 import { LoginStatusComponent } from './components/profile/profile-components/login-status/login-status.component';
 import { UnpublishedComponent } from './components/profile/profile-components/unpublished/unpublished.component';
+import { PublishedPrivateComponent } from './components/profile/profile-components/published-private/published-private.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { UnpublishedComponent } from './components/profile/profile-components/un
     BlogSettingComponent,
     PersonalDetailsComponent,
     LoginStatusComponent,
-    UnpublishedComponent
+    UnpublishedComponent,
+    PublishedPrivateComponent
   ],
   imports: [
     BrowserModule,
