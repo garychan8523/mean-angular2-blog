@@ -3,6 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { EventEmitterService } from '../../services/event-emitter.service';
+import { BlogService } from '../../services/blog.service';
 
 @Component({
 	selector: 'app-public-profile',
@@ -17,13 +19,20 @@ export class PublicProfileComponent implements OnInit {
 	foundProfile = false;
 	dataRegister: any = {};
 
+	loadingBlogs;
+	publishedPosts;
+
 	constructor(
-		private authService: AuthService,
+		public authService: AuthService,
 		private activatedRoute: ActivatedRoute,
-		private flashMessagesService: FlashMessagesService
+		private flashMessagesService: FlashMessagesService,
+		private eventEmitterService: EventEmitterService,
+		private blogService: BlogService,
 	) { }
 
 	ngOnInit() {
+		this.eventEmitterService.updateNavbarStatus('show');
+		this.loadingBlogs = true;
 		this.currentUrl = this.activatedRoute.snapshot.params;
 		this.authService.getPublicProfile(this.currentUrl.username).subscribe(data => {
 			this.dataRegister = data;
@@ -33,9 +42,24 @@ export class PublicProfileComponent implements OnInit {
 			} else {
 				this.foundProfile = true;
 				this.username = this.dataRegister.user.username;
+				this.getPublishedBlogsByUsername(this.username);
 				this.email = this.dataRegister.user.email;
 			}
 		});
+	}
+
+	getPublishedBlogsByUsername(username) {
+		this.loadingBlogs = true;
+		this.blogService.getPublishedBlogsByUsername(username).subscribe((data: any) => {
+			this.publishedPosts = data.blogs;
+			this.publishedPosts.forEach(blog => {
+				if (blog.leadin) {
+					blog.leadin = blog.leadin.replace(/\n/g, "<br>");
+				}
+			});
+			this.loadingBlogs = false;
+		});
+		setTimeout(() => { this.loadingBlogs = false; }, 5000);
 	}
 
 }

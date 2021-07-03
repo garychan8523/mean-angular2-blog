@@ -1,6 +1,28 @@
-<h5 class="page-header">Public Profile</h5>
+<h2>{{ username }}</h2>
 
-<ul *ngIf="foundProfile" class="list-group">
-  <li class="list-group-item">username: {{ username }}</li>
-  <li class="list-group-item">email: {{ email }}</li>
-</ul>
+<!-- <nav aria-label="...">
+  <ul class="pagination pagination-lg">
+    <li class="page-item"><a class="page-link" href="#">Activities</a></li>
+    <li class="page-item disabled"><a class="page-link" href="#">Published</a></li>
+    <li class="page-item"><a class="page-link" href="#">Following</a></li>
+  </ul>
+</nav> -->
+
+<br><br>
+
+<div *ngIf="!loadingBlogs && publishedPosts.length > 0" style="max-width: 800px; margin: auto;">
+  <b>Published</b><br><br>
+  <div id="{{ blog._id }}" class="card" *ngFor="let blog of publishedPosts">
+    <div class="card-body">
+      <div [routerLink]="['/blog/', blog._id]" class="card-title-box">
+        <h5 class="card-title" [ngClass]="{'no-margin': !blog.leadin}">{{ blog.title }}</h5>
+      </div>
+      <p class="card-text"><span [innerHTML]="blog.leadin"></span></p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted" [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><strong>{{ blog.createdBy }}</strong></small>
+      <small class="text-muted"> {{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
+    </div>
+
+  </div>
+</div>

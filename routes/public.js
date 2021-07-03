@@ -12,5 +12,22 @@ module.exports = (router) => {
 			}
 		}).sort({ '_id': -1 });
 	});
+
+	router.get('/user/:username', (req, res) => {
+		if (!req.params.username) {
+			res.json({ success: false, message: 'no uesrname provided' });
+		} else {
+			Blog.find({ createdBy: req.params.username, published: true, publishedAt: { $lte: Date.now() } }, (err, blogs) => {
+				if (err) {
+					res.json({ success: false, message: err });
+				} else if (!blogs) {
+					res.json({ success: false, message: 'no blogs found' });
+				} else {
+					res.json({ success: true, blogs: blogs });
+				}
+			}).sort({ '_id': -1 });
+		}
+	});
+
 	return router;
 };

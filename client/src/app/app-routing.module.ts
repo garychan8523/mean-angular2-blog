@@ -91,8 +91,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'user/:username',
-    component: PublicProfileComponent,
-    canActivate: [AuthGuard]
+    component: PublicProfileComponent
   },
   { path: '**', redirectTo: '/' }
 ];

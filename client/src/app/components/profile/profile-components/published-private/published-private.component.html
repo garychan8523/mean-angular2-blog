@@ -12,9 +12,7 @@
     </thead>
     <tbody>
         <tr *ngIf="privateBlogs.length == 0">
-            <td colspan="3">
-                <center>No records</center>
-            </td>
+            <td colspan="3" style="text-align: center;">No records</td>
         </tr>
         <tr *ngFor="let record of privateBlogs">
             <td>{{ record._id | slice:0:7 }}</td>

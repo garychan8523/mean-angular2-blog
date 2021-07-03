@@ -11,7 +11,7 @@
 	<app-quill-editor *ngIf="!loading" class="ql-hide"></app-quill-editor>
 	<br>
 
-	<div *ngIf="!loading" style="color: #666;">by <b>{{blog.createdBy}} </b>
+	<div *ngIf="!loading" style="color: #666;">by <span [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><b>{{blog.createdBy}} </b></span>
 		<span *ngIf="blog.publishedAt">published on {{ blog.publishedAt | date: "dd MMM yyyy 'at' HH:mm" }}</span>
 		<span *ngIf="!blog.publishedAt">(unpublished)</span>
 	</div><br>
