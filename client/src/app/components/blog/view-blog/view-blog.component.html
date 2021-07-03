@@ -11,7 +11,10 @@
 	<app-quill-editor *ngIf="!loading" class="ql-hide"></app-quill-editor>
 	<br>
 
-	<div *ngIf="!loading" style="color: #666;">by <b>{{blog.createdBy}}</b> on {{ blog.createdAt | date: "dd MMM yyyy 'at' HH:mm" }}</div><br>
+	<div *ngIf="!loading" style="color: #666;">by <span [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><b>{{blog.createdBy}} </b></span>
+		<span *ngIf="blog.publishedAt">published on {{ blog.publishedAt | date: "dd MMM yyyy 'at' HH:mm" }}</span>
+		<span *ngIf="!blog.publishedAt">(unpublished)</span>
+	</div><br>
 	<!--  ‧ {{ blog.publishedAt?(blog.published?'Published':'Unpublished'):'Draft'}} -->
 	<button type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
 	<button *ngIf="authService.loggedIn() && username === blog.createdBy && !loading" [disabled]="loading" type="button" name="button" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/setting/', blog._id]">Setting</button>

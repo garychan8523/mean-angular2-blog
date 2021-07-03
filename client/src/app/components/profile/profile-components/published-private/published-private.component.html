@@ -1,0 +1,23 @@
+<p>Follow content are set as unpublished(not visible to public), click on the heading and go to setting for publish.</p>
+<button [disabled]="loading" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" (click)="getPrivateBlogs()"><span class="fas fa-redo-alt"></span> Refresh</button>
+<br><br>
+
+<table *ngIf="!loading && privateBlogs" class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col"># ({{ privateBlogs.length }})</th>
+            <th scope="col" style="width: 65%">Title</th>
+            <th scope="col">Created on</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngIf="privateBlogs.length == 0">
+            <td colspan="3" style="text-align: center;">No records</td>
+        </tr>
+        <tr *ngFor="let record of privateBlogs">
+            <td>{{ record._id | slice:0:7 }}</td>
+            <td [routerLink]="['/blog/', record._id]" style="cursor: pointer;"><b>{{ record.title }}</b></td>
+            <td>{{ record.createdAt | date: "dd MMM yyyy 'at' HH:mm" }}</td>
+        </tr>
+    </tbody>
+</table>

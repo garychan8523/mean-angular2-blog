@@ -20,8 +20,8 @@
 			<p class="card-text"><span [innerHTML]="blog.leadin"></span></p>
 		</div>
 		<div class="card-footer">
-			<small class="text-muted"><strong>{{ blog.createdBy }}</strong></small>
-			<small class="text-muted"> {{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
+			<small class="text-muted" [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><strong>{{ blog.createdBy }}</strong></small>
+			<small class="text-muted"> {{ blog.publishedAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
 			<span *ngIf="!authService.loggedIn() || (username === blog.createdBy)">
 				<span class="dropdown">
 					<button disabled type="button" name="button" class="btn btn-sm btn-upvote owner">

@@ -1,0 +1,164 @@
+.notification-box {
+	position: fixed;
+	bottom: 30px;
+	right: 50px;
+	z-index: 1050;
+}
+
+.popup-modal-wrapper{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1060;
+}
+
+.popup-modal{
+	margin: auto;
+	margin-top: 7rem;
+}
+
+.modal-header{
+	padding: 10px !important;
+	background: #f6f7f9;
+	border-radius: .3rem .3rem 0 0;
+}
+
+.modal-title{
+	line-height: 0;
+}
+
+.modal-footer{
+	padding: 10px !important;
+}
+
+button.close{
+	margin-right: 5px;
+}
+
+.fa{
+	padding-right: 5px;
+}
+
+/*.fa-pencil-square-o,.fa-refresh{
+	padding-right: 0;
+}*/
+
+.fa-pencil,.fa-trash-o{
+	padding: 0 2px 0 2px;
+}
+
+.btn-upvote{
+	color: #006700;
+}
+
+.btn-downvote{
+	color: #9a0000;
+}
+
+.btn-nobg{
+	cursor: pointer;
+	background: none;
+	color: #666;
+	font-size: .85em;
+	font-weight: 600;
+}
+
+.btn-nobg:hover{
+	color: #222;
+}
+
+.card{
+	margin: 0 auto 15px auto;
+}
+
+.no-margin{
+	margin-bottom: 0;
+}
+
+.card-title-box{
+	display: inline-block;
+	cursor: pointer;
+}
+
+.card-body::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+.card-body::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+.card-footer{
+	padding: .35rem 1.25rem;
+	border-top: none;
+}
+.card-footer .btn{
+	opacity: 0.8;
+}
+
+.card-footer .owner{
+    border: none;
+    pointer-events:none;
+}
+
+.form-group{
+	width: 920px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown{
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content{
+    display: none;
+    position: absolute;
+    /*background-color: #000;*/
+    padding-top: 5px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #ddd;
+    background-color: #000;
+    font-size: 14px;
+    padding: 2px 8px 2px 8px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:first-child{
+	padding-top: 5px;
+}
+
+.dropdown-content a:last-child{
+	padding-bottom: 5px;
+}
+
+.dropdown-content a:hover {
+	color: #eee;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.list-group-item {
+	padding: 4px 10px;
+	background-color: #fefefe;
+	color: #525252;
+	border: none;
+}
+
+.blog-operation-button-group {
+	margin-top: 25px;
+}
+
+.leadin-textarea {
+	height: 120px;
+}

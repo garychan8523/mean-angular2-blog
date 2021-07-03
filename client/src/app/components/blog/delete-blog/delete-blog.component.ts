@@ -3,6 +3,8 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../../services/blog.service';
 
+import { FlashMessagesService } from 'angular2-flash-messages';
+
 @Component({
 	selector: 'app-delete-blog',
 	templateUrl: './delete-blog.component.html',
@@ -10,8 +12,6 @@ import { BlogService } from '../../../services/blog.service';
 })
 export class DeleteBlogComponent implements OnInit {
 
-	message;
-	messageClass;
 	foundBlog = false;
 	processing = false;
 	blog;
@@ -22,7 +22,8 @@ export class DeleteBlogComponent implements OnInit {
 		private location: Location,
 		private activatedRoute: ActivatedRoute,
 		private blogService: BlogService,
-		private router: Router
+		private router: Router,
+		private flashMessagesService: FlashMessagesService
 	) { }
 
 	deleteBlog() {
@@ -30,11 +31,9 @@ export class DeleteBlogComponent implements OnInit {
 		this.blogService.deleteBlog(this.currentUrl.id).subscribe(data => {
 			this.dataRegister = data;
 			if (!this.dataRegister.success) {
-				this.messageClass = 'alert alert-danger';
-				this.message = this.dataRegister.message;
+				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
 			} else {
-				this.messageClass = 'alert alert-success';
-				this.message = this.dataRegister.message;
+				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
 				setTimeout(() => {
 					this.router.navigate(['/blog']);
 				}, 2000);
@@ -50,8 +49,7 @@ export class DeleteBlogComponent implements OnInit {
 		this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
 			this.dataRegister = data;
 			if (!this.dataRegister.success) {
-				this.messageClass = 'alert alert-danger';
-				this.message = this.dataRegister.message;
+				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
 			} else {
 				this.blog = {
 					title: this.dataRegister.blog.title,

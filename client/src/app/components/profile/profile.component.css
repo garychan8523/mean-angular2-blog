@@ -1,17 +1,26 @@
-.login-status-active {
-	height: 100%;
-    width: 5px;
-    background: #b5f4b5;
-    position: absolute;
-    margin-top: -.75rem;
-    margin-left: -1.25rem;
+.row {
+    height: auto;
 }
 
-.login-status-inactive {
-	height: 100%;
-    width: 5px;
-    background: #ccc;
-    position: absolute;
-    margin-top: -.75rem;
-    margin-left: -1.25rem;
+.nav-link {
+    cursor: pointer;
+}
+
+.nav-link.active {
+    font-weight: 600;
+}
+
+.nav-pills:hover > .nav-link.active {
+    color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    .col-3 { 
+        flex: 0 0 100%;
+        max-width: 100%;
+     }
+     .col-9 { 
+        flex: 0 0 100%;
+        max-width: 100%;
+     }
 }

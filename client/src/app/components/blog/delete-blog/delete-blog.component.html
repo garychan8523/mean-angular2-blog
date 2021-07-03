@@ -1,11 +1,5 @@
 <h5 class="page-header">Delete Blog</h5>
 
-<div class="row" *ngIf="message">
-  <div [ngClass]="messageClass">
-    {{ message }}
-  </div>
-</div>
-
 <div class="col-md-6" *ngIf="foundBlog">
   <div class="modal-content">
     <div class="modal-header">
@@ -28,10 +22,8 @@
 
     </div>
     <div class="modal-footer">
-      <a routerLink="/blog"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary"
-          (click)="goBack()">Back</button></a>
-      <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger"
-        (click)="deleteBlog()">Delete</button>
+      <a routerLink="/blog"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button></a>
+      <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteBlog()">Delete</button>
     </div>
   </div>
 </div>

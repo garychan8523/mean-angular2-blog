@@ -67,6 +67,46 @@ module.exports = (router) => {
         res.json({ success: true, blog: req.blog });
     });
 
+    router.get('/listUnpublished', checkAuth, (req, res) => {
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'Unable to authenticate user' });
+                } else {
+                    Blog.find({ createdBy: user.username, published: undefined }, (err, blogs) => {
+                        if (err) {
+                            res.json({ success: false, message: err });
+                        } else {
+                            res.json({ success: true, blogs: blogs });
+                        }
+                    }).sort({ '_id': -1 });
+                }
+            }
+        });
+    });
+
+    router.get('/listPrivate', checkAuth, (req, res) => {
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'Unable to authenticate user' });
+                } else {
+                    Blog.find({ createdBy: user.username, published: false }, (err, blogs) => {
+                        if (err) {
+                            res.json({ success: false, message: err });
+                        } else {
+                            res.json({ success: true, blogs: blogs });
+                        }
+                    }).sort({ '_id': -1 });
+                }
+            }
+        });
+    });
+
     router.put('/updateBlog/:blogId', checkAuth, (req, res) => {
         let blog = req.blog;
         User.findOne({ _id: req.decoded.userId }, (err, user) => {

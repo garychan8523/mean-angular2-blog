@@ -95,6 +95,16 @@ export class AuthService {
     return this.http.get(this.domain + 'profile/loginstatus', this.options);
   }
 
+  getUnpublishedBlogs() {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'blogs/listUnpublished/', this.options);
+  }
+
+  getPrivateBlogs() {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'blogs/listPrivate/', this.options);
+  }
+
   // Function to check if user is logged in
   loggedIn() {
     if (!this.authToken) {

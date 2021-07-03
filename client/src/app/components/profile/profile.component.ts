@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service'
 import { Router } from '@angular/router';
+
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-profile',
@@ -8,41 +10,33 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.css']
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements AfterViewChecked, OnInit {
 
-  messageClass;
-  message;
-  username;
-  email;
-  loginRecords;
-  dataRegister: any = {};
+  mobile;
 
   constructor(
     private authService: AuthService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private flashMessagesService: FlashMessagesService
+  ) {
+  }
 
-  getLoginRecords() {
-    this.authService.getLoginStatus().subscribe(records => {
-      this.dataRegister = records
-      if (this.dataRegister.success) {
-        this.loginRecords = this.dataRegister.records;
-      }
-    })
+  ngAfterViewChecked() {
+    //console.log('params', this.router.url);
+    if (!this.router.url.includes('profile-content')) {
+      this.router.navigateByUrl('/profile/(profile-content:personal-details)');
+    }
   }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe(profile => {
-      this.dataRegister = profile
-      if (!this.dataRegister.success) {
+    if (window.screen.width <= 768) { // 768px portrait
+      this.mobile = true;
+    }
+    this.authService.getProfile().subscribe((profile: any) => {
+      if (!profile.success) {
         this.authService.logout();
         window.location.reload();
-      } else {
-        this.username = this.dataRegister.user.username;
-        this.email = this.dataRegister.user.email;
       }
-
-      this.getLoginRecords();
     });
   }
 

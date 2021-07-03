@@ -38,6 +38,11 @@ export class BlogService {
     return this.http.get(this.domain + 'blogs/allBlogs', this.options);
   }
 
+  getPublishedBlogsByUsername(username) {
+    //this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'blogs/user/' + username, this.options);
+  }
+
   getSingleBlog(id) {
     //this.createAuthenticationHeaders();
     return this.http.get(this.domain + 'blogs/singleBlog/' + id, this.options);
