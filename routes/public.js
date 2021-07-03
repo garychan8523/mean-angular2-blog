@@ -10,7 +10,7 @@ module.exports = (router) => {
 			} else {
 				res.json({ success: true, blogs: blogs });
 			}
-		}).sort({ '_id': -1 });
+		}).sort({ publishedAt: -1 });
 	});
 
 	router.get('/user/:username', (req, res) => {
