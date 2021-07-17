@@ -1,10 +1,11 @@
 <div class="row">
   <div class="col-3">
     <div class="nav flex-column nav-pills" aria-orientation="vertical">
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['personal-details'] }}]">Personal Details</a>
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['login-status'] }}]">Login status</a>
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['unpublished-draft'] }}]">Unpublished (Draft)</a>
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'profile-content':['published-private'] }}]">Published (Private)</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'section':['personal-details'] }}]">Personal Details</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'section':['login-status'] }}]">Login status</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'section':['published'] }}]">Published</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'section':['published-private'] }}]">Published (Private)</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/profile', { outlets: {'section':['unpublished-draft'] }}]">Unpublished (Draft)</a>
     </div>
   </div>
 
@@ -15,7 +16,7 @@
           <div *ngIf="mobile">
             <hr>
           </div>
-          <router-outlet name="profile-content"></router-outlet>
+          <router-outlet name="section"></router-outlet>
         </ul>
       </div>
     </div>
