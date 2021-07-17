@@ -23,8 +23,8 @@ export class ProfileComponent implements AfterViewChecked, OnInit {
 
   ngAfterViewChecked() {
     //console.log('params', this.router.url);
-    if (!this.router.url.includes('profile-content')) {
-      this.router.navigateByUrl('/profile/(profile-content:personal-details)');
+    if (!this.router.url.includes('section')) {
+      this.router.navigateByUrl('/profile/(section:personal-details)');
     }
   }
 

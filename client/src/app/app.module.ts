@@ -38,6 +38,7 @@ import { PersonalDetailsComponent } from './components/profile/profile-component
 import { LoginStatusComponent } from './components/profile/profile-components/login-status/login-status.component';
 import { UnpublishedComponent } from './components/profile/profile-components/unpublished/unpublished.component';
 import { PublishedPrivateComponent } from './components/profile/profile-components/published-private/published-private.component';
+import { PublishedComponent } from './components/profile/profile-components/published/published.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { PublishedPrivateComponent } from './components/profile/profile-componen
     PersonalDetailsComponent,
     LoginStatusComponent,
     UnpublishedComponent,
-    PublishedPrivateComponent
+    PublishedPrivateComponent,
+    PublishedComponent
   ],
   imports: [
     BrowserModule,
