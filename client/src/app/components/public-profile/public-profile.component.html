@@ -1,4 +1,6 @@
-<h2>{{ username }}</h2>
+<div class="username-container">
+  <h2>{{ username }}</h2>
+</div>
 
 <!-- <nav aria-label="...">
   <ul class="pagination pagination-lg">
@@ -7,8 +9,6 @@
     <li class="page-item"><a class="page-link" href="#">Following</a></li>
   </ul>
 </nav> -->
-
-<br><br>
 
 <div *ngIf="!loadingBlogs && publishedPosts.length > 0" style="max-width: 800px; margin: auto;">
   <b>Published</b><br><br>
@@ -20,8 +20,7 @@
       <p class="card-text"><span [innerHTML]="blog.leadin"></span></p>
     </div>
     <div class="card-footer">
-      <small class="text-muted" [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><strong>{{ blog.createdBy }}</strong></small>
-      <small class="text-muted"> {{ blog.createdAt | date: "on dd MMM yyyy 'at' HH:mm" }}</small>
+      <small class="text-muted">{{ blog.createdAt | date: "dd MMM yyyy 'at' HH:mm" }}</small>
     </div>
 
   </div>

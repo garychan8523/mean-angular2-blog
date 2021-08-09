@@ -68,8 +68,15 @@ button.close{
 	color: #222;
 }
 
+.username-container {
+	position: -webkit-sticky;
+  	position: sticky;
+  	top: 60px;
+}
+
 .card{
 	margin: 0 auto 15px auto;
+	border: 1px solid rgba(0,0,0,.05);
 }
 
 .no-margin{
@@ -94,6 +101,7 @@ button.close{
 .card-footer{
 	padding: .35rem 1.25rem;
 	border-top: none;
+	background-color: #fff;
 }
 .card-footer .btn{
 	opacity: 0.8;
