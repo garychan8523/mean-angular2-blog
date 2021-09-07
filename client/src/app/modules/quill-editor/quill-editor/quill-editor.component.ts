@@ -4,6 +4,10 @@ import * as QuillNamespace from 'quill';
 let Quill: any = QuillNamespace;
 import ImageResize from 'quill-image-resize-module';
 
+import { AuthService } from '../../../services/auth.service';
+import { UploadService } from '../../../services/upload.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
+
 @Component({
   selector: 'app-quill-editor',
   templateUrl: './quill-editor.component.html',
@@ -19,9 +23,11 @@ export class QuillEditorComponent implements OnInit {
   isContentDirty = false;
   isEditing = true;
 
-
   constructor(
     private formBuilder: FormBuilder,
+    public authService: AuthService,
+    private uploadService: UploadService,
+    private flashMessagesService: FlashMessagesService,
   ) {
     Quill.register('modules/imageResize', ImageResize);
   }
@@ -71,7 +77,57 @@ export class QuillEditorComponent implements OnInit {
       theme: 'snow'
     });
 
+    this.quill.getModule("toolbar").addHandler("image", () => {
+      selectLocalImage();
+    });
+
     var that = this;
+
+    function selectLocalImage() {
+      that.authService.getProfile().subscribe((data: any) => {
+        if (!data.success) {
+          that.authService.logout();
+          window.location.reload();
+        } else {
+          const input = document.createElement('input');
+          input.setAttribute('accept', 'image/*')
+          input.setAttribute('type', 'file');
+          input.click();
+
+          input.onchange = () => {
+            const file = input.files[0];
+
+            if (/^image\//.test(file.type)) {
+              saveToServer(file);
+            } else {
+              that.flashMessagesService.show('only accpt image file', { cssClass: 'alert-danger', timeout: 5000 });
+            }
+          };
+        }
+      });
+    }
+
+    function saveToServer(file: File) {
+      that.uploadService.uploadImage(file).subscribe((data: any) => {
+        if (!data.success) {
+          that.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
+        } else {
+          that.flashMessagesService.show(data.message, { cssClass: 'alert-success', timeout: 5000 });
+          insertToEditor('https://image.dedd.ca/' + data.key);
+        }
+      })
+    }
+
+    function insertToEditor(url: string) {
+      const range = that.quill.getSelection();
+      that.quill.insertEmbed(range.index, 'image', url);
+    }
+
+    this.quill.getModule('toolbar').addHandler('image', () => {
+      selectLocalImage();
+    });
+
+
     this.quill.on('text-change', function (delta, oldDelta, source) {
       that.isContentDirty = true;
       that.blogContent = that.quill.getContents();

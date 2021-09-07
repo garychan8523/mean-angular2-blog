@@ -61,6 +61,7 @@ export class UpdateBlogComponent implements OnInit {
       this.dataRegister = profile
       if (!this.dataRegister.success) {
         this.authService.logout();
+        window.location.reload();
       } else {
         this.username = this.dataRegister.user.username;
       }

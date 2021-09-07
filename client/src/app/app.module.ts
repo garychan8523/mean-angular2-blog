@@ -16,6 +16,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { RegisterComponent } from './components/register/register.component'
 import { AuthService } from './services/auth.service';
 import { BlogService } from './services/blog.service';
+import { UploadService } from './services/upload.service';
 import { SocketService } from './services/socket.service';
 import { EventEmitterService } from './services/event-emitter.service';
 import { AboutComponent } from './components/about/about.component';
@@ -78,6 +79,7 @@ import { PublishedComponent } from './components/profile/profile-components/publ
     AuthGuard,
     NotAuthGuard,
     BlogService,
+    UploadService,
     SocketService,
     EventEmitterService,
     { provide: RouteReuseStrategy, useClass: RouteStrategyService }
