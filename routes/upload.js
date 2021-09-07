@@ -44,7 +44,7 @@ module.exports = (router) => {
             }
             console.log('uploaded', data.Key)
             res.json({
-                success: true, message: 'image uploaded', key: 'https://s3.ap-northeast-1.amazonaws.com/image.dedd.ca' + data.Key
+                success: true, message: 'image uploaded', key: 'https://s3.ap-northeast-1.amazonaws.com/image.dedd.ca/' + data.Key
             });
         });
 
