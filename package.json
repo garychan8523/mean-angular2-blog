@@ -26,6 +26,7 @@
     "express-fileupload": "^1.2.1",
     "inherits": "^2.0.3",
     "jsonwebtoken": "^8.0.0",
+    "mime-types": "^2.1.32",
     "mongoose": "^5.13.9",
     "nodemon": "^1.11.0",
     "request-ip": "^2.0.2",

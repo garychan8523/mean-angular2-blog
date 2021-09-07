@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+var mime = require('mime-types')
 const { v4: uuidv4 } = require('uuid');
 
 const checkAuth = require('../middleware/auth');
@@ -31,7 +32,7 @@ module.exports = (router) => {
             ContentType: req.files.file.mimetype,
             ContentEncoding: 'base64',
             ContentDisposition: 'attachment',
-            Key: uuidv4(),
+            Key: uuidv4() + '.' + mime.extension(req.files.file.mimetype),
             Body: fileContent
         };
 
