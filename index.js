@@ -43,6 +43,7 @@ if (process.env.ENV && process.env.ENV == 'PRD') {
 	}));
 }
 
+app.use(fileUpload());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
