@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const app = express();
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -8,6 +9,7 @@ const public = require('./routes/public')(router);
 const authentication = require('./routes/authentication')(router);
 const profile = require('./routes/profile')(router)
 const blogs = require('./routes/blogs')(router);
+const upload = require('./routes/upload')(router);
 
 
 const bodyParser = require('body-parser');
@@ -49,6 +51,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/authentication', authentication);
 app.use('/profile', profile);
 app.use('/blogs', blogs);
+app.use('/upload', upload);
 
 app.use((err, req, res, next) => {
 	res.status(500).send({

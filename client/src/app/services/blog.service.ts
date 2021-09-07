@@ -18,12 +18,11 @@ export class BlogService {
   ) { }
 
   createAuthenticationHeaders() {
-    this.authService.loadToken(); // Get token so it can be attached to headers
-    // Headers configuration options
+    this.authService.loadToken();
     this.options = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json', // Format set to JSON
-        'authorization': this.authService.authToken // Attach token
+        'Content-Type': 'application/json',
+        'authorization': this.authService.authToken
       }),
     };
   }
