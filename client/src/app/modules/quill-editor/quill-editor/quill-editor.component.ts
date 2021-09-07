@@ -113,7 +113,7 @@ export class QuillEditorComponent implements OnInit {
           that.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
         } else {
           that.flashMessagesService.show(data.message, { cssClass: 'alert-success', timeout: 5000 });
-          insertToEditor('https://image.dedd.ca/' + data.key);
+          insertToEditor(data.key);
         }
       })
     }
