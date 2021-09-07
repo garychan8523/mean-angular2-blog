@@ -20,12 +20,6 @@ module.exports = (router) => {
             return;
         }
 
-        AWS.config.update({
-            accessKeyId: process.env.IMAGE_KEY_ID,
-            secretAccesskey: process.env.IMAGE_SECRET,
-            region: process.env.IMAGE_REGION
-        })
-
         const s3 = new AWS.S3();
 
         console.log('received upload image file', req.files.file)
@@ -43,6 +37,7 @@ module.exports = (router) => {
 
         s3.upload(params, function (err, data) {
             if (err) {
+                console.log(JSON.stringify(err));
                 res.json({ success: false, message: err });
                 return;
             }
