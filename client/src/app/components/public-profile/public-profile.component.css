@@ -170,3 +170,9 @@ button.close{
 .leadin-textarea {
 	height: 120px;
 }
+
+@media screen and (max-width: 1200px) {
+	.username-container {
+		position: initial;
+	}
+}

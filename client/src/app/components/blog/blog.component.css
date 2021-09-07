@@ -48,14 +48,6 @@ button.close{
 	padding: 0 2px 0 2px;
 }
 
-.btn-upvote{
-	color: #006700;
-}
-
-.btn-downvote{
-	color: #9a0000;
-}
-
 .btn-nobg{
 	cursor: pointer;
 	background: none;
@@ -70,6 +62,12 @@ button.close{
 
 .card{
 	margin: 0 auto 15px auto;
+	background-color: initial;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid rgba(0,0,0,.125);
+	border-radius: initial;
 }
 
 .no-margin{
@@ -94,6 +92,7 @@ button.close{
 .card-footer{
 	padding: .35rem 1.25rem;
 	border-top: none;
+	background-color: initial;
 }
 .card-footer .btn{
 	opacity: 0.8;
@@ -161,4 +160,10 @@ button.close{
 
 .leadin-textarea {
 	height: 120px;
+}
+
+.dropdown button:disabled {
+	opacity: 0.5;
+	color: #666;
+	background-color: initial;
 }
