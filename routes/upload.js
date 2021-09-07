@@ -41,8 +41,8 @@ module.exports = (router) => {
                 res.json({ success: false, message: err });
                 return;
             }
-            console.log('uploaded', data.key)
-            res.json({ success: true, message: 'image uploaded', key: data.key });
+            console.log('uploaded', data.Key)
+            res.json({ success: true, message: 'image uploaded', key: data.Key });
         });
 
     });
