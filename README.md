@@ -1,1 +1,1 @@
-# mean-angular2-blog
+# blog.dedd.ca
