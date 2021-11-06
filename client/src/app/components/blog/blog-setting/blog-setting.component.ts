@@ -187,7 +187,11 @@ export class BlogSettingComponent implements OnInit {
       } else {
         setTimeout(() => {
           this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
-          this.goBack();
+          if (this.isNewPost) {
+            this.goSkip();
+          } else {
+            this.goBack();
+          }
         }, 1000);
       }
     }, err => {
