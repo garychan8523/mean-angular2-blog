@@ -25,6 +25,7 @@ export class BlogSettingComponent implements OnInit {
   published = false;
   publishedChecked = true;
 
+  isNewPost = false;
   blog;
   blogId;
   storedBlog;
@@ -55,6 +56,16 @@ export class BlogSettingComponent implements OnInit {
 
     this.blogId = this.activatedRoute.snapshot.params.id;
 
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        if (params.newPost) {
+          this.isNewPost = true;
+        } else {
+          this.isNewPost = false;
+        }
+      }
+      );
+
     this.getUserProfile()
       .then((data) => {
         this.username = data;
@@ -74,7 +85,6 @@ export class BlogSettingComponent implements OnInit {
             }
             this.storedBlog = Object.assign({}, this.blog);
             this.publishForm.patchValue({ published: this.storedBlog.published });
-            //console.log(JSON.stringify(this.blog));
           })
           .catch((message) => {
             this.flashMessagesService.show(message, { cssClass: 'alert-danger', timeout: 5000 });
@@ -118,6 +128,10 @@ export class BlogSettingComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  goSkip() {
+    parent.history.go(-2);
   }
 
   togglePublished() {

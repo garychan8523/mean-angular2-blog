@@ -49,7 +49,8 @@
         </div> -->
 
         <div class=" blog-operation-button-group">
-            <button type="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
+            <button *ngIf="isNewPost" type="button" class="btn btn-sm btn-secondary" (click)="goSkip()">Skip for now</button>
+            <button *ngIf="!isNewPost" type="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
             <button *ngIf="!processing" type="button" class="btn btn-sm btn-danger btn-margin-left" (click)="resetPublishForm()">Reset</button>
             <button *ngIf="!processing" type="submit" class="btn btn-sm btn-info btn-margin-left" [disabled]="publishForm.get('published').value == storedBlog.published">Confirm</button>
         </div>

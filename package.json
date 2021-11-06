@@ -4,8 +4,9 @@
   "description": "mean stack with angular 2",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "cd client && ng build --prod && cd .. && nodemon index.js"
+    "build": "cd client && ng build --prod && cd .. && nodemon index.js",
+    "ng": "cd client && ng serve --host 0.0.0.0",
+    "node": "nodemon index.js"
   },
   "repository": {
     "type": "git",

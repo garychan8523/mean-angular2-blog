@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { QuillEditorComponent } from 'src/app/modules/quill-editor/quill-editor/quill-editor.component';
 
@@ -43,6 +43,7 @@ export class UpdateBlogComponent implements OnInit {
     private blogService: BlogService,
     private eventEmitterService: EventEmitterService,
     private flashMessagesService: FlashMessagesService,
+    private router: Router
   ) {
     this.initBlogForm();
   }
@@ -137,28 +138,26 @@ export class UpdateBlogComponent implements OnInit {
     }
 
     if (!this.editMode) {
-      this.blogService.newBlog(blog).subscribe(data => {
-        this.dataRegister = data
-        if (!this.dataRegister.success) {
-          this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+      this.blogService.newBlog(blog).subscribe((data: any) => {
+        if (!data.success) {
+          this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
           this.enableBlogForm();
         } else {
           setTimeout(() => {
-            this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
-            this.goBack();
+            this.flashMessagesService.show(data.message, { cssClass: 'alert-success', timeout: 5000 });
+            this.router.navigate(['/blog/setting/', data.blogId], { queryParams: { newPost: true } });
           }, 1000);
         }
       })
     } else {
       blog['_id'] = this.currentUrl.id;
-      this.blogService.editBlog(blog).subscribe(data => {
-        this.dataRegister = data;
-        if (!this.dataRegister.success) {
-          this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+      this.blogService.editBlog(blog).subscribe((data: any) => {
+        if (!data.success) {
+          this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
           this.enableBlogForm();
         } else {
           setTimeout(() => {
-            this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
+            this.flashMessagesService.show(data.message, { cssClass: 'alert-success', timeout: 5000 });
             this.goBack();
           }, 1000);
         }

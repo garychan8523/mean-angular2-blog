@@ -57,7 +57,7 @@ module.exports = (router) => {
                         res.json({ success: false, message: err });
                     }
                 } else {
-                    res.json({ success: true, message: 'blog saved' });
+                    res.json({ success: true, message: 'blog saved', blogId: blog._id });
                 }
             });
         }
