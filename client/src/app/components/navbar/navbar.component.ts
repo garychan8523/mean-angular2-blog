@@ -13,6 +13,7 @@ import { NgZone } from "@angular/core";
 export class NavbarComponent implements OnInit {
 
   displayNavbar = true;
+  username;
 
   constructor(
     public authService: AuthService,
@@ -28,15 +29,6 @@ export class NavbarComponent implements OnInit {
 
   hideNavBar() {
     this.displayNavbar = false;
-  }
-
-  onLogoutClick() {
-    this.authService.logout();
-    this.flashMessagesService.show('logged out', { cssClass: 'alert-info', timeout: 2000 });
-    //this.router.navigate([this.router.url]);
-    this.zone.runOutsideAngular(() => {
-      location.reload();
-    });
   }
 
   isRootActive() {
@@ -61,6 +53,17 @@ export class NavbarComponent implements OnInit {
         }
       });
     }
+
+    this.eventEmitterService.updateNavbarUserContext.subscribe((username) => {
+      this.username = username;
+    });
+
+    this.authService.getProfile().subscribe((data: any) => {
+      if (data.success) {
+        this.username = data.user.username;
+      }
+    });
+
   }
 
 }

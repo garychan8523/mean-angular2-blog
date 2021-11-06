@@ -42,7 +42,7 @@ const appRoutes: Routes = [
     canActivate: [NotAuthGuard]
   },
   {
-    path: 'profile',
+    path: 'settings',
     component: ProfileComponent,
     children: [
       { path: 'personal-details', component: PersonalDetailsComponent, outlet: 'section' },

@@ -16,7 +16,6 @@ export class PublicProfileComponent implements OnInit {
 	currentUrl;
 	username;
 	email;
-	foundProfile = false;
 	dataRegister: any = {};
 
 	loadingBlogs;
@@ -37,10 +36,8 @@ export class PublicProfileComponent implements OnInit {
 		this.authService.getPublicProfile(this.currentUrl.username).subscribe(data => {
 			this.dataRegister = data;
 			if (!this.dataRegister.success) {
-				this.foundProfile = false;
 				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
 			} else {
-				this.foundProfile = true;
 				this.username = this.dataRegister.user.username;
 				this.getPublishedBlogsByUsername(this.username);
 				this.email = this.dataRegister.user.email;

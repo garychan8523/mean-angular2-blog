@@ -7,11 +7,16 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class EventEmitterService {
 
   updateNavbarEvent = new EventEmitter();
+  updateNavbarUserContext = new EventEmitter();
   subscription: Subscription;
 
   constructor() { }
 
   updateNavbarStatus(action) {
     this.updateNavbarEvent.emit(action);
+  }
+
+  updateNavbarUser(username) {
+    this.updateNavbarUserContext.emit(username);
   }
 }
