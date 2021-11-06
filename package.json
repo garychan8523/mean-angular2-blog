@@ -31,7 +31,7 @@
     "mongoose": "^5.13.9",
     "nodemon": "^1.11.0",
     "request-ip": "^2.0.2",
-    "socket.io": "^2.1.1",
+    "socket.io": "^2.4.0",
     "uuid": "^8.3.2"
   }
 }
