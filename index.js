@@ -1,6 +1,14 @@
+const fs = require('fs');
+const https = require('https');
+
 const express = require('express');
-const fileUpload = require('express-fileupload');
 const app = express();
+
+const privateKey = (process.env.ENV && process.env.ENV == 'PRD') ? fs.readFileSync('./privkey.pem') : undefined;
+const certificate = (process.env.ENV && process.env.ENV == 'PRD') ? fs.readFileSync('./cert.pem') : undefined;
+const credentials = (process.env.ENV && process.env.ENV == 'PRD') ? { key: privateKey, cert: certificate } : undefined;
+
+const fileUpload = require('express-fileupload');
 const router = express.Router();
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
@@ -16,14 +24,22 @@ const ActiveSession = require('./models/activeSession');
 
 var requestIp = require('request-ip');
 
-
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 8080;
 
-var server = app.listen(port, () => {
+let server;
+
+if (process.env.ENV && process.env.ENV == 'PRD') {
+	server = https.createServer(credentials, app);
+	server.listen(port);
 	console.log('Listening on port ' + port);
-});
+} else {
+	server = app.listen(port, () => {
+		console.log('Listening on port ' + port);
+	});
+}
+
 var io = require('socket.io').listen(server);
 
 mongoose.Promise = global.Promise;
