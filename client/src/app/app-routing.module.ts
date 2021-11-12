@@ -8,6 +8,7 @@ import { AboutComponent } from './components/about/about.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PersonalDetailsComponent } from './components/profile/profile-components/personal-details/personal-details.component';
+import { ActiveSessionsComponent } from './components/profile/profile-components/active-sessions/active-sessions.component';
 import { LoginStatusComponent } from './components/profile/profile-components/login-status/login-status.component';
 import { UnpublishedComponent } from './components/profile/profile-components/unpublished/unpublished.component';
 import { PublishedComponent } from './components/profile/profile-components/published/published.component';
@@ -46,6 +47,7 @@ const appRoutes: Routes = [
     component: ProfileComponent,
     children: [
       { path: 'personal-details', component: PersonalDetailsComponent, outlet: 'section' },
+      { path: 'active-sessions', component: ActiveSessionsComponent, outlet: 'section' },
       { path: 'login-status', component: LoginStatusComponent, outlet: 'section' },
       { path: 'unpublished-draft', component: UnpublishedComponent, outlet: 'section' },
       { path: 'published', component: PublishedComponent, outlet: 'section' },

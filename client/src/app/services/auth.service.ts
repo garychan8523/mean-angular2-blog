@@ -90,6 +90,11 @@ export class AuthService {
     return this.http.get(this.domain + 'profile/publicProfile/' + username, this.options);
   }
 
+  getActiveSessions() {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'profile/activeSessions', this.options);
+  }
+
   getLoginStatus() {
     this.createAuthenticationHeaders();
     return this.http.get(this.domain + 'profile/loginstatus', this.options);

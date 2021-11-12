@@ -1,0 +1,22 @@
+.container {
+	display: flex;
+}
+.active-session-box {
+	width: 160px;
+    height: auto;
+    background-color: #fefefe;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 5px;
+}
+.active-session-img {
+	height: 60px;
+    background-color: #eee;
+    border-radius: 8px 8px 0px 0px;
+}
+.active-session-desc {
+	font-size: 12px;
+	text-align: center;
+    border-radius: 0px 0px 8px 8px;
+    padding: 5px;
+}

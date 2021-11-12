@@ -2,14 +2,29 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 
+import { AuthService } from './auth.service';
+
 @Injectable()
 export class SocketService {
 
   socket: SocketIOClient.Socket;
   private _socket;
 
-  constructor() {
-    this.socket = io.connect(environment.apiUrl);
+  constructor(
+    private authService: AuthService
+  ) {
+    if (!this.socket) {
+      this.authService.loadToken();
+      if (this.authService.authToken) {
+        this.socket = io(environment.apiUrl, {
+          query: {
+            token: this.authService.authToken
+          }
+        });
+      } else {
+        this.socket = io(environment.apiUrl);
+      }
+    }
   }
 
   on(eventName: any, callback: any) {
@@ -29,6 +44,10 @@ export class SocketService {
   // public testMessage(message): void {
   //   this.socket.emit('message', message);
   // }
+
+  public updateSocketToken(): void {
+    this.socket.emit('updateToken', this.authService.authToken);
+  }
 
   public emitNotification(data): void {
     this.socket.emit('notification', data);

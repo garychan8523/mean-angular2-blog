@@ -3,6 +3,7 @@ const fileUpload = require('express-fileupload');
 const app = express();
 const router = express.Router();
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const config = require('./config/database');
 const path = require('path');
 const public = require('./routes/public')(router);
@@ -10,6 +11,10 @@ const authentication = require('./routes/authentication')(router);
 const profile = require('./routes/profile')(router)
 const blogs = require('./routes/blogs')(router);
 const upload = require('./routes/upload')(router);
+
+const ActiveSession = require('./models/activeSession');
+
+var requestIp = require('request-ip');
 
 
 const bodyParser = require('body-parser');
@@ -22,6 +27,10 @@ var server = app.listen(port, () => {
 var io = require('socket.io').listen(server);
 
 mongoose.Promise = global.Promise;
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 mongoose.connect(config.uri, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
 	if (err) {
 		console.log('Could NOT connect to databse: ', err);
@@ -77,10 +86,69 @@ if (process.env.ENV && process.env.ENV == 'PRD') {
 // });
 
 io.sockets.on('connection', (socket) => {
-	console.log('a new connection.');
+	function addSessionRecord(token) {
+		jwt.verify(token, config.secret, (err, decoded) => {
+			if (!err) {
+				ActiveSession.findOneAndUpdate({ userId: decoded.userId }, {
+					$push: {
+						'sessions': {
+							sessionId: socket.id,
+							ipaddress: 'ip-adress',
+							device: 'device-name'
+						}
+					}
+				}, { upsert: true },
+					(err) => {
+						if (err) {
+							console.log('socket addSessionRecordError -', socket.id);
+						} else {
+							console.log('socket addSessionRecordSuccess -', socket.id);
+						}
+					});
+			}
+		});
+	}
+
+	function deleteSessionRecord(token) {
+		jwt.verify(token, config.secret, (err, decoded) => {
+			if (!err) {
+				ActiveSession.updateMany({ userId: decoded.userId }, {
+					$pull: {
+						'sessions': { 'sessionId': { $in: [socket.id] } }
+					}
+				}, (err) => {
+					if (err) {
+						console.log('socket deleteSessionRecordError -', socket.id);
+					} else {
+						console.log('socket deleteSessionRecordSuccess -', socket.id);
+					}
+				});
+			}
+		});
+	}
+
+	console.log('socket connection -', socket.id);
+	if (socket.handshake.query.token) {
+		addSessionRecord(socket.handshake.query.token);
+	}
+
+	socket.on('disconnect', (reason) => {
+		console.log('socket disconnect -', socket.id, reason)
+		if (socket.handshake.query.token) {
+			deleteSessionRecord(socket.handshake.query.token);
+		}
+	});
+
+	socket.on('updateToken', (data) => {
+		console.log('socket updateToken -', socket.id);
+		socket.handshake.query.token = data;
+		if (socket.handshake.query.token) {
+			addSessionRecord(socket.handshake.query.token);
+		}
+	});
 
 	socket.on('notification', (data) => {
-		console.log('notification', data);
+		console.log('socket notification -', socket.id, data);
 		io.emit('notification', data);
 	});
 
@@ -97,3 +165,20 @@ io.sockets.on('connection', (socket) => {
 	});
 
 });
+
+setInterval(function () {
+	let activeSocketIds = Object.keys(io.sockets.clients().connected);
+	console.log('activeSocketIds', activeSocketIds);
+	ActiveSession.updateMany({}, {
+		$pull: {
+			'sessions': { 'sessionId': { $nin: activeSocketIds } }
+		}
+	}, (err) => {
+		if (err) {
+			console.log('socket syncActiveSessionError', err);
+		} else {
+			console.log('socket syncActiveSessionSuccess');
+		}
+	});
+
+}, 60 * 60 * 1000);

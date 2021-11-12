@@ -36,6 +36,7 @@ import { BlogSettingComponent } from './components/blog/blog-setting/blog-settin
 import { RouteReuseStrategy } from '@angular/router';
 import { RouteStrategyService } from './route-strategy.service';
 import { PersonalDetailsComponent } from './components/profile/profile-components/personal-details/personal-details.component';
+import { ActiveSessionsComponent } from './components/profile/profile-components/active-sessions/active-sessions.component';
 import { LoginStatusComponent } from './components/profile/profile-components/login-status/login-status.component';
 import { UnpublishedComponent } from './components/profile/profile-components/unpublished/unpublished.component';
 import { PublishedPrivateComponent } from './components/profile/profile-components/published-private/published-private.component';
@@ -60,6 +61,7 @@ import { PublishedComponent } from './components/profile/profile-components/publ
     UpdateBlogComponent,
     BlogSettingComponent,
     PersonalDetailsComponent,
+    ActiveSessionsComponent,
     LoginStatusComponent,
     UnpublishedComponent,
     PublishedPrivateComponent,

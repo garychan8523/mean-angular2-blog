@@ -7,6 +7,7 @@ import { ElementRef } from '@angular/core';
 
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { EventEmitterService } from '../../services/event-emitter.service';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
     private authGuard: AuthGuard,
     private el: ElementRef,
     private flashMessagesService: FlashMessagesService,
-    private eventEmitterService: EventEmitterService
+    private eventEmitterService: EventEmitterService,
+    private socketService: SocketService
   ) {
     this.createForm();
   }
@@ -68,6 +70,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
         this.authService.storeUserData(this.dataRegister.token, this.dataRegister.user);
+        this.socketService.updateSocketToken();
         this.eventEmitterService.updateNavbarUser(user.username);
         setTimeout(() => {
           if (this.previousUrl) {
