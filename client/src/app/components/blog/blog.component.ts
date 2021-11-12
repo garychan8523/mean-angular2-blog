@@ -222,23 +222,6 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
     this.getAllBlogs();
 
-    let data = {
-      msg: 'test message'
-    };
-
-    this.socketService.notification(data);
-
-    this.socketService.on('notification', (msg) => {
-      this.zone.run(() => {
-        this.notificationClass = 'alert alert-info';
-        this.notification = msg;
-
-        window.setTimeout(() => {
-          this.notification = false;
-        }, 5000);
-      });
-    });
-
     this.socketService.on('actionOther', (act) => {
       if (act == 'updateBlog') {
         this.zone.run(() => {

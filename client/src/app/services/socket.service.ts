@@ -26,11 +26,11 @@ export class SocketService {
     }
   };
 
-  public testMessage(message): void {
-    this.socket.emit('message', message);
-  }
+  // public testMessage(message): void {
+  //   this.socket.emit('message', message);
+  // }
 
-  public notification(data): void {
+  public emitNotification(data): void {
     this.socket.emit('notification', data);
   }
 

@@ -1,3 +1,9 @@
+<div class="notification-box" *ngIf="notification">
+  <div [ngClass]="notificationClass">
+    {{ notification }}
+  </div>
+</div>
+
 <nav [ngClass]="{'display-none': !displayNavbar}" id="nav-header" class="navbar navbar-expand-md navbar-light fixed-top">
   <div class="container" [ngClass]="{'nav-border' : !isRootActive()}">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">

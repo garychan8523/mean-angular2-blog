@@ -80,17 +80,17 @@ io.sockets.on('connection', (socket) => {
 	console.log('a new connection.');
 
 	socket.on('notification', (data) => {
-		console.log(data);
-		io.emit('notification', data.msg);
+		console.log('notification', data);
+		io.emit('notification', data);
 	});
 
 	socket.on('actionOther', (data) => {
-		console.log(data);
-		socket.broadcast.emit('actionOther', data.act);
+		console.log('actionOther', data);
+		socket.broadcast.emit('actionOther', data);
 	});
 
 	socket.on('event3', (data) => {
-		console.log(data.msg);
+		console.log('event3', data.msg);
 		socket.emit('event4', {
 			msg: 'loud and clear'
 		});

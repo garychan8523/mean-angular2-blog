@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { SocketService } from '../../services/socket.service';
 import { EventEmitterService } from '../../services/event-emitter.service';
 import { NgZone } from "@angular/core";
 
@@ -12,13 +13,16 @@ import { NgZone } from "@angular/core";
 })
 export class NavbarComponent implements OnInit {
 
+  notificationClass;
+  notification = false;
   displayNavbar = true;
   username;
 
   constructor(
     public authService: AuthService,
-    private eventEmitterService: EventEmitterService,
     private router: Router,
+    private socketService: SocketService,
+    private eventEmitterService: EventEmitterService,
     private flashMessagesService: FlashMessagesService,
     private zone: NgZone
   ) { }
@@ -62,6 +66,19 @@ export class NavbarComponent implements OnInit {
       if (data.success) {
         this.username = data.user.username;
       }
+    });
+
+    this.socketService.emitNotification({ msg: 'connected' });
+
+    this.socketService.on('notification', data => {
+      this.zone.run(() => {
+        this.notificationClass = 'alert alert-info';
+        this.notification = data.msg;
+
+        window.setTimeout(() => {
+          this.notification = false;
+        }, 5000);
+      });
     });
 
   }

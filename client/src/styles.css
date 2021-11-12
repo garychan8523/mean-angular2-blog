@@ -7,6 +7,13 @@
 	border-bottom: none;
 }
 
+.notification-box {
+	position: fixed;
+	bottom: 30px;
+	right: 50px;
+	z-index: 1050;
+}
+
 .editmode {
 	margin-top: -50px !important;
 }
