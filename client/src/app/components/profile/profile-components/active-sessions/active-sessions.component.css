@@ -1,8 +1,9 @@
 .active-session-container {
 	display: flex;
+    flex-wrap: wrap;
 }
 .active-session-box {
-	width: 160px;
+	min-width: 160px;
     height: auto;
     background-color: #fefefe;
     border: 1px solid #ccc;
