@@ -145,16 +145,14 @@ Last updated: ${this.ppLastUpdateDate}
   ) { }
 
   ngOnInit(): void {
-    if (this.eventEmitterService.subscription == undefined) {
-      this.eventEmitterService.subscription = this.eventEmitterService.showOverlayEvent.subscribe((content) => {
-        if (content == 'about') {
-          this.showOverlay(this.aboutData);
-        }
-        if (content == 'privacy-policy') {
-          this.showOverlay(this.privacyPolicyData);
-        }
-      });
-    }
+    this.eventEmitterService.showOverlayEvent.subscribe((content) => {
+      if (content == 'about') {
+        this.showOverlay(this.aboutData);
+      }
+      if (content == 'privacy-policy') {
+        this.showOverlay(this.privacyPolicyData);
+      }
+    });
   }
 
   showOverlay(content) {

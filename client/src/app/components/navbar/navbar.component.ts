@@ -46,17 +46,15 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.eventEmitterService.subscription == undefined) {
-      this.eventEmitterService.subscription = this.eventEmitterService.updateNavbarEvent.subscribe((action) => {
-
-        if (action == 'show') {
-          this.showNavBar();
-        }
-        if (action == 'hide') {
-          this.hideNavBar();
-        }
-      });
-    }
+    this.eventEmitterService.updateNavbarEvent.subscribe((action) => {
+      console.log('updateNavbarEvent', action)
+      if (action == 'show') {
+        this.showNavBar();
+      }
+      if (action == 'hide') {
+        this.hideNavBar();
+      }
+    });
 
     this.eventEmitterService.updateNavbarUserContext.subscribe((username) => {
       this.username = username;
