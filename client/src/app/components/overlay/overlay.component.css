@@ -29,3 +29,17 @@
 	pointer-events: none;
 	user-select: none;
 }
+
+@media screen and (max-width: 768px) {
+    .overlay-container {
+        padding: 30px;
+        padding-right: 50px;
+    }
+    .overlay-close-btn {
+        position: fixed;
+        top: 25px;
+        right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+    }
+}
