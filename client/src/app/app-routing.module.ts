@@ -4,8 +4,6 @@ import { HomeComponent } from './components/home/home.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
-import { AboutComponent } from './components/about/about.component';
-import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { PersonalDetailsComponent } from './components/profile/profile-components/personal-details/personal-details.component';
 import { ActiveSessionsComponent } from './components/profile/profile-components/active-sessions/active-sessions.component';
@@ -25,6 +23,14 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 const appRoutes: Routes = [
   {
     path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'about',
+    component: HomeComponent
+  },
+  {
+    path: 'privacy-policy',
     component: HomeComponent
   },
   {
@@ -55,14 +61,6 @@ const appRoutes: Routes = [
     ],
     canActivate: [AuthGuard],
     data: { shouldReuse: true, showNavbar: true }
-  },
-  {
-    path: 'about',
-    component: AboutComponent
-  },
-  {
-    path: 'privacy-policy',
-    component: PrivacyPolicyComponent
   },
   {
     path: 'blog/create',

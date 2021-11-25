@@ -1,0 +1,4 @@
+<div *ngIf="isShowOverlay" id="overlay">
+    <div class="overlay-close-btn" (click)="hideOverlay()"><span class="far fa-times-circle"></span></div>
+    <div class="overlay-container" [innerHTML]="content"></div>
+</div>

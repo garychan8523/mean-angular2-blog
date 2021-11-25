@@ -19,7 +19,6 @@ import { BlogService } from './services/blog.service';
 import { UploadService } from './services/upload.service';
 import { SocketService } from './services/socket.service';
 import { EventEmitterService } from './services/event-emitter.service';
-import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
@@ -29,7 +28,6 @@ import { BlogComponent } from './components/blog/blog.component';
 import { ViewBlogComponent } from './components/blog/view-blog/view-blog.component';
 import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
-import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { UpdateBlogComponent } from './components/blog/update-blog/update-blog.component';
 import { BlogSettingComponent } from './components/blog/blog-setting/blog-setting.component';
 
@@ -41,6 +39,7 @@ import { LoginStatusComponent } from './components/profile/profile-components/lo
 import { UnpublishedComponent } from './components/profile/profile-components/unpublished/unpublished.component';
 import { PublishedPrivateComponent } from './components/profile/profile-components/published-private/published-private.component';
 import { PublishedComponent } from './components/profile/profile-components/published/published.component';
+import { OverlayComponent } from './components/overlay/overlay.component';
 
 @NgModule({
   declarations: [
@@ -50,14 +49,12 @@ import { PublishedComponent } from './components/profile/profile-components/publ
     ChannelComponent,
     FooterComponent,
     RegisterComponent,
-    AboutComponent,
     LoginComponent,
     ProfileComponent,
     BlogComponent,
     ViewBlogComponent,
     DeleteBlogComponent,
     PublicProfileComponent,
-    PrivacyPolicyComponent,
     UpdateBlogComponent,
     BlogSettingComponent,
     PersonalDetailsComponent,
@@ -65,7 +62,8 @@ import { PublishedComponent } from './components/profile/profile-components/publ
     LoginStatusComponent,
     UnpublishedComponent,
     PublishedPrivateComponent,
-    PublishedComponent
+    PublishedComponent,
+    OverlayComponent
   ],
   imports: [
     BrowserModule,

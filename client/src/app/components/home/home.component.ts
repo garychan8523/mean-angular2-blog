@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { EventEmitterService } from '../../services/event-emitter.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,8 @@ export class HomeComponent implements OnInit {
   dataRegister: any = {};
 
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
+    private eventEmitterService: EventEmitterService
   ) { }
 
   ngOnInit() {
@@ -21,6 +23,12 @@ export class HomeComponent implements OnInit {
         this.authService.logout();
       }
     });
+
+    let current_path = location.pathname;
+    if (current_path == '/about' || current_path == '/privacy-policy') {
+      this.eventEmitterService.showOverlay(current_path.slice(1));
+    }
+
   }
 
 }

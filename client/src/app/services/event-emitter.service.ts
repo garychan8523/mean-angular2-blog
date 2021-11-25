@@ -8,6 +8,7 @@ export class EventEmitterService {
 
   updateNavbarEvent = new EventEmitter();
   updateNavbarUserContext = new EventEmitter();
+  showOverlayEvent = new EventEmitter();
   subscription: Subscription;
 
   constructor() { }
@@ -19,4 +20,9 @@ export class EventEmitterService {
   updateNavbarUser(username) {
     this.updateNavbarUserContext.emit(username);
   }
+
+  showOverlay(content) {
+    this.showOverlayEvent.emit(content);
+  }
+
 }

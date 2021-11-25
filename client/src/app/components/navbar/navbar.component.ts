@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
 
   isRootActive() {
     let current_path = location.pathname;
-    if (current_path == '/') {
+    if (current_path == '/' || current_path == '/about' || current_path == '/privacy-policy') {
       return true;
     } else {
       return false;

@@ -8,17 +8,17 @@
 }
 
 .nav-footer-link{
-	color: #777;
+	color: #777 !important;
 	margin-left: 28px;
 	font-size: 14px;
 	font-weight: 200 !important;
 	font-family: Noto Sans;
+	cursor: pointer;
 }
 
 .nav-footer-link:link{
 	text-decoration: none;
 }
 .nav-footer-link:hover{
-	text-decoration: none;
-	color: #000;
+	color: #000 !important;
 }

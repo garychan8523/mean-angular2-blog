@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { EventEmitterService } from '../../services/event-emitter.service';
+
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private eventEmitterService: EventEmitterService
+  ) { }
 
   ngOnInit() {
+  }
+
+  showOverlay(type) {
+    this.eventEmitterService.showOverlay(type);
   }
 
 }
