@@ -13,12 +13,12 @@ import { BlogService } from '../../services/blog.service';
 })
 export class PublicProfileComponent implements OnInit {
 
+	loading;
 	currentUrl;
 	username;
 	email;
 	dataRegister: any = {};
 
-	loadingBlogs;
 	publishedPosts;
 
 	constructor(
@@ -31,7 +31,6 @@ export class PublicProfileComponent implements OnInit {
 
 	ngOnInit() {
 		this.eventEmitterService.updateNavbarStatus('show');
-		this.loadingBlogs = true;
 		this.currentUrl = this.activatedRoute.snapshot.params;
 		this.authService.getPublicProfile(this.currentUrl.username).subscribe(data => {
 			this.dataRegister = data;
@@ -46,7 +45,7 @@ export class PublicProfileComponent implements OnInit {
 	}
 
 	getPublishedBlogsByUsername(username) {
-		this.loadingBlogs = true;
+		this.loading = true;
 		this.blogService.getPublishedBlogsByUsername(username).subscribe((data: any) => {
 			this.publishedPosts = data.blogs;
 			this.publishedPosts.forEach(blog => {
@@ -54,9 +53,9 @@ export class PublicProfileComponent implements OnInit {
 					blog.leadin = blog.leadin.replace(/\n/g, "<br>");
 				}
 			});
-			this.loadingBlogs = false;
+			this.loading = false;
 		});
-		setTimeout(() => { this.loadingBlogs = false; }, 5000);
+		setTimeout(() => { this.loading = false; }, 5000);
 	}
 
 }

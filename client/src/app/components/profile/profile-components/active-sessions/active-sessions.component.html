@@ -1,6 +1,9 @@
 <p>Follow shows all active connected session, synchronized every 60 minutes.</p>
+<button [disabled]="loading" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" (click)="getActiveSessions()"><span class="fas fa-redo-alt"></span> Refresh</button>
+<br><br>
 
-<div class="active-session-container">
+<span *ngIf="loading" class="spinner">Loading</span>
+<div *ngIf="!loading" class="active-session-container">
     <div class="active-session-box" *ngFor="let record of activeSessions">
         <div class="active-session-img"></div>
         <div class="active-session-desc">

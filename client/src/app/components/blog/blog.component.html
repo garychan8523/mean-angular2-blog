@@ -8,6 +8,7 @@
 
 <button type="button" name="button" class="btn btn-sm btn-warning" *ngIf="authService.loggedIn()" routerLink="/blog/create"><span class="far fa-edit"></span> <b>Create</b></button>
 <button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" (click)="reloadBlogs()"><span class="fas fa-redo-alt"></span> Refresh</button>
+<span *ngIf="loadingBlogs" class="spinner" style="margin-left: 40px;">Loading</span>
 <br><br>
 
 <div *ngIf="!loadingBlogs" style="max-width: 800px; margin: auto;">

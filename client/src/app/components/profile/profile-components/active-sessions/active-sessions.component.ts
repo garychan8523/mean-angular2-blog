@@ -9,6 +9,7 @@ import { AuthService } from '../../../../services/auth.service'
 })
 export class ActiveSessionsComponent implements OnInit {
 
+  loading;
   activeSessions;
 
   constructor(
@@ -20,11 +21,14 @@ export class ActiveSessionsComponent implements OnInit {
   }
 
   getActiveSessions() {
+    this.loading = true;
     this.authService.getActiveSessions().subscribe((data: any) => {
       if (data.success) {
         this.activeSessions = data.records;
+        this.loading = false;
       }
     })
+    setTimeout(() => { this.loading = false; }, 5000);
   }
 
 }

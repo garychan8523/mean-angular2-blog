@@ -1,19 +1,26 @@
-<p>Follow content are set as published(publicly visible).</p>
+<p>Follow content are set as published (publicly visible).</p>
 <button [disabled]="loading" type="button" name="button" class="btn btn-sm btn-secondary btn-margin-left" (click)="getPublishedBlogs()"><span class="fas fa-redo-alt"></span> Refresh</button>
 <br><br>
 
-<table *ngIf="!loading && publishedBlogs" class="table table-sm">
+<table class="table table-sm">
     <thead>
         <tr>
-            <th scope="col"># ({{ publishedBlogs.length }})</th>
+            <th scope="col" style="width: 80px;">ID<span *ngIf="!loading"> ({{ publishedBlogs.length }})</span></th>
             <th scope="col" style="width: 65%">Title</th>
             <th scope="col">Created on</th>
         </tr>
     </thead>
-    <tbody>
-        <tr *ngIf="publishedBlogs.length == 0">
+    <tbody *ngIf="loading">
+        <tr>
+            <td colspan="3" style="text-align: center;"><span class="spinner">Loading</span></td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="!loading && publishedBlogs.length == 0">
+        <tr>
             <td colspan="3" style="text-align: center;">No records</td>
         </tr>
+    </tbody>
+    <tbody *ngIf="!loading && publishedBlogs.length">
         <tr *ngFor="let record of publishedBlogs">
             <td>{{ record._id | slice:0:7 }}</td>
             <td [routerLink]="['/blog/', record._id]" style="cursor: pointer;"><b>{{ record.title }}</b></td>
