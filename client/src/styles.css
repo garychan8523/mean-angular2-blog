@@ -7,24 +7,101 @@
 	border-bottom: none;
 }
 
-@keyframes spinner {
-  to {transform: rotate(360deg);}
+/* bootstrap override */
+.mr-auto {
+	margin-right: auto !important;
 }
+
+.text-muted {
+	color: #868e96 !important;
+}
+
+.small,
+small {
+	font-size: 80% !important;
+}
+
+.btn-info {
+	color: #fff !important;
+	background-color: #17a2b8 !important;
+	border-color: #17a2b8 !important;
+}
+
+.btn-info:hover {
+	color: #fff !important;
+	background-color: #138496 !important;
+	border-color: #117a8b !important;
+}
+
+.btn-info:disabled,
+.btn-primary:disabled {
+	background-color: #868e96 !important;
+	border-color: #868e96 !important;
+}
+
+.navbar-light .navbar-nav .active>.nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show>.nav-link {
+	color: rgba(0, 0, 0, .9) !important;
+}
+
+a {
+	color: #566473 !important;
+}
+
+a:hover,
+a:focus {
+	color: #000 !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+	color: rgba(0, 0, 0, .5) !important;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+	color: rgba(0, 0, 0, .7) !important;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+	color: #fff !important;
+}
+
+.btn-transparent-outline,
+.btn-transparent-outline:hover {
+	color: #fff !important;
+}
+
+.table>:not(:first-child) {
+	border-top: 2px solid #ddd;
+}
+
+/* bootstrap override */
+
+@keyframes spinner {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 .spinner {
 	height: 20px;
 	margin-left: 28px;
 }
+
 .spinner::before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  margin-left: -28px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  border-top-color: #000;
-  animation: spinner .6s linear infinite;
+	content: '';
+	box-sizing: border-box;
+	position: absolute;
+	margin-left: -28px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid #ccc;
+	border-top-color: #000;
+	animation: spinner .6s linear infinite;
 }
 
 .notification-box {
@@ -66,7 +143,7 @@ form[name="blogForm"] {
 }
 
 .ql-toolbar {
-    border: none !important;
+	border: none !important;
 }
 
 .ql-container {
@@ -76,16 +153,24 @@ form[name="blogForm"] {
 	background-color: #fff;
 }
 
-.ql-toolbar.ql-snow + .ql-container.ql-snow {
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
 	border-top: 1px solid #ccc;
 }
 
-.ql-editor p, .ql-editor blockquote {
+.ql-editor p,
+.ql-editor blockquote {
 	font-size: 1.17em;
 	letter-spacing: 0.6px;
 }
 
-.ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6, .ql-editor p, .ql-editor blockquote {
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6,
+.ql-editor p,
+.ql-editor blockquote {
 	line-height: 1.6;
 	letter-spacing: 0.6px;
 }
@@ -95,7 +180,7 @@ form[name="blogForm"] {
 }
 
 div:focus {
-  outline: 0;
+	outline: 0;
 }
 
 .editmode #editor {
@@ -112,7 +197,7 @@ body {
 	margin-top: 100px;
 }
 
-.overlay{
+.overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -123,29 +208,30 @@ body {
 	backdrop-filter: blur(2px);
 }
 
-.btn-transparent{
+.btn-transparent {
 	color: #fff;
 	opacity: 0.8;
 }
 
-.btn-transparent:hover{
+.btn-transparent:hover {
 	color: #fff;
 }
 
-.btn-transparent-outline{
+.btn-transparent-outline {
 	color: #fff;
 	border-color: #fff;
 	border-width: 2px;
 	opacity: 0.8;
 }
 
-.btn-transparent-outline:hover{
+.btn-transparent-outline:hover {
 	color: #fff;
 	border-color: #ccc;
 	border-width: 2px;
 }
 
-.btn-primary:disabled, .btn-info:disabled{
+.btn-primary:disabled,
+.btn-info:disabled {
 	background-color: #868e96;
 	border-color: #868e96;
 }
@@ -174,7 +260,7 @@ body {
 	padding: .4rem 1.25rem;
 	margin: auto;
 	margin-top: 10px;
-	display:inline-block;
+	display: inline-block;
 	z-index: 150;
 	border: none;
 }
@@ -191,7 +277,7 @@ body {
 
 .alert-alert-info {
 	padding: .4rem 1.25rem;
-	display:inline-block;
+	display: inline-block;
 	z-index: 150;
 	border: none;
 	color: #0c5460;
@@ -199,8 +285,10 @@ body {
 }
 
 .btn-primary:disabled {
-	background-color: #868e96 !important; /* overrides bootstrap setting */
-	border-color: #868e96 !important; /* overrides bootstrap setting */
+	background-color: #868e96 !important;
+	/* overrides bootstrap setting */
+	border-color: #868e96 !important;
+	/* overrides bootstrap setting */
 }
 
 .btn-secondary {
@@ -215,44 +303,47 @@ body {
 	margin-left: 5px;
 }
 
-.page-header{
+.page-header {
 	pointer-events: none;
 	user-select: none;
 	padding-bottom: 20px;
 }
 
 @font-face {
-   font-family: Noto CJK;
-   src: url(assets/fonts/NotoSerifCJKtc-Regular.otf);
-}
-@font-face {
-   font-family: Noto Sans;
-   src: url(assets/fonts/NotoSans-Regular.ttf);
-}
-@font-face {
-   font-family: Noto Sans TC Light;
-   src: url(assets/fonts/NotoSansTC-Light.otf);
-}
-@font-face {
-   font-family: Noto Sans TC Regular;
-   src: url(assets/fonts/NotoSansTC-Regular.otf);
+	font-family: Noto CJK;
+	src: url(assets/fonts/NotoSerifCJKtc-Regular.otf);
 }
 
-.ch-font-tc-r{
+@font-face {
+	font-family: Noto Sans;
+	src: url(assets/fonts/NotoSans-Regular.ttf);
+}
+
+@font-face {
+	font-family: Noto Sans TC Light;
+	src: url(assets/fonts/NotoSansTC-Light.otf);
+}
+
+@font-face {
+	font-family: Noto Sans TC Regular;
+	src: url(assets/fonts/NotoSansTC-Regular.otf);
+}
+
+.ch-font-tc-r {
 	font-family: Noto Sans TC Regular;
 	font-size: 13px;
 	letter-spacing: 1px;
 	color: #333;
 }
 
-.ch-font-cjk{
+.ch-font-cjk {
 	font-family: Noto CJK;
 	font-size: 13px;
 	letter-spacing: 1px;
 	color: #333;
 }
 
-.ch-font-sans{
+.ch-font-sans {
 	font-family: Noto Sans;
 	font-size: 13px;
 	letter-spacing: 1px;
@@ -260,7 +351,9 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-    body { padding-top: 0px; }
+	body {
+		padding-top: 0px;
+	}
 }
 
 button[disabled] {
@@ -277,36 +370,38 @@ button[disabled] {
 	transition: none;
 }
 
-.has-success input, .has-success textarea{
+.has-success input,
+.has-success textarea {
 	border: 2px solid #00cd9a;
 }
 
-.has-error input, .has-error textarea{
+.has-error input,
+.has-error textarea {
 	border: 1px solid #e60039;
 }
 
-.card-title{
+.card-title {
 	font-weight: 600;
 	font-size: 1.0rem;
 }
 
-.card-body{
+.card-body {
 	padding: 1rem !important;
 	overflow-y: scroll;
 	max-height: 28rem;
 }
 
-.card-text{
+.card-text {
 	font-size: 0.92rem;
 }
 
-.form-error-msg{
+.form-error-msg {
 	width: 350px;
 	margin-top: 10px;
 	transition: none;
 }
 
-.form-error-msg .fa{
+.form-error-msg .fa {
 	padding-right: 10px;
 	transition: none;
 }

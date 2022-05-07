@@ -32,6 +32,8 @@ export class BlogSettingComponent implements OnInit {
   neverPublished;
   publishedDate;
 
+  publishAction;
+
   dataRegister: any = {};
 
   constructor(
@@ -159,23 +161,45 @@ export class BlogSettingComponent implements OnInit {
   resetPublishForm() {
     this.publishForm.reset({
       published: this.storedBlog.published,
-      schedule: 'now',
-      publishedAt: this.getCurrentDatetimeIsoString()
     });
+    if (this.isNewPost || this.neverPublished) {
+      this.publishAction = undefined;
+    }
   }
 
   dateChanged(e) {
     this.publishForm.patchValue({ publishedAt: e.target.value })
   }
 
+  onItemChange(action) {
+    this.publishAction = action;
+  }
+
   onSettingSubmit() {
     let updateObj = {};
     updateObj['blogId'] = this.blogId;
     updateObj['published'] = this.publishForm.get('published').value;
-    if (this.publishForm.get('schedule').value == 'custom') {
-      updateObj['publishedAt'] = new Date(this.publishForm.get('publishedAt').value + ':00');
-    } else {
-      updateObj['publishedAt'] = Date.now() + new Date().getTimezoneOffset();
+
+    if (this.isNewPost) {
+      if (this.publishAction == 'skip') {
+        parent.history.go(-2);
+        return
+      }
+    }
+
+    if (this.neverPublished) {
+      if (this.publishAction == 'publish-schedule') {
+        updateObj['published'] = true;
+        updateObj['publishedAt'] = new Date(this.publishForm.get('publishedAt').value + ':00');
+        if (updateObj['publishedAt'].toString().includes('Jan 01 2000')) {
+          this.flashMessagesService.show('rejected date (prevent default)', { cssClass: 'alert-danger', timeout: 5000 });
+          return
+        }
+        console.log(updateObj['publishedAt']);
+      } else if (this.publishAction == 'publish-now') {
+        updateObj['published'] = true;
+        updateObj['publishedAt'] = Date.now() + new Date().getTimezoneOffset();
+      }
     }
 
     let settingPatchObj = { 'settingPatchObj': updateObj };

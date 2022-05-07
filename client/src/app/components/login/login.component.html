@@ -1,20 +1,18 @@
 <h5 class="page-header">Login</h5>
 
-<!-- Login Form -->
-<form [formGroup]="form" (submit)="onLoginSubmit()" class="form-log">
-  <!-- Username Field -->
-  <div class="form-group">
-    <div [ngClass]="{'has-error': (logerr || form.controls.username.errors) && form.controls.username.dirty, 'has-success': !logerr && form.controls.username.valid && form.controls.username.dirty }">
-      <input id="username" class="form-control" type="text" name="username" formControlName="username" placeholder="Username" [autofocus]="true" (ngModelChange)="resetLogerr()">
-    </div>
+<form [formGroup]="form" (submit)="onLoginSubmit()" class="form-floating" style="width: 250px;">
+
+  <div class="form-floating mb-3" [ngClass]="{'has-error': (logerr || form.controls.username.errors) && form.controls.username.dirty, 'has-success': !logerr && form.controls.username.valid && form.controls.username.dirty }">
+    <input id="username" name="username" type="text" class="form-control" formControlName="username" placeholder="user name" [autofocus]="true">
+    <label for="floatingInput">user name</label>
   </div>
 
-  <!-- Password Field  -->
-  <div class="form-group">
-    <div [ngClass]="{'has-error': (logerr || form.controls.password.errors) && form.controls.password.dirty, 'has-success': !logerr && form.controls.password.valid && form.controls.password.dirty }">
-      <input class="form-control" type="password" name="password" formControlName="password" placeholder="Password" (ngModelChange)="resetLogerr()">
-    </div>
+  <div class="form-floating" [ngClass]="{'has-error': (logerr || form.controls.password.errors) && form.controls.password.dirty, 'has-success': !logerr && form.controls.password.valid && form.controls.password.dirty }">
+    <input name="password" type="password" class="form-control" formControlName="password" placeholder="password">
+    <label for="floatingPassword">password</label>
   </div>
-  <!-- Submit Button -->
+  <br>
+
   <input [disabled]="!form.valid || processing || logerr" class="btn btn-info" type="submit" value="Login" disabled>
+
 </form>

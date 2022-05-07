@@ -6,7 +6,7 @@
 
 <nav [ngClass]="{'display-none': !displayNavbar}" id="nav-header" class="navbar navbar-expand-md navbar-light fixed-top">
   <div class="container" [ngClass]="{'nav-border' : !isRootActive()}">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" routerLink="/">
@@ -20,7 +20,6 @@
         </li>
       </ul>
       <div class="form-inline mt-2 mt-md-0">
-        <!-- set navbar-right -->
         <ul class="navbar-nav mr-auto">
           <li *ngIf="authService.loggedIn()" class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
             <a class="nav-link" routerLink="/feed">Feed</a>
@@ -41,10 +40,6 @@
             <a class="nav-link" routerLink="/login">Login</a>
           </li>
         </ul>
-        <!-- <div class="input-group">
-		    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></span>
-			<input type="text" class="form-control" placeholder="search" aria-describedby="basic-addon1">
-		  </div> -->
       </div>
     </div>
   </div>
