@@ -209,6 +209,10 @@ export class BlogComponent implements OnInit, AfterViewChecked {
     this.enabledComments.splice(index, 1);
   }
 
+  setArrayFromNumber(i: number) {
+    return new Array(i);
+  }
+
   ngOnInit() {
     this.eventEmitterService.updateNavbarStatus('show');
     this.authService.getProfile().subscribe(profile => {
