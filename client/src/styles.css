@@ -39,6 +39,15 @@ small {
 	border-color: #868e96 !important;
 }
 
+.navbar-light .navbar-nav .nav-link {
+	color: rgba(0, 0, 0, .5) !important;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+	color: rgba(0, 0, 0, .7) !important;
+}
+
 .navbar-light .navbar-nav .active>.nav-link,
 .navbar-light .navbar-nav .nav-link.active,
 .navbar-light .navbar-nav .nav-link.show,
@@ -53,15 +62,6 @@ a {
 a:hover,
 a:focus {
 	color: #000 !important;
-}
-
-.navbar-light .navbar-nav .nav-link {
-	color: rgba(0, 0, 0, .5) !important;
-}
-
-.navbar-light .navbar-nav .nav-link:focus,
-.navbar-light .navbar-nav .nav-link:hover {
-	color: rgba(0, 0, 0, .7) !important;
 }
 
 .nav-pills .nav-link.active,
@@ -209,12 +209,12 @@ body {
 }
 
 .btn-transparent {
-	color: #fff;
+	color: #fff !important;
 	opacity: 0.8;
 }
 
 .btn-transparent:hover {
-	color: #fff;
+	color: #ccc !important;
 }
 
 .btn-transparent-outline {
