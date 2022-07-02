@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -13,13 +13,12 @@ import { QuillEditorComponent } from '../../../modules/quill-editor/quill-editor
   templateUrl: './view-blog.component.html',
   styleUrls: ['./view-blog.component.css']
 })
-export class ViewBlogComponent implements OnInit, AfterViewChecked {
+export class ViewBlogComponent implements OnInit, AfterViewInit {
 
   blog;
   username;
   currentUrl;
   loading = true;
-  dataRegister: any = {};
   leadinView;
 
   constructor(
@@ -34,7 +33,7 @@ export class ViewBlogComponent implements OnInit, AfterViewChecked {
 
   @ViewChild(QuillEditorComponent)
   editorComponent: QuillEditorComponent;
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     this.editorComponent.setEditing(false);
     this.editorComponent.quill.enable(false);
     this.editorComponent.quill.setContents(JSON.parse(this.blog.body).ops);
@@ -47,21 +46,19 @@ export class ViewBlogComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.loading = true;
     this.eventEmitterService.updateNavbarStatus('hide');
-    this.authService.getProfile().subscribe(profile => {
-      this.dataRegister = profile;
-      if (!this.dataRegister.success) {
+    this.authService.getProfile().subscribe((profile: any) => {
+      if (!profile.success) {
         this.authService.logout();
       } else {
-        this.username = this.dataRegister.user.username;
+        this.username = profile.user.username;
       }
     });
     this.currentUrl = this.activatedRoute.snapshot.params;
-    this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
-      this.dataRegister = data;
-      if (!this.dataRegister.blog) {
+    this.blogService.getSingleBlog(this.currentUrl.id).subscribe((data: any) => {
+      if (!data.blog) {
         this.flashMessagesService.show('something wrong', { cssClass: 'alert-danger', timeout: 5000 });
       } else {
-        this.blog = (Object.assign({}, this.dataRegister.blog));
+        this.blog = (Object.assign({}, data.blog));
         this.leadinView = this.blog.leadin;
       }
     }, err => {
