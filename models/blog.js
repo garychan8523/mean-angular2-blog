@@ -80,7 +80,7 @@ const blogSchema = new Schema({
   title: { type: String, required: true, validate: titleValidators },
   leadin: { type: String, validate: leadinValidators },
   body: { type: String, required: true, validate: bodyValidators },
-  createdBy: { type: String },
+  createdBy: { type: mongoose.Schema.Types.ObjectId },
   createdAt: { type: Date, default: Date.now() },
   likes: { type: Number, default: 0 },
   likedBy: { type: Array },

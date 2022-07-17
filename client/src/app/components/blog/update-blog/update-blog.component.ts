@@ -19,9 +19,7 @@ export class UpdateBlogComponent implements OnInit {
 
   form;
   processing = false;
-  username;
-
-  dataRegister: any = {};
+  userId;
 
   deleteBlogPost;
 
@@ -58,13 +56,12 @@ export class UpdateBlogComponent implements OnInit {
   ngOnInit(): void {
     this.processing = true;
     this.eventEmitterService.updateNavbarStatus('hide');
-    this.authService.getProfile().subscribe(profile => {
-      this.dataRegister = profile
-      if (!this.dataRegister.success) {
+    this.authService.getProfile().subscribe((profile: any) => {
+      if (!profile.success) {
         this.authService.logout();
         window.location.reload();
       } else {
-        this.username = this.dataRegister.user.username;
+        this.userId = profile.user._id;
       }
     });
 
@@ -72,12 +69,11 @@ export class UpdateBlogComponent implements OnInit {
     if (this.currentUrl.id) {
       this.editMode = true;
 
-      this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
-        this.dataRegister = data;
-        if (!this.dataRegister.success) {
-          this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+      this.blogService.getSingleBlog(this.currentUrl.id).subscribe((data: any) => {
+        if (!data.success) {
+          this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
         } else {
-          this.blog = (Object.assign({}, this.dataRegister.blog));
+          this.blog = (Object.assign({}, data.blog));
 
           this.form.controls['title'].setValue(this.blog.title);
           this.leadinView = this.blog.leadin;
@@ -134,7 +130,7 @@ export class UpdateBlogComponent implements OnInit {
       title: this.form.get('title').value,
       leadin: this.form.get('leadin').value,
       body: JSON.stringify(this.editorComponent.quill.getContents()),
-      createdBy: this.username
+      createdBy: this.userId
     }
 
     if (!this.editMode) {
@@ -200,12 +196,11 @@ export class UpdateBlogComponent implements OnInit {
 
   deleteBlog() {
     this.processing = true;
-    this.blogService.deleteBlog(this.deleteBlogPost._id).subscribe(data => {
-      this.dataRegister = data
-      if (!this.dataRegister.success) {
-        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+    this.blogService.deleteBlog(this.deleteBlogPost._id).subscribe((data: any) => {
+      if (!data.success) {
+        this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
       } else {
-        this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-success', timeout: 5000 });
+        this.flashMessagesService.show(data.message, { cssClass: 'alert-success', timeout: 5000 });
         this.processing = false;
         this.overlay = false;
         this.deleteBlogDisplay = false;

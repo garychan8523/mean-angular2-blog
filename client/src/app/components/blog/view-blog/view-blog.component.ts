@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+
+import { QuillEditorComponent } from 'src/app/modules/quill-editor/quill-editor/quill-editor.component';
+
 import { AuthService } from '../../../services/auth.service';
 import { BlogService } from '../../../services/blog.service';
 import { EventEmitterService } from '../../../services/event-emitter.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
-
-import { QuillEditorComponent } from '../../../modules/quill-editor/quill-editor/quill-editor.component';
 
 @Component({
   selector: 'app-view-blog',
@@ -18,7 +19,7 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
   blog;
   username;
   currentUrl;
-  loading = true;
+  loading = false;
   leadinView;
 
   constructor(
@@ -34,9 +35,11 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
   @ViewChild(QuillEditorComponent)
   editorComponent: QuillEditorComponent;
   ngAfterViewInit() {
+    this.loading = true;
     this.editorComponent.setEditing(false);
     this.editorComponent.quill.enable(false);
     this.editorComponent.quill.setContents(JSON.parse(this.blog.body).ops);
+    this.loading = false;
   }
 
   goBack() {
@@ -44,7 +47,6 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.loading = true;
     this.eventEmitterService.updateNavbarStatus('hide');
     this.authService.getProfile().subscribe((profile: any) => {
       if (!profile.success) {
@@ -55,8 +57,8 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
     });
     this.currentUrl = this.activatedRoute.snapshot.params;
     this.blogService.getSingleBlog(this.currentUrl.id).subscribe((data: any) => {
-      if (!data.blog) {
-        this.flashMessagesService.show('something wrong', { cssClass: 'alert-danger', timeout: 5000 });
+      if (!data.success) {
+        this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
       } else {
         this.blog = (Object.assign({}, data.blog));
         this.leadinView = this.blog.leadin;
@@ -64,7 +66,6 @@ export class ViewBlogComponent implements OnInit, AfterViewInit {
     }, err => {
       this.flashMessagesService.show(err.error.message, { cssClass: 'alert-danger', timeout: 5000 });
     }, () => {
-      this.loading = false;
     });
   }
 

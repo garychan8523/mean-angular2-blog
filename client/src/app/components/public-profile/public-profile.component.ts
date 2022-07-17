@@ -16,8 +16,7 @@ export class PublicProfileComponent implements OnInit {
 	loading;
 	currentUrl;
 	username;
-	email;
-	dataRegister: any = {};
+	userId;
 
 	publishedPosts;
 
@@ -32,21 +31,20 @@ export class PublicProfileComponent implements OnInit {
 	ngOnInit() {
 		this.eventEmitterService.updateNavbarStatus('show');
 		this.currentUrl = this.activatedRoute.snapshot.params;
-		this.authService.getPublicProfile(this.currentUrl.username).subscribe(data => {
-			this.dataRegister = data;
-			if (!this.dataRegister.success) {
-				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });
+		this.authService.getPublicProfile(this.currentUrl.username).subscribe((data: any) => {
+			if (!data.success) {
+				this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
 			} else {
-				this.username = this.dataRegister.user.username;
-				this.getPublishedBlogsByUsername(this.username);
-				this.email = this.dataRegister.user.email;
+				this.username = data.user.username;
+				this.userId = data.user._id;
+				this.getPublishedBlogsByUserId(this.userId);
 			}
 		});
 	}
 
-	getPublishedBlogsByUsername(username) {
+	getPublishedBlogsByUserId(userId) {
 		this.loading = true;
-		this.blogService.getPublishedBlogsByUsername(username).subscribe((data: any) => {
+		this.blogService.getPublishedBlogsByUserId(userId).subscribe((data: any) => {
 			this.publishedPosts = data.blogs;
 			this.publishedPosts.forEach(blog => {
 				if (blog.leadin) {

@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const Blog = require('../models/blog');
 const User = require('../models/user');
 const checkAuth = require('../middleware/auth');
@@ -5,23 +7,44 @@ const checkAuth = require('../middleware/auth');
 module.exports = (router) => {
 
     router.param('blogId', function (req, res, next, blogId) {
-        // console.log('fetching blog')
+        const agg = [
+            {
+                '$match': {
+                    '_id': ObjectId(blogId)
+                }
+            },
+            {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'createdBy',
+                    'foreignField': '_id',
+                    'as': 'createdBy'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$createdBy'
+                }
+            }, {
+                '$set': {
+                    createdBy: '$createdBy.username'
+                }
+            }
+        ];
+
         try {
             if (!blogId) {
                 throw 'missing blog id';
             } else {
-                Blog.findOne({ _id: blogId }, (err, blog) => {
+                Blog.aggregate(agg, (err, blog) => {
                     if (err) {
                         throw err;
+                    } else if (!blog) {
+                        throw 'blog not found';
                     } else {
-                        if (!blog) {
-                            throw 'blog not found';
-                        } else {
-                            req.blog = blog
-                            next();
-                        }
+                        req.blog = blog[0]
+                        next();
                     }
-                });
+                })
             }
         } catch (err) {
             next(new Error(err));
@@ -40,7 +63,7 @@ module.exports = (router) => {
                 title: req.body.title.replace(/<\/?.*?>/g, ''),
                 leadin: req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
                 body: req.body.body,
-                createdBy: req.body.createdBy,
+                createdBy: ObjectId(req.body.createdBy),
                 createdAt: Date.now() + new Date().getTimezoneOffset()
             });
             blog.save((err) => {
@@ -75,7 +98,7 @@ module.exports = (router) => {
                 if (!user) {
                     res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
-                    Blog.find({ createdBy: user.username, published: undefined }, (err, blogs) => {
+                    Blog.find({ createdBy: user._id, published: undefined }, (err, blogs) => {
                         if (err) {
                             res.json({ success: false, message: err });
                         } else {
@@ -95,7 +118,7 @@ module.exports = (router) => {
                 if (!user) {
                     res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
-                    Blog.find({ createdBy: user.username, published: false }, (err, blogs) => {
+                    Blog.find({ createdBy: user._id, published: false }, (err, blogs) => {
                         if (err) {
                             res.json({ success: false, message: err });
                         } else {
@@ -108,32 +131,44 @@ module.exports = (router) => {
     });
 
     router.put('/updateBlog/:blogId', checkAuth, (req, res) => {
-        let blog = req.blog;
-        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+        let blog;
+        Blog.findOne({ _id: req.params.blogId }, (err, blog) => {
             if (err) {
-                res.json({ success: false, message: err });
+                throw err;
             } else {
-                if (!user) {
-                    res.json({ success: false, message: 'Unable to authenticate user' });
+                if (!blog) {
+                    throw 'blog not found';
                 } else {
-                    if (user.username !== blog.createdBy) {
-                        res.json({ success: false, message: 'Not authorized' });
-                    } else {
-                        blog.title = req.body.title.replace(/<\/?.*?>/g, '');
-                        if (req.body.leadin) {
-                            blog.leadin = req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
-                        } else if (req.body.leadin.length == 0) {
-                            blog.leadin = '';
-                        }
-                        blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
-                        blog.save((err) => {
-                            if (err) {
-                                res.json({ success: false, message: err });
+                    blog = blog
+
+                    User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                        if (err) {
+                            res.json({ success: false, message: err });
+                        } else {
+                            if (!user) {
+                                res.json({ success: false, message: 'Unable to authenticate user' });
                             } else {
-                                res.json({ success: true, message: 'blog updated' });
+                                if (user._id.toString() !== blog.createdBy.toString()) {
+                                    res.json({ success: false, message: 'Not authorized' });
+                                } else {
+                                    blog.title = req.body.title.replace(/<\/?.*?>/g, '');
+                                    if (req.body.leadin) {
+                                        blog.leadin = req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
+                                    } else if (req.body.leadin.length == 0) {
+                                        blog.leadin = '';
+                                    }
+                                    blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
+                                    blog.save((err) => {
+                                        if (err) {
+                                            res.json({ success: false, message: err });
+                                        } else {
+                                            res.json({ success: true, message: 'blog updated' });
+                                        }
+                                    });
+                                }
                             }
-                        });
-                    }
+                        }
+                    });
                 }
             }
         });
@@ -148,7 +183,7 @@ module.exports = (router) => {
                 if (!user) {
                     res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
-                    if (user.username !== blog.createdBy) {
+                    if (req.decoded.userId.toString() !== blog.createdBy.toString()) {
                         res.json({ success: false, message: 'Not authorized' });
                     } else {
                         blog.remove((err) => {
@@ -182,7 +217,7 @@ module.exports = (router) => {
                                 if (!user) {
                                     res.json({ success: false, message: 'Unable to authenticate user' });
                                 } else {
-                                    if (user.username === blog.createdBy) {
+                                    if (user._id.toString() === blog.createdBy.toString()) {
                                         res.json({ success: false, message: 'Cannot like your own post' });
                                     } else {
                                         if (blog.likedBy.includes(user.username)) {

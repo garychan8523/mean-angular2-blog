@@ -21,7 +21,6 @@ export class LoginStatusComponent implements OnInit {
 
   getLoginRecords() {
     this.authService.getLoginStatus().subscribe((data: any) => {
-      // console.log('data', data)
       if (data.success) {
         this.loginRecords = data.records;
       }

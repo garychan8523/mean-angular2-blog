@@ -14,6 +14,7 @@ export class PublishedComponent implements OnInit {
   loading;
   publishedBlogs;
   username;
+  userId;
 
   constructor(
     public authService: AuthService,
@@ -25,13 +26,14 @@ export class PublishedComponent implements OnInit {
     this.getPublishedBlogs();
   }
 
-  getUsername = new Promise<void>((resolve, reject) => {
+  getUser = new Promise<void>((resolve, reject) => {
     this.authService.getProfile().subscribe((data: any) => {
       if (!data.success) {
         this.authService.logout();
         reject();
       } else {
         this.username = data.user.username;
+        this.userId = data.user._id;
         resolve();
       }
     });
@@ -40,9 +42,9 @@ export class PublishedComponent implements OnInit {
   getPublishedBlogs() {
     this.loading = true;
     if (!this.username) {
-      this.getUsername
+      this.getUser
         .then(() => {
-          this.blogService.getPublishedBlogsByUsername(this.username).subscribe((data: any) => {
+          this.blogService.getPublishedBlogsByUserId(this.userId).subscribe((data: any) => {
             this.publishedBlogs = data.blogs;
             this.loading = false;
           });
@@ -52,7 +54,7 @@ export class PublishedComponent implements OnInit {
           this.flashMessagesService.show('undefined username', { cssClass: 'alert-danger', timeout: 5000 });
         })
     } else {
-      this.blogService.getPublishedBlogsByUsername(this.username).subscribe((data: any) => {
+      this.blogService.getPublishedBlogsByUserId(this.userId).subscribe((data: any) => {
         this.publishedBlogs = data.blogs;
         this.loading = false;
       });

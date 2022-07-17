@@ -195,7 +195,6 @@ export class BlogSettingComponent implements OnInit {
           this.flashMessagesService.show('rejected date (prevent default)', { cssClass: 'alert-danger', timeout: 5000 });
           return
         }
-        console.log(updateObj['publishedAt']);
       } else if (this.publishAction == 'publish-now') {
         updateObj['published'] = true;
         updateObj['publishedAt'] = Date.now() + new Date().getTimezoneOffset();
