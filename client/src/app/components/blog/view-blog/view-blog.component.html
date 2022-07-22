@@ -11,14 +11,14 @@
 	<app-quill-editor *ngIf="!loading" class="ql-hide"></app-quill-editor>
 	<br>
 
-	<div *ngIf="!loading" style="color: #666;">by <span [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><b>{{blog.createdBy}} </b></span>
+	<div *ngIf="!loading && blog.createdBy" style="color: #666;">by <span [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><b>{{blog.createdBy}} </b></span>
 		<span *ngIf="blog.publishedAt">published on {{ blog.publishedAt | date: "dd MMM yyyy 'at' HH:mm" }}</span>
 		<span *ngIf="!blog.publishedAt">(unpublished)</span>
 	</div><br>
 	<!--  ‧ {{ blog.publishedAt?(blog.published?'Published':'Unpublished'):'Draft'}} -->
 	<button type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
-	<button *ngIf="authService.loggedIn() && username === blog.createdBy && !loading" [disabled]="loading" type="button" name="button" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/setting/', blog._id]">Setting</button>
-	<button *ngIf="authService.loggedIn() && username === blog.createdBy && !loading" [disabled]="loading" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/update/', blog._id]">Edit</button>
+	<button *ngIf="!loading && authService.loggedIn() && username === blog.createdBy" [disabled]="loading" type="button" name="button" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/setting/', blog._id]">Setting</button>
+	<button *ngIf="!loading && authService.loggedIn() && username === blog.createdBy" [disabled]="loading" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/update/', blog._id]">Edit</button>
 	<!-- <a *ngIf="editMode" [routerLink]="['/delete-blog/', blog._id]">
 			<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left">Delete</button>
 		</a> -->

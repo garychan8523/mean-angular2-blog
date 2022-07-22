@@ -18,7 +18,7 @@ export class QuillEditorComponent implements OnInit {
   form;
   quill;
   blogContent;
-  blogLength;
+  blogLength = 1;
   isContentValid;
   isContentDirty = false;
   isEditing = true;
@@ -39,6 +39,10 @@ export class QuillEditorComponent implements OnInit {
 
   getQuillTextLength() {
     return this.quill.getLength();
+  }
+
+  isLengthWithinLimit(limit) {
+    return this.blogLength <= limit;
   }
 
   setEditing(isEditing) {
@@ -131,7 +135,14 @@ export class QuillEditorComponent implements OnInit {
     this.quill.on('text-change', function (delta, oldDelta, source) {
       that.isContentDirty = true;
       that.blogContent = that.quill.getContents();
-      that.blogLength = that.quill.getLength();
+      console.log(that.blogContent)
+      let imageLength = 0;
+      for (const i in that.blogContent.ops) {
+        if (that.blogContent.ops[i].insert && that.blogContent.ops[i].insert.image) {
+          imageLength += that.blogContent.ops[i].insert.image.length;
+        }
+      }
+      that.blogLength = that.quill.getLength() + imageLength;
       if (that.isContentDirty && that.quill.getLength() < 2) {
         that.isContentValid = false;
       } else {

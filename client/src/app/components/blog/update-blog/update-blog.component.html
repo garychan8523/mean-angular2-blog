@@ -33,7 +33,7 @@
     <!-- body input -->
     <div class="blog-operation-button-group">
         <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-secondary" (click)="checkDiscard()">Back</button>
-        <button *ngIf="!processing" [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2" type="submit" name="button" class="btn btn-sm btn-info btn-margin-left">Submit</button>
+        <button *ngIf="!processing" [disabled]="!form.valid || processing || editorComponent.getQuillTextLength() < 2 || !editorComponent.isLengthWithinLimit(50000)" type="submit" name="button" class="btn btn-sm btn-info btn-margin-left">Submit</button>
     </div>
 </form>
 

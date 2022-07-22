@@ -1,5 +1,5 @@
 * {
-	transition: none;
+    transition: none;
 }
 
 #editor {
@@ -11,7 +11,7 @@
 }
 
 .ql-valid.ql-valid.ql-disabled {
-    border: 1px solid rgba(0,0,0,.15) !important;
+    border: 1px solid rgba(0, 0, 0, .15) !important;
 }
 
 .ql-invalid {
@@ -22,4 +22,10 @@
     color: #aaa;
     font-size: 11px;
     float: right;
+}
+
+.ql-message {
+    color: #aaa;
+    font-size: 11px;
+    float: left;
 }
