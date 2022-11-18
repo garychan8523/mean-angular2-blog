@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-3">
     <div class="nav flex-column nav-pills" aria-orientation="vertical">
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/settings', { outlets: {'section':['personal-details'] }}]">Personal Details</a>
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/settings', { outlets: {'section':['active-sessions'] }}]">Active Sessions</a>
-      <!-- <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/settings', { outlets: {'section':['login-status'] }}]">Login status</a> -->
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/settings', { outlets: {'section':['published'] }}]">Published</a>
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/settings', { outlets: {'section':['published-private'] }}]">Published (Private)</a>
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/settings', { outlets: {'section':['unpublished-draft'] }}]">Unpublished (Draft)</a>
-      <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" (click)="onLogoutClick()">Logout</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['./personal-details']">Personal Details</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['./active-sessions']">Active Sessions</a>
+      <!-- <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/settings', { outlets: {'section':['login-status'] }}]">Login status</a> -->
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['./published']">Published</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['./published-private']">Published (Private)</a>
+      <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['./unpublished-draft']">Unpublished (Draft)</a>
+      <a class="nav-link" [routerLinkActive]="['active']" (click)="onLogoutClick()">Logout</a>
     </div>
   </div>
 
@@ -18,7 +18,7 @@
           <div *ngIf="mobile">
             <hr>
           </div>
-          <router-outlet name="section"></router-outlet>
+          <router-outlet></router-outlet>
         </ul>
       </div>
     </div>

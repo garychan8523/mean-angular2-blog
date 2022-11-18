@@ -11,7 +11,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
   styleUrls: ['./profile.component.css']
 })
 
-export class ProfileComponent implements AfterViewChecked, OnInit {
+export class ProfileComponent implements OnInit {
 
   mobile;
 
@@ -23,12 +23,12 @@ export class ProfileComponent implements AfterViewChecked, OnInit {
   ) {
   }
 
-  ngAfterViewChecked() {
-    //console.log('params', this.router.url);
-    if (!this.router.url.includes('section')) {
-      this.router.navigateByUrl('/settings/(section:personal-details)');
-    }
-  }
+  // ngAfterViewChecked() {
+  //   //console.log('params', this.router.url);
+  //   if (!this.router.url.includes('section')) {
+  //     this.router.navigateByUrl('/settings/(section:personal-details)');
+  //   }
+  // }
 
   ngOnInit() {
     if (window.screen.width <= 768) { // 768px portrait
