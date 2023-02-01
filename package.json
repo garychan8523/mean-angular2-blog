@@ -28,7 +28,7 @@
     "inherits": "^2.0.3",
     "jsonwebtoken": "^8.0.0",
     "mime-types": "^2.1.32",
-    "mongoose": "^5.13.9",
+    "mongoose": "^5.13.15",
     "nodemon": "^1.11.0",
     "request-ip": "^2.0.2",
     "socket.io": "^2.1.1",
