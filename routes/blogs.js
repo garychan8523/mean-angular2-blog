@@ -1,10 +1,14 @@
+const express = require('express');
+const router = express.Router();
+
 const { ObjectId } = require('mongodb');
 
 const Blog = require('../models/blog');
 const User = require('../models/user');
 const checkAuth = require('../middleware/auth');
 
-module.exports = (router) => {
+module.exports = (app) => {
+    console.log('blogs router')
 
     router.param('blogId', function (req, res, next, blogId) {
         const agg = [
@@ -51,45 +55,6 @@ module.exports = (router) => {
         }
     });
 
-    router.post('/newBlog', checkAuth, (req, res) => {
-        if (!req.body.title) {
-            res.json({ success: false, message: 'blog title is required' });
-        } else if (!req.body.body) {
-            res.json({ success: false, message: 'blog body is required' });
-        } else if (!req.body.createdBy) {
-            res.json({ success: false, message: 'blog creator is required' });
-        } else {
-            const blog = new Blog({
-                title: req.body.title.replace(/<\/?.*?>/g, ''),
-                leadin: req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
-                body: req.body.body,
-                createdBy: ObjectId(req.body.createdBy),
-                createdAt: Date.now() + new Date().getTimezoneOffset()
-            });
-            blog.save((err) => {
-                if (err) {
-                    if (err.errors) {
-                        if (err.errors.title) {
-                            res.json({ success: false, message: err.errors.title.message });
-                        } else if (err.errors.body) {
-                            res.json({ success: false, message: err.errors.body.message });
-                        } else {
-                            res.json({ success: false, message: err.errmsg });
-                        }
-                    } else {
-                        res.json({ success: false, message: err });
-                    }
-                } else {
-                    res.json({ success: true, message: 'blog saved', blogId: blog._id });
-                }
-            });
-        }
-    });
-
-    router.get('/singleBlog/:blogId', (req, res) => {
-        res.json({ success: true, blog: req.blog });
-    });
-
     router.get('/listUnpublished', checkAuth, (req, res) => {
         User.findOne({ _id: req.decoded.userId }, (err, user) => {
             if (err) {
@@ -130,7 +95,7 @@ module.exports = (router) => {
         });
     });
 
-    router.put('/updateBlog/:blogId', checkAuth, (req, res) => {
+    router.put('/:blogId', checkAuth, (req, res) => {
         let blog;
         Blog.findOne({ _id: req.params.blogId }, (err, blog) => {
             if (err) {
@@ -174,7 +139,7 @@ module.exports = (router) => {
         });
     });
 
-    router.delete('/deleteBlog/:blogId', checkAuth, (req, res) => {
+    router.delete('/:blogId', checkAuth, (req, res) => {
         let blog = req.blog;
         User.findOne({ _id: req.decoded.userId }, (err, user) => {
             if (err) {
@@ -359,7 +324,7 @@ module.exports = (router) => {
         }
     });
 
-    router.patch('/setting/:blogId', (req, res, next) => {
+    router.patch('/:blogId/setting', (req, res, next) => {
         let settingPatchObj = req.body.settingPatchObj;
         // console.log(settingPatchObj.blogId);
         // console.log(settingPatchObj.published);
@@ -407,6 +372,109 @@ module.exports = (router) => {
         }).catch((err) => {
             next(new Error(err));
         });
+    });
+
+    router.get('/:blogId', (req, res) => {
+        res.json({ success: true, blog: req.blog });
+    });
+
+    router.get('/', (req, res) => {
+        // Blog.find({ published: true, publishedAt: { $lte: Date.now() } }, (err, blogs) => {
+        // 	if (err) {
+        // 		res.json({ success: false, message: err });
+        // 	} else if (!blogs) {
+        // 		res.json({ success: false, message: 'no blogs found' });
+        // 	} else {
+        // 		res.json({ success: true, blogs: blogs });
+        // 	}
+        // }).sort({ publishedAt: -1 });
+        const agg = [
+            {
+                '$match': {
+                    $and: [
+                        { 'published': { $eq: true } },
+                        { 'publishedAt': { $exists: true } },
+                        { 'publishedAt': { $lte: new Date() } }
+                    ]
+                }
+            },
+            {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'createdBy',
+                    'foreignField': '_id',
+                    'as': 'createdBy'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$createdBy'
+                }
+            }, {
+                '$set': {
+                    createdBy: '$createdBy.username'
+                }
+            },
+            {
+                '$project': {
+                    _id: 1,
+                    likes: 1,
+                    likedBy: 1,
+                    dislikes: 1,
+                    dislikedBy: 1,
+                    title: 1,
+                    leadin: 1,
+                    createdBy: 1,
+                    createdAt: 1,
+                    publishedAt: 1,
+                    published: 1
+                }
+            }
+        ];
+
+        Blog.aggregate(agg, (err, blogs) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else if (!blogs) {
+                res.json({ success: false, message: 'no blogs found' });
+            } else {
+                res.json({ success: true, blogs: blogs });
+            }
+        }).sort({ publishedAt: -1 });
+    });
+
+    router.post('/', checkAuth, (req, res) => {
+        if (!req.body.title) {
+            res.json({ success: false, message: 'blog title is required' });
+        } else if (!req.body.body) {
+            res.json({ success: false, message: 'blog body is required' });
+        } else if (!req.body.createdBy) {
+            res.json({ success: false, message: 'blog creator is required' });
+        } else {
+            const blog = new Blog({
+                title: req.body.title.replace(/<\/?.*?>/g, ''),
+                leadin: req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
+                body: req.body.body,
+                createdBy: ObjectId(req.body.createdBy),
+                createdAt: Date.now() + new Date().getTimezoneOffset()
+            });
+            blog.save((err) => {
+                if (err) {
+                    if (err.errors) {
+                        if (err.errors.title) {
+                            res.json({ success: false, message: err.errors.title.message });
+                        } else if (err.errors.body) {
+                            res.json({ success: false, message: err.errors.body.message });
+                        } else {
+                            res.json({ success: false, message: err.errmsg });
+                        }
+                    } else {
+                        res.json({ success: false, message: err });
+                    }
+                } else {
+                    res.json({ success: true, message: 'blog saved', blogId: blog._id });
+                }
+            });
+        }
     });
 
     return router;

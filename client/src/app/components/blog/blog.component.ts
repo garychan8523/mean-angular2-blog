@@ -108,7 +108,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
   reloadBlogs() {
     this.loadingBlogs = true;
-    this.getAllBlogs();
+    this.getBlogs();
     setTimeout(() => {
       this.loadingBlogs = false;
     }, 1000);
@@ -141,7 +141,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
   //       this.processing = false;
   //       this.overlay = false;
   //       this.deleteBlogDisplay = false;
-  //       this.getAllBlogs();
+  //       this.getBlogs();
   //       setTimeout(() => {
   //         this.message = false;
   //       }, 2000);
@@ -158,8 +158,8 @@ export class BlogComponent implements OnInit, AfterViewChecked {
   //   this.editorComponent.resetQuillEditor();
   // }
 
-  getAllBlogs() {
-    this.blogService.getAllBlogs().subscribe(data => {
+  getBlogs() {
+    this.blogService.getBlogs().subscribe(data => {
       this.dataRegister = data
       this.blogPosts = this.dataRegister.blogs;
       this.blogPosts.array.forEach(blog => {
@@ -170,13 +170,13 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
   likeBlog(id) {
     this.blogService.likeBlog(id).subscribe(data => {
-      this.getAllBlogs();
+      this.getBlogs();
     });
   }
 
   dislikeBlog(id) {
     this.blogService.dislikeBlog(id).subscribe(data => {
-      this.getAllBlogs();
+      this.getBlogs();
     });
   }
 
@@ -185,7 +185,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
     this.processing = true;
     const comment = this.commentForm.get('comment').value;
     this.blogService.postComment(id, comment).subscribe(data => {
-      this.getAllBlogs();
+      this.getBlogs();
       const index = this.newComment.indexOf(id);
       this.newComment.splice(index, 1);
       this.enableCommentForm();
@@ -224,12 +224,12 @@ export class BlogComponent implements OnInit, AfterViewChecked {
       }
     });
 
-    this.getAllBlogs();
+    this.getBlogs();
 
     this.socketService.on('actionOther', (act) => {
       if (act == 'updateBlog') {
         this.zone.run(() => {
-          this.getAllBlogs();
+          this.getBlogs();
         });
       }
     });

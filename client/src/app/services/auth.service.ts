@@ -83,11 +83,11 @@ export class AuthService {
   // Function to get user's profile data
   getProfile() {
     this.createAuthenticationHeaders(); // Create headers before sending to API
-    return this.http.get(this.domain + 'profile/profile', this.options);
+    return this.http.get(this.domain + 'profile', this.options);
   }
 
   getPublicProfile(username) {
-    return this.http.get(this.domain + 'profile/publicProfile/' + username, this.options);
+    return this.http.get(this.domain + 'profile/' + username, this.options);
   }
 
   getActiveSessions() {

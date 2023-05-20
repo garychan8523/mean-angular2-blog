@@ -1,10 +1,13 @@
+const express = require('express');
+const router = express.Router();
+
 const AWS = require('aws-sdk');
 var mime = require('mime-types')
 const { v4: uuidv4 } = require('uuid');
 
 const checkAuth = require('../middleware/auth');
 
-module.exports = (router) => {
+module.exports = (app) => {
 
     router.post('/image', checkAuth, (req, res) => {
         if (!req.files.file) {

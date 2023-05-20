@@ -27,39 +27,39 @@ export class BlogService {
     };
   }
 
-  newBlog(blog) {
-    this.createAuthenticationHeaders();
-    return this.http.post(this.domain + 'blogs/newBlog', blog, this.options);
-  }
-
-  getAllBlogs() {
+  getBlogs() {
     //this.createAuthenticationHeaders();
-    return this.http.get(this.domain + 'blogs/allBlogs', this.options);
+    return this.http.get(this.domain + 'blogs', this.options);
   }
 
   getPublishedBlogsByUserId(userId) {
     //this.createAuthenticationHeaders();
-    return this.http.get(this.domain + 'blogs/user/' + userId, this.options);
+    return this.http.get(this.domain + 'profile/' + userId + '/blogs', this.options);
   }
 
-  getSingleBlog(id) {
+  postBlog(blog) {
+    this.createAuthenticationHeaders();
+    return this.http.post(this.domain + 'blogs', blog, this.options);
+  }
+
+  getBlog(blogId) {
     //this.createAuthenticationHeaders();
-    return this.http.get(this.domain + 'blogs/singleBlog/' + id, this.options);
+    return this.http.get(this.domain + 'blogs/' + blogId, this.options);
   }
 
-  editBlog(blog) {
+  putBlog(blog) {
     this.createAuthenticationHeaders();
-    return this.http.put(this.domain + 'blogs/updateBlog/' + blog._id, blog, this.options);
-  }
-
-  patchBlogSetting(patchObj) {
-    this.createAuthenticationHeaders();
-    return this.http.patch(this.domain + 'blogs/setting/' + patchObj.settingPatchObj.blogId, patchObj, this.options);
+    return this.http.put(this.domain + 'blogs/' + blog._id, blog, this.options);
   }
 
   deleteBlog(id) {
     this.createAuthenticationHeaders();
-    return this.http.delete(this.domain + 'blogs/deleteBlog/' + id, this.options);
+    return this.http.delete(this.domain + 'blogs/' + id, this.options);
+  }
+
+  patchBlogSetting(patchObj) {
+    this.createAuthenticationHeaders();
+    return this.http.patch(this.domain + 'blogs/' + patchObj.settingPatchObj.blogId + '/setting', patchObj, this.options);
   }
 
   likeBlog(id) {

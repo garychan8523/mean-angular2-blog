@@ -1,65 +1,26 @@
+const express = require('express');
+const router = express.Router();
+
 const User = require('../models/user');
+const Blog = require('../models/blog');
 const ActiveSession = require('../models/activeSession');
 const LoginState = require('../models/loginState');
 const checkAuth = require('../middleware/auth');
 
-module.exports = (router) => {
-    router.get('/profile', checkAuth, (req, res) => {
-        // Search for user in database
-        User.findOne({ _id: req.decoded.userId }).select('username email').exec((err, user) => {
-            // Check if error connecting
-            if (err) {
-                res.json({ success: false, message: err }); // Return error
-            } else {
-                // Check if user was found in database
-                if (!user) {
-                    res.json({ success: false, message: 'user not found' }); // Return error, user was not found in db
-                } else {
-                    res.json({ success: true, user: user }); // Return success, send user object to frontend for profile
-                }
-            }
-        });
-    });
-
-    router.get('/publicProfile/:username', (req, res) => {
-        if (!req.params.username) {
-            res.json({ success: false, message: 'no uesrname provided' });
-        } else {
-            User.findOne({ username: req.params.username }).select('username email').exec((err, user) => {
-                if (err) {
-                    res.json({ success: false, message: err });
-                } else {
-                    if (!user) {
-                        res.json({ success: false, message: 'user not found' });
-                    } else {
-                        res.json({ success: true, user: user });
-                    }
-                }
-            });
-        }
-    });
+module.exports = (app) => {
+    console.log('profile router')
 
     router.get('/activeSessions', checkAuth, (req, res) => {
-        User.findOne({ _id: req.decoded.userId }).select('username').exec((err, user) => {
-            if (err) {
-                res.json({ success: false, message: err });
-            }
-            else if (!user) {
-                res.json({ success: false, message: 'user not found' });
-            }
-            else {
-                try {
-                    ActiveSession.find({ userId: req.decoded.userId }).exec((err, records) => {
-                        if (err || records.length <= 0) {
-                            throw 'session record not found';
-                        }
-                        res.json({ success: true, records: records[0].sessions });
-                    });
-                } catch (err) {
-                    res.json({ success: false, message: err });
+        try {
+            ActiveSession.find({ userId: req.decoded.userId }).exec((err, records) => {
+                if (err || records.length <= 0) {
+                    throw 'session record not found';
                 }
-            }
-        });
+                res.json({ success: true, records: records[0].sessions });
+            });
+        } catch (err) {
+            res.json({ success: false, message: err });
+        }
     });
 
     router.get('/loginstatus', checkAuth, (req, res) => {
@@ -112,6 +73,54 @@ module.exports = (router) => {
                 //         res.json({ success: true, records: records });
                 //     }
                 // }).sort({ "record.loginAt": -1 });
+            }
+        });
+    });
+
+    router.get('/:userId/blogs', (req, res) => {
+        if (!req.params.userId) {
+            res.json({ success: false, message: 'no userId provided' });
+        } else {
+            Blog.find({ createdBy: req.params.userId, published: true, publishedAt: { $lte: Date.now() } }, (err, blogs) => {
+                if (err) {
+                    res.json({ success: false, message: err });
+                } else if (!blogs) {
+                    res.json({ success: false, message: 'no blogs found' });
+                } else {
+                    res.json({ success: true, blogs: blogs });
+                }
+            }).sort({ '_id': -1 });
+        }
+    });
+
+    router.get('/:username', (req, res) => {
+        if (!req.params.username) {
+            res.json({ success: false, message: 'no uesrname provided' });
+        } else {
+            User.findOne({ username: req.params.username }).select('username email').exec((err, user) => {
+                if (err) {
+                    res.json({ success: false, message: err });
+                } else {
+                    if (!user) {
+                        res.json({ success: false, message: 'user not found' });
+                    } else {
+                        res.json({ success: true, user: user });
+                    }
+                }
+            });
+        }
+    });
+
+    router.get('/', checkAuth, (req, res) => {
+        User.findOne({ _id: req.decoded.userId }).select('username email').exec((err, user) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'user not found' });
+                } else {
+                    res.json({ success: true, user: user });
+                }
             }
         });
     });

@@ -1,3 +1,6 @@
+const express = require('express');
+const router = express.Router();
+
 const User = require('../models/user');
 const LoginState = require('../models/loginState');
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
@@ -6,7 +9,7 @@ const checkAuth = require('../middleware/auth');
 var requestIp = require('request-ip');
 
 
-module.exports = (router) => {
+module.exports = (app) => {
 
 	router.post('/register', (req, res) => {
 		// req.body.email

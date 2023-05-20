@@ -14,15 +14,14 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const config = require('./config/database');
 const path = require('path');
-const public = require('./routes/public')(router);
-const authentication = require('./routes/authentication')(router);
-const profile = require('./routes/profile')(router)
-const blogs = require('./routes/blogs')(router);
-const upload = require('./routes/upload')(router);
+// const public = require('./routes/public.js.bak')(app);
+const authentication = require('./routes/authentication')(app);
+const profile = require('./routes/profile')(app)
+const blogs = require('./routes/blogs')(app);
+const directory = require('./routes/directory')(app);
+const upload = require('./routes/upload')(app);
 
 const ActiveSession = require('./models/activeSession');
-
-var requestIp = require('request-ip');
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -77,6 +76,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/authentication', authentication);
 app.use('/profile', profile);
 app.use('/blogs', blogs);
+app.use('/directory', directory);
 app.use('/upload', upload);
 
 app.use((err, req, res, next) => {
@@ -105,12 +105,41 @@ io.sockets.on('connection', (socket) => {
 	function addSessionRecord(token) {
 		jwt.verify(token, config.secret, (err, decoded) => {
 			if (!err) {
+				let agent = socket.request.headers['user-agent'];
+				var device = "unknown";
+				if (/mobile/i.test(agent)) {
+					device = 'mobile';
+				}
+				if (/like Mac OS X/.test(agent)) {
+					if (/CPU( iPhone)? OS ([0-9\._]+) like Mac OS X/.exec(agent)[2].replace(/_/g, '.')) {
+						device = 'ios';
+					}
+					if (/iPhone/.test(agent)) {
+						device = 'iphone';
+					}
+					if (/iPad/.test(agent)) {
+						device = 'ipad';
+					}
+				}
+				if (/Android/.test(agent)) {
+					device = 'android';
+				}
+				if (/webOS\//.test(agent)) {
+					device = 'webos';
+				}
+				if (/(Intel|PPC) Mac OS X/.test(agent)) {
+					device = 'mac';
+				}
+				if (/Windows NT/.test(agent)) {
+					device = 'windows';
+				}
+
 				ActiveSession.findOneAndUpdate({ userId: decoded.userId }, {
 					$push: {
 						'sessions': {
 							sessionId: socket.id,
-							ipaddress: 'ip-adress',
-							device: 'device-name'
+							ipaddress: socket.request.connection.remoteAddress,
+							device: device
 						}
 					}
 				}, { upsert: true },

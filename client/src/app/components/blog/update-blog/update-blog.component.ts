@@ -69,7 +69,7 @@ export class UpdateBlogComponent implements OnInit {
     if (this.currentUrl.id) {
       this.editMode = true;
 
-      this.blogService.getSingleBlog(this.currentUrl.id).subscribe((data: any) => {
+      this.blogService.getBlog(this.currentUrl.id).subscribe((data: any) => {
         if (!data.success) {
           this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
         } else {
@@ -134,7 +134,7 @@ export class UpdateBlogComponent implements OnInit {
     }
 
     if (!this.editMode) {
-      this.blogService.newBlog(blog).subscribe((data: any) => {
+      this.blogService.postBlog(blog).subscribe((data: any) => {
         if (!data.success) {
           this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
           this.enableBlogForm();
@@ -147,7 +147,7 @@ export class UpdateBlogComponent implements OnInit {
       })
     } else {
       blog['_id'] = this.currentUrl.id;
-      this.blogService.editBlog(blog).subscribe((data: any) => {
+      this.blogService.putBlog(blog).subscribe((data: any) => {
         if (!data.success) {
           this.flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 5000 });
           this.enableBlogForm();
@@ -204,7 +204,7 @@ export class UpdateBlogComponent implements OnInit {
         this.processing = false;
         this.overlay = false;
         this.deleteBlogDisplay = false;
-        //this.getAllBlogs();
+        //this.getBlogs();
         setTimeout(() => {
         }, 2000);
       }

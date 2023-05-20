@@ -46,7 +46,7 @@ export class DeleteBlogComponent implements OnInit {
 	}
 	ngOnInit() {
 		this.currentUrl = this.activatedRoute.snapshot.params;
-		this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
+		this.blogService.getBlog(this.currentUrl.id).subscribe(data => {
 			this.dataRegister = data;
 			if (!this.dataRegister.success) {
 				this.flashMessagesService.show(this.dataRegister.message, { cssClass: 'alert-danger', timeout: 5000 });

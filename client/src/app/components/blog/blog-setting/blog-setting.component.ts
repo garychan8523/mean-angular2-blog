@@ -112,7 +112,7 @@ export class BlogSettingComponent implements OnInit {
   });
 
   getBlog = (blogId) => new Promise((resolve, reject) => {
-    this.blogService.getSingleBlog(blogId).subscribe(data => {
+    this.blogService.getBlog(blogId).subscribe(data => {
       this.dataRegister = data;
       if (!this.dataRegister.success) {
         reject(this.dataRegister.message);
