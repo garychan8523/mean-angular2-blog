@@ -68,7 +68,7 @@ export class QuillEditorComponent implements OnInit {
       [{ 'font': [] }],
       [{ 'align': [] }],
       ['clean'],                                        // remove formatting button
-      ['link', 'image'],
+      ['link', 'image', 'formula'],
     ];
 
     this.quill = new Quill('#editor', {

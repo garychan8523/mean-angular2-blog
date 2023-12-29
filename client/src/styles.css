@@ -186,7 +186,7 @@ div:focus {
 .editmode #editor {
 	transition: none !important;
 	height: 500px;
-	overflow-y: auto;
+	/* overflow-y: auto; */
 }
 
 body {
