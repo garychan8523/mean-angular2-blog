@@ -382,7 +382,13 @@ button[disabled] {
 
 .card-title {
 	font-weight: 600;
-	font-size: 1.0rem;
+	font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+	.card-title {
+		font-size: 1.375rem;
+	}
 }
 
 .card-body {
@@ -393,6 +399,12 @@ button[disabled] {
 
 .card-text {
 	font-size: 0.92rem;
+}
+
+@media (min-width: 768px) {
+	.card-text {
+		font-size: 1.25rem;
+	}
 }
 
 .form-error-msg {
