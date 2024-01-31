@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { QuillEditorComponent } from 'src/app/modules/quill-editor/quill-editor/quill-editor.component';
@@ -36,7 +36,7 @@ export class UpdateBlogComponent implements OnInit {
   constructor(
     private location: Location,
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public authService: AuthService,
     private blogService: BlogService,
     private eventEmitterService: EventEmitterService,

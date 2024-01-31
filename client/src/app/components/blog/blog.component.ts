@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone, ViewChild, AfterViewChecked } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { SocketService } from '../../services/socket.service';
@@ -29,7 +29,7 @@ export class BlogComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private zone: NgZone,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public authService: AuthService,
     private blogService: BlogService,
     private socketService: SocketService,

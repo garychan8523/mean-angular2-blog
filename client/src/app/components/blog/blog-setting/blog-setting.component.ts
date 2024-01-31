@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -44,10 +44,10 @@ export class BlogSettingComponent implements OnInit {
     private eventEmitterService: EventEmitterService,
     private flashMessagesService: FlashMessagesService
   ) {
-    this.publishForm = new FormGroup({
-      published: new FormControl(),
-      schedule: new FormControl('now'),
-      publishedAt: new FormControl()
+    this.publishForm = new UntypedFormGroup({
+      published: new UntypedFormControl(),
+      schedule: new UntypedFormControl('now'),
+      publishedAt: new UntypedFormControl()
     });
   }
 

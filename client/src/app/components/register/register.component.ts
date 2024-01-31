@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ViewChildren } from '@angular/core';
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
 	dataRegister: any = {};
 
 	constructor(
-		private fb: FormBuilder,
+		private fb: UntypedFormBuilder,
 		private authService: AuthService,
 		private router: Router,
 		private el: ElementRef,
@@ -98,7 +98,7 @@ export class RegisterComponent implements OnInit {
 	}
 
 	matchingPasswords(password, confirm) {
-		return (group: FormGroup) => {
+		return (group: UntypedFormGroup) => {
 			if (group.controls[password].value === group.controls[confirm].value) {
 				return null;
 			} else {
