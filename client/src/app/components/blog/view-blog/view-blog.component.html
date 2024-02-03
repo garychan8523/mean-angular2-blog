@@ -1,24 +1,32 @@
 <form class="view-container viewmode view-offset">
-	<div *ngIf="loading" style="margin-top: 150px;">Loading ...<br><br></div>
-	<div *ngIf="!loading" class="form-group">
+	@if (loading) {
+	<div style="margin-top: 150px;">Loading ...<br><br></div>
+	}
+	@if (!loading && blog) {
+	<div class="form-group">
 		<div class="title-view">{{ blog.title }}</div>
 	</div>
+	}
 
-	<div *ngIf="!loading" class="leadin-view">
+	<div class="leadin-view">
 		<p class="ql-align-justify" [innerHTML]="leadinView"></p>
 	</div>
-
-	<app-quill-editor *ngIf="!loading" class="ql-hide"></app-quill-editor>
+	<app-quill-editor [ngClass]="{'display-none': loading}" class="ql-hide"></app-quill-editor>
 	<br>
 
-	<div *ngIf="!loading && blog.createdBy" style="color: #666;">by <span [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><b>{{blog.createdBy}} </b></span>
+	@if (!loading && blog) {
+	<div style="color: #666;">by <span [routerLink]="['/user/', blog.createdBy]" style="cursor: pointer;"><b>{{blog.createdBy}} </b></span>
 		<span *ngIf="blog.publishedAt">published on {{ blog.publishedAt | date: "dd MMM yyyy 'at' HH:mm" }}</span>
 		<span *ngIf="!blog.publishedAt">(unpublished)</span>
-	</div><br>
+	</div>
+	}
+	<br>
 	<!--  ‧ {{ blog.publishedAt?(blog.published?'Published':'Unpublished'):'Draft'}} -->
 	<button type="button" name="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
-	<button *ngIf="!loading && authService.loggedIn() && username === blog.createdBy" [disabled]="loading" type="button" name="button" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/setting/', blog._id]">Setting</button>
-	<button *ngIf="!loading && authService.loggedIn() && username === blog.createdBy" [disabled]="loading" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/update/', blog._id]">Edit</button>
+	@if (!loading && blog && authService.loggedIn() && username === blog.createdBy) {
+	<button [disabled]="loading" type="button" name="button" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/setting/', blog._id]">Setting</button>
+	<button [disabled]="loading" type="button" name="edit" class="btn btn-sm btn-info btn-margin-left" [routerLink]="['/blog/update/', blog._id]">Edit</button>
+	}
 	<!-- <a *ngIf="editMode" [routerLink]="['/delete-blog/', blog._id]">
 			<button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger btn-margin-left">Delete</button>
 		</a> -->

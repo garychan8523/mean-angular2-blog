@@ -1,5 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { ChannelComponent } from './components/channel/channel.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -20,7 +19,7 @@ import { DeleteBlogComponent } from './components/blog/delete-blog/delete-blog.c
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
-const appRoutes: Routes = [
+const routeConfig: Routes = [
   {
     path: '',
     component: HomeComponent
@@ -99,16 +98,4 @@ const appRoutes: Routes = [
   { path: '**', redirectTo: '/' }
 ];
 
-
-@NgModule({
-  declarations: [],
-  imports: [RouterModule.forRoot(
-    appRoutes,
-    { enableTracing: true } // <-- debugging purposes only
-  )],
-  providers: [],
-  bootstrap: [],
-  exports: [RouterModule]
-})
-
-export class AppRoutingModule { }
+export default routeConfig;

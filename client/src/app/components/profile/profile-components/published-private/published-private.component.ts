@@ -1,8 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+
 import { AuthService } from '../../../../services/auth.service';
+import { EventEmitterService } from '../../../../services/event-emitter.service';
+
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-published-private',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './published-private.component.html',
   styleUrls: ['./published-private.component.css']
 })
@@ -13,9 +23,11 @@ export class PublishedPrivateComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private eventEmitterService: EventEmitterService,
   ) { }
 
   ngOnInit(): void {
+    this.eventEmitterService.updateNavbarStatus('show');
     this.getPrivateBlogs();
   }
 

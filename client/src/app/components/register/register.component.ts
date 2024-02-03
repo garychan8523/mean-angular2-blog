@@ -5,10 +5,18 @@ import { Router } from '@angular/router';
 import { ViewChildren } from '@angular/core';
 import { ElementRef } from '@angular/core';
 
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../modules/flash-messages/flash-messages.service';
+
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-register',
+	standalone: true,
+	imports: [
+		CommonModule,
+		ReactiveFormsModule
+	],
 	templateUrl: './register.component.html',
 	styleUrls: ['./register.component.css']
 })

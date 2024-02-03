@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-@Injectable()
-export class NotAuthGuard  {
+@Injectable({
+  providedIn: 'root'
+})
+export class NotAuthGuard {
   constructor(
     private authService: AuthService,
     private router: Router

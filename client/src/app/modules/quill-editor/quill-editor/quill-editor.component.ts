@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import * as QuillNamespace from 'quill';
 let Quill: any = QuillNamespace;
@@ -6,14 +6,22 @@ import ImageResize from 'quill-image-resize-module';
 
 import { AuthService } from '../../../services/auth.service';
 import { UploadService } from '../../../services/upload.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../../modules/flash-messages/flash-messages.service';
+
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-quill-editor',
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
   templateUrl: './quill-editor.component.html',
   styleUrls: ['./quill-editor.component.css']
 })
 export class QuillEditorComponent implements OnInit {
+
+  uploadService: UploadService = inject(UploadService);
 
   form;
   quill;
@@ -26,7 +34,6 @@ export class QuillEditorComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
     public authService: AuthService,
-    private uploadService: UploadService,
     private flashMessagesService: FlashMessagesService,
   ) {
     Quill.register('modules/imageResize', ImageResize);

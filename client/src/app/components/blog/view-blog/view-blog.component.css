@@ -1,3 +1,7 @@
+.display-none {
+	display: none;
+}
+
 .view-container {
 	max-width: 800px;
 	margin: auto;

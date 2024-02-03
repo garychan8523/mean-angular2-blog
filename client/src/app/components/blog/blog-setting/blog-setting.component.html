@@ -1,12 +1,19 @@
 <div class="page-container">
 
     <h5 class="page-header" style="margin-top: -60px;">Publication Setting</h5>
-    <div *ngIf="processing">Processing ...<br><br></div>
-    <form *ngIf="!processing" [formGroup]="publishForm" (submit)="onSettingSubmit()">
-        <b>Blog title</b>
-        <div class="row-content">{{ blog.title }}</div>
+    @if (processing) {
+    <div>Processing ...<br><br></div>
+    }
 
-        <div *ngIf="!neverPublished">
+    @if (publishForm && !processing) {
+    <form [formGroup]="publishForm" (submit)="onSettingSubmit()">
+        <b>Blog title</b>
+        @if (blog) {
+        <div class="row-content">{{ blog.title }}</div>
+        }
+
+        @if (!neverPublished) {
+        <div>
             <b>Visibility status</b>
             <div style="margin: 10px 0 40px 0;">
                 <span>
@@ -21,29 +28,41 @@
             </div>
             <br>
         </div>
+        }
 
         <b>Created date</b>
         <div class="row-content">
+            @if (blog) {
             <div>{{blog.createdAt | date: "dd MMM yyyy HH:mm"}}</div>
+            }
         </div>
 
         <b>Publish status</b>
         <div class="row-content">
-            <div *ngIf="neverPublished">This blog was never published (Draft)</div>
-            <div *ngIf="publishedDate">This blog was published {{publishedDate | date: "' on' dd MMM yyyy 'at' HH:mm"}}</div>
+            @if (neverPublished) {
+            <div>This blog was never published (Draft)</div>
+            }
+            @if (publishedDate) {
+            <div>This blog was published {{publishedDate | date: "' on' dd MMM yyyy 'at' HH:mm"}}</div>
+            }
         </div>
-        <div *ngIf="neverPublished && publishForm.get('published').value">
+        @if (neverPublished && publishForm.get('published').value) {
+        <div>
             <select formControlName="schedule" class="publish-form-input">
                 <option value="" disabled>Select schedule option</option>
                 <option selected value="now">Publish Now</option>
                 <option value="custom">Publish at custom datetime</option>
             </select>
             <br>
-
         </div>
+        }
 
-        <b *ngIf="neverPublished">Publish action <br></b>
-        <div *ngIf="neverPublished" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        @if (neverPublished) {
+        <b>Publish action <br></b>
+        }
+
+        @if (neverPublished) {
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
             <div class="option-box" [ngClass]="{'option-selected': publishAction=='publish-now' }" (click)="onItemChange('publish-now')">
                 <i class="far fa-paper-plane" style="font-size: 28px;"></i>
                 <br><br>
@@ -54,26 +73,36 @@
                 <br><br>
                 <b>Schedule to publish</b>
             </div>
-            <div *ngIf="isNewPost" class="option-box" [ngClass]="{'option-selected': publishAction=='skip' }" (click)="onItemChange('skip')">
+            @if (isNewPost) {
+            <div class="option-box" [ngClass]="{'option-selected': publishAction=='skip' }" (click)="onItemChange('skip')">
                 <i class="fas fa-angle-double-right" style="font-size: 28px;"></i>
                 <br><br>
                 <b>Skip for now</b>
             </div>
+            }
         </div>
+        }
 
-        <div *ngIf="publishAction=='publish-schedule'">
+        @if (publishAction=='publish-schedule') {
+        <div>
             <div>Please choose a date time for publish:</div>
             <input type="datetime-local" id="publishdatetime" class="publish-form-input" [value]="publishForm.get('publishedAt').value" (change)="dateChanged($event)">
         </div>
+        }
 
         <br><br>
 
         <div class=" blog-operation-button-group">
-            <button *ngIf="!isNewPost" type="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
-            <button *ngIf="!processing" type="button" class="btn btn-sm btn-danger btn-margin-left" (click)="resetPublishForm()">Reset</button>
-            <button *ngIf="!processing" type="submit" class="btn btn-sm btn-info btn-margin-left" [disabled]="(publishedDate && publishForm.get('published').value == storedBlog.published) || (!publishedDate && !publishAction)">Confirm</button>
+            @if (!isNewPost) {
+            <button type="button" class="btn btn-sm btn-secondary" (click)="goBack()">Back</button>
+            }
+            @if (!processing) {
+            <button type="button" class="btn btn-sm btn-danger btn-margin-left" (click)="resetPublishForm()">Reset</button>
+            <button type="submit" class="btn btn-sm btn-info btn-margin-left" [disabled]="(publishedDate && publishForm.get('published').value == storedBlog.published) || (!publishedDate && !publishAction)">Confirm</button>
+            }
         </div>
 
     </form>
+    }
 
 </div>

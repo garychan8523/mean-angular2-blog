@@ -3,15 +3,24 @@ import { Location } from '@angular/common';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { QuillEditorComponent } from 'src/app/modules/quill-editor/quill-editor/quill-editor.component';
-
 import { AuthService } from '../../../services/auth.service';
 import { BlogService } from '../../../services/blog.service';
 import { EventEmitterService } from '../../../services/event-emitter.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../../modules/flash-messages/flash-messages.service';
+
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { QuillEditorComponent } from 'src/app/modules/quill-editor/quill-editor/quill-editor.component';
 
 @Component({
   selector: 'app-update-blog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    QuillEditorComponent
+  ],
   templateUrl: './update-blog.component.html',
   styleUrls: ['./update-blog.component.css']
 })

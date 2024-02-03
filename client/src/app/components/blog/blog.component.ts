@@ -1,19 +1,29 @@
-import { Component, OnInit, NgZone, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, inject, NgZone, ViewChild, AfterViewChecked } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { SocketService } from '../../services/socket.service';
 import { EventEmitterService } from '../../services/event-emitter.service';
 
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 import { QuillEditorComponent } from '../../modules/quill-editor/quill-editor/quill-editor.component';
 
 @Component({
   selector: 'app-blog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css']
 })
 
 export class BlogComponent implements OnInit, AfterViewChecked {
+
+  blogService: BlogService = inject(BlogService);
 
   notificationClass;
   notification = false;
@@ -31,7 +41,6 @@ export class BlogComponent implements OnInit, AfterViewChecked {
     private zone: NgZone,
     private formBuilder: UntypedFormBuilder,
     public authService: AuthService,
-    private blogService: BlogService,
     private socketService: SocketService,
     private eventEmitterService: EventEmitterService
   ) {
@@ -159,12 +168,14 @@ export class BlogComponent implements OnInit, AfterViewChecked {
   // }
 
   getBlogs() {
-    this.blogService.getBlogs().subscribe(data => {
-      this.dataRegister = data
-      this.blogPosts = this.dataRegister.blogs;
-      this.blogPosts.array.forEach(blog => {
-        blog.leadin = blog.leadin.replace(/\n/g, "<br>");
+    this.blogService.getBlogs().subscribe((data: any) => {
+      var blogs = <Array<any>>data.blogs;
+      blogs.forEach(blog => {
+        if (blog.leadin) {
+          blog.leadin = blog.leadin.replace(/\n/g, "<br>");
+        }
       });
+      this.blogPosts = blogs;
     });
   }
 

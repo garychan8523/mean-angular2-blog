@@ -1,0 +1,57 @@
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+//import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+//import { JwtModule } from "@auth0/angular-jwt";
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { AppRoutingModule } from './route';
+
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+import { ChannelComponent } from './components/channel/channel.component';
+import { AuthService } from './services/auth.service';
+import { BlogService } from './services/blog.service';
+import { UploadService } from './services/upload.service';
+import { SocketService } from './services/socket.service';
+import { EventEmitterService } from './services/event-emitter.service';
+import { FlashMessagesModule } from './modules/flash-messages/module';
+import { FlashMessagesService } from './modules/flash-messages/flash-messages.service';
+// import { FlashMessagesModule } from 'angular2-flash-messages';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
+
+import { RouteReuseStrategy } from '@angular/router';
+import { RouteStrategyService } from './route-strategy.service';
+import { ActiveSessionsComponent } from './components/profile/profile-components/active-sessions/active-sessions.component';
+
+
+@NgModule({
+  declarations: [
+    HomeComponent,
+    ChannelComponent,
+    ActiveSessionsComponent
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    AppRoutingModule,
+    FlashMessagesModule.forRoot(),
+  ],
+  providers: [
+    AuthService,
+    AuthGuard,
+    NotAuthGuard,
+    FlashMessagesService,
+    BlogService,
+    UploadService,
+    SocketService,
+    EventEmitterService,
+    { provide: RouteReuseStrategy, useClass: RouteStrategyService }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

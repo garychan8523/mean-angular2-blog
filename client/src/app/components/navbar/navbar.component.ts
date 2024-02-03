@@ -1,17 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../modules/flash-messages/flash-messages.service';
 import { SocketService } from '../../services/socket.service';
 import { EventEmitterService } from '../../services/event-emitter.service';
 import { NgZone } from "@angular/core";
 
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-navbar',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
+  authService: AuthService = inject(AuthService);
+  socketService: SocketService = inject(SocketService);
+  flashMessagesService: FlashMessagesService = inject(FlashMessagesService);
 
   notificationClass;
   notification = false;
@@ -19,11 +31,8 @@ export class NavbarComponent implements OnInit {
   username;
 
   constructor(
-    public authService: AuthService,
     private router: Router,
-    private socketService: SocketService,
     private eventEmitterService: EventEmitterService,
-    private flashMessagesService: FlashMessagesService,
     private zone: NgZone
   ) { }
 
@@ -47,7 +56,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.eventEmitterService.updateNavbarEvent.subscribe((action) => {
-      console.log('updateNavbarEvent', action)
+      // console.log('updateNavbarEvent', action)
       if (action == 'show') {
         this.showNavBar();
       }

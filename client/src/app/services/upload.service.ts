@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UploadService {
 
   options;

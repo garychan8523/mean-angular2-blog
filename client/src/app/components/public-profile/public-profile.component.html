@@ -13,7 +13,10 @@
 <div style="max-width: 800px; margin: auto;">
   <b>Published</b><br><br>
   <span *ngIf="loading" class="spinner">Loading</span>
-  <span *ngIf="!loading && publishedPosts.length == 0">No data</span>
+  @if (!loading && publishedPosts && publishedPosts.length == 0) {
+  <span>No data</span>
+  }
+  @if (publishedPosts) {
   <div id="{{ blog._id }}" class="card" *ngFor="let blog of publishedPosts">
     <div class="card-body">
       <div [routerLink]="['/blog/', blog._id]" class="card-title-box">
@@ -25,4 +28,5 @@
       <small class="text-muted">{{ blog.createdAt | date: "dd MMM yyyy 'at' HH:mm" }}</small>
     </div>
   </div>
+  }
 </div>

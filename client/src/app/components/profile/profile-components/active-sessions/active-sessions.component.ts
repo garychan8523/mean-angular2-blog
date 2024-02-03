@@ -2,8 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../../../services/auth.service'
 
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-active-sessions',
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
   templateUrl: './active-sessions.component.html',
   styleUrls: ['./active-sessions.component.css']
 })

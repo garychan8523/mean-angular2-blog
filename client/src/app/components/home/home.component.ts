@@ -2,8 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { EventEmitterService } from '../../services/event-emitter.service';
 
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -17,6 +23,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.eventEmitterService.updateNavbarStatus('show');
     this.authService.getProfile().subscribe(profile => {
       this.dataRegister = profile;
       if (!this.dataRegister.success) {

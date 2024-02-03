@@ -3,10 +3,16 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../../services/blog.service';
 
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../../modules/flash-messages/flash-messages.service';
+
+import { CommonModule } from '@angular/common';
 
 @Component({
 	selector: 'app-delete-blog',
+	standalone: true,
+	imports: [
+		CommonModule
+	],
 	templateUrl: './delete-blog.component.html',
 	styleUrls: ['./delete-blog.component.css']
 })

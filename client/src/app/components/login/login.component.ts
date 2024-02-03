@@ -1,20 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 import { ElementRef } from '@angular/core';
 
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../modules/flash-messages/flash-messages.service';
 import { EventEmitterService } from '../../services/event-emitter.service';
 import { SocketService } from '../../services/socket.service';
 
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  authGuard: AuthGuard = inject(AuthGuard);
+
   processing = false;
   form;
   previousUrl;
@@ -25,7 +36,6 @@ export class LoginComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private authService: AuthService,
     private router: Router,
-    private authGuard: AuthGuard,
     private el: ElementRef,
     private flashMessagesService: FlashMessagesService,
     private eventEmitterService: EventEmitterService,

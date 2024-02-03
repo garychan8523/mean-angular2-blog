@@ -3,8 +3,25 @@ import { Location, ViewportScroller } from '@angular/common';
 import { Router, Scroll } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { OverlayComponent } from './components/overlay/overlay.component';
+import { FlashMessagesModule } from './modules/flash-messages/module';
+// import { FlashMessagesComponent } from './modules/flash-messages/flash-messages.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    FlashMessagesModule,
+    OverlayComponent,
+    NavbarComponent,
+    FooterComponent
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

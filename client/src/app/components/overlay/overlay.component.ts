@@ -3,8 +3,14 @@ import { Router } from '@angular/router';
 
 import { EventEmitterService } from '../../services/event-emitter.service';
 
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-overlay',
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.css'],
   encapsulation: ViewEncapsulation.None

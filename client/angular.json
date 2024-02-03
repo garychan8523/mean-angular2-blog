@@ -17,9 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "angular2-flash-messages"
-            ],
+            "allowedCommonJsDependencies": [],
             "outputPath": "../public",
             "index": "src/index.html",
             "main": "src/main.ts",

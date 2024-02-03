@@ -1,25 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormGroup, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { BlogService } from '../../../services/blog.service';
 import { EventEmitterService } from '../../../services/event-emitter.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../../modules/flash-messages/flash-messages.service';
 
 @Component({
   selector: 'app-blog-setting',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './blog-setting.component.html',
-  styleUrls: ['./blog-setting.component.css']
+  styleUrls: ['./blog-setting.component.css'],
 })
+
 export class BlogSettingComponent implements OnInit {
 
   processing = true;
 
   username;
 
-  publishForm;
+  publishForm: FormGroup = new UntypedFormGroup({
+    published: new UntypedFormControl(),
+    schedule: new UntypedFormControl('now'),
+    publishedAt: new UntypedFormControl()
+  });
+
   publishDatetimeValue;
 
   published = false;
@@ -43,15 +56,10 @@ export class BlogSettingComponent implements OnInit {
     private blogService: BlogService,
     private eventEmitterService: EventEmitterService,
     private flashMessagesService: FlashMessagesService
-  ) {
-    this.publishForm = new UntypedFormGroup({
-      published: new UntypedFormControl(),
-      schedule: new UntypedFormControl('now'),
-      publishedAt: new UntypedFormControl()
-    });
-  }
+  ) { }
 
   ngOnInit(): void {
+
     this.processing = true;
 
     this.eventEmitterService.updateNavbarStatus('hide');
@@ -72,7 +80,7 @@ export class BlogSettingComponent implements OnInit {
       .then((data) => {
         this.username = data;
         this.getBlog(this.blogId)
-          .then((blog) => {
+          .then((blog: any) => {
             this.blog = blog;
             if (this.blog.published == undefined) {
               this.neverPublished = true;
@@ -112,12 +120,11 @@ export class BlogSettingComponent implements OnInit {
   });
 
   getBlog = (blogId) => new Promise((resolve, reject) => {
-    this.blogService.getBlog(blogId).subscribe(data => {
-      this.dataRegister = data;
-      if (!this.dataRegister.success) {
-        reject(this.dataRegister.message);
+    this.blogService.getBlog(blogId).subscribe((data: any) => {
+      if (!data.success) {
+        reject(data.message);
       } else {
-        let blog = (Object.assign({}, this.dataRegister.blog));
+        let blog = (Object.assign({}, data.blog));
         if (blog.createdBy !== this.username) {
           reject('unauthorized');
           this.goBack();

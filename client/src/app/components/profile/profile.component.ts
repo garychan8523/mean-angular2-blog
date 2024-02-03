@@ -3,10 +3,18 @@ import { AuthService } from '../../services/auth.service'
 import { Router } from '@angular/router';
 import { NgZone } from "@angular/core";
 
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../modules/flash-messages/flash-messages.service';
+
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })

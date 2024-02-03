@@ -6,7 +6,9 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, tap, catchError, retry } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BlogService {
 
   options;

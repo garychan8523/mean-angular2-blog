@@ -8,7 +8,9 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { Observable, throwError } from 'rxjs';
 import { map, tap, catchError, retry } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
   domain = environment.apiUrl;

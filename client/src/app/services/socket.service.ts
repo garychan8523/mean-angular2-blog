@@ -4,7 +4,9 @@ import * as io from 'socket.io-client';
 
 import { AuthService } from './auth.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SocketService {
 
   socket: SocketIOClient.Socket;

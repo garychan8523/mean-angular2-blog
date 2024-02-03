@@ -2,10 +2,19 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../../../services/auth.service';
 import { BlogService } from '../../../../services/blog.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
+import { FlashMessagesService } from '../../../../modules/flash-messages/flash-messages.service';
+import { EventEmitterService } from '../../../../services/event-emitter.service';
+
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-published',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
   templateUrl: './published.component.html',
   styleUrls: ['./published.component.css']
 })
@@ -20,9 +29,11 @@ export class PublishedComponent implements OnInit {
     public authService: AuthService,
     private blogService: BlogService,
     private flashMessagesService: FlashMessagesService,
+    private eventEmitterService: EventEmitterService,
   ) { }
 
   ngOnInit(): void {
+    this.eventEmitterService.updateNavbarStatus('show');
     this.getPublishedBlogs();
   }
 
