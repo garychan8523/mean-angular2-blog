@@ -8,8 +8,6 @@ const User = require('../models/user');
 const checkAuth = require('../middleware/auth');
 
 module.exports = (app) => {
-    console.log('blogs router')
-
     router.param('blogId', function (req, res, next, blogId) {
         const agg = [
             {

@@ -19,19 +19,19 @@
   },
   "homepage": "https://github.com/garychan8523/mean-angular2-blog#readme",
   "dependencies": {
-    "aws-sdk": "^2.983.0",
+    "aws-sdk": "^2.1547.0",
     "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.17.2",
-    "cors": "^2.8.4",
-    "express": "^4.15.4",
-    "express-fileupload": "^1.2.1",
-    "inherits": "^2.0.3",
-    "jsonwebtoken": "^8.0.0",
-    "mime-types": "^2.1.32",
-    "mongoose": "^5.13.9",
-    "nodemon": "^1.11.0",
-    "request-ip": "^2.0.2",
-    "socket.io": "^2.1.1",
-    "uuid": "^8.3.2"
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.3",
+    "inherits": "^2.0.4",
+    "jsonwebtoken": "^9.0.2",
+    "mime-types": "^2.1.35",
+    "mongoose": "^8.1.1",
+    "nodemon": "^3.0.3",
+    "request-ip": "^3.3.0",
+    "socket.io": "^4.7.4",
+    "uuid": "^9.0.1"
   }
 }

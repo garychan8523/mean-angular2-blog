@@ -8,8 +8,6 @@ const LoginState = require('../models/loginState');
 const checkAuth = require('../middleware/auth');
 
 module.exports = (app) => {
-    console.log('profile router')
-
     router.get('/activeSessions', checkAuth, (req, res) => {
         try {
             ActiveSession.find({ userId: req.decoded.userId }).exec((err, records) => {

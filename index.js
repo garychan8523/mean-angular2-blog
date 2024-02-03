@@ -39,20 +39,16 @@ if (process.env.ENV && process.env.ENV == 'PRD') {
 	});
 }
 
-var io = require('socket.io').listen(server);
+var io = require('socket.io')(server);
 
 mongoose.Promise = global.Promise;
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
-mongoose.connect(config.uri, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
-	if (err) {
-		console.log('Could NOT connect to databse: ', err);
-	} else {
-		console.log('Connected to database: ' + config.db);
-	}
-});
+mongoose.connect(config.uri)
+	.then(() => {
+		console.log('connected with mongodb');
+	})
+	.catch((err) => {
+		console.log('error when connecting with mongodb: ', err)
+	})
 
 // middleware: start
 if (process.env.ENV && process.env.ENV == 'PRD') {
@@ -62,7 +58,7 @@ if (process.env.ENV && process.env.ENV == 'PRD') {
 	}));
 } else {
 	app.use(cors({
-		origin: ['http://localhost:4200'],
+		origin: ['http://localhost:4200', 'http://192.168.8.35:4200'],
 		credentials: true
 	}));
 }
