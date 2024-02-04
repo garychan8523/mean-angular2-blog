@@ -3,7 +3,9 @@
 }
 
 #editor {
-    min-height: 350px;
+    min-height: 500px;
+    height: auto;
+    padding: 0 0 100px 0;
 }
 
 .ql-valid {

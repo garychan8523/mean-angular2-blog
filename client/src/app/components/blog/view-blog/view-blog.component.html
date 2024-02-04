@@ -8,9 +8,11 @@
 	</div>
 	}
 
+	@if (!loading && leadinView.length > 0) {
 	<div class="leadin-view">
 		<p class="ql-align-justify" [innerHTML]="leadinView"></p>
 	</div>
+	}
 	<app-quill-editor [ngClass]="{'display-none': loading}" class="ql-hide"></app-quill-editor>
 	<br>
 

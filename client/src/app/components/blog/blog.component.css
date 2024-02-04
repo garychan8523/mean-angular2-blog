@@ -1,4 +1,4 @@
-.popup-modal-wrapper{
+.popup-modal-wrapper {
 	position: fixed;
 	width: 100%;
 	top: 0;
@@ -6,30 +6,30 @@
 	z-index: 1060;
 }
 
-.popup-modal{
+.popup-modal {
 	margin: auto;
 	margin-top: 7rem;
 }
 
-.modal-header{
+.modal-header {
 	padding: 10px !important;
 	background: #f6f7f9;
 	border-radius: .3rem .3rem 0 0;
 }
 
-.modal-title{
+.modal-title {
 	line-height: 0;
 }
 
-.modal-footer{
+.modal-footer {
 	padding: 10px !important;
 }
 
-button.close{
+button.close {
 	margin-right: 5px;
 }
 
-.fa{
+.fa {
 	padding-right: 5px;
 }
 
@@ -37,11 +37,12 @@ button.close{
 	padding-right: 0;
 }*/
 
-.fa-pencil,.fa-trash-o{
+.fa-pencil,
+.fa-trash-o {
 	padding: 0 2px 0 2px;
 }
 
-.btn-nobg{
+.btn-nobg {
 	cursor: pointer;
 	background: none;
 	color: #666;
@@ -49,85 +50,94 @@ button.close{
 	font-weight: 600;
 }
 
-.btn-nobg:hover{
+.btn-nobg:hover {
 	color: #222;
 }
 
-.card{
-	margin: 0 auto 15px auto;
+.card {
+	margin: 0 auto 25px auto;
 	background-color: initial;
 	border-top: none;
 	border-left: none;
 	border-right: none;
-	border-bottom: 1px solid rgba(0,0,0,.125);
+	/* border-bottom: 1px solid rgba(0, 0, 0, .125); */
+	border-bottom: none;
 	border-radius: initial;
 }
 
-.no-margin{
+.no-margin {
 	margin-bottom: 0;
 }
 
-.card-title-box{
+.card-title-box {
 	display: inline-block;
 	cursor: pointer;
 }
 
 .card-body::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-}
-.card-body::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+	-webkit-appearance: none;
+	width: 7px;
 }
 
-.card-footer{
-	padding: .35rem 1.25rem;
+.card-body::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background-color: rgba(0, 0, 0, .5);
+	-webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+.card-footer {
+	padding: 0;
 	border-top: none;
 	background-color: initial;
 }
-.card-footer .btn{
+
+@media (min-width: 768px) {
+	.card-footer {
+		padding: .35rem 1.25rem;
+	}
+}
+
+.card-footer .btn {
 	opacity: 0.8;
 }
 
-.card-footer .owner{
-    border: none;
-    pointer-events:none;
+.card-footer .owner {
+	border: none;
+	pointer-events: none;
 }
 
-.form-group{
+.form-group {
 	width: 920px;
 }
 
 /* The container <div> - needed to position the dropdown content */
-.dropdown{
-    position: relative;
-    display: inline-block;
+.dropdown {
+	position: relative;
+	display: inline-block;
 }
 
-.dropdown-content{
-    display: none;
-    position: absolute;
-    /*background-color: #000;*/
-    padding-top: 5px;
-    z-index: 1;
+.dropdown-content {
+	display: none;
+	position: absolute;
+	/*background-color: #000;*/
+	padding-top: 5px;
+	z-index: 1;
 }
 
 .dropdown-content a {
-    color: #ddd;
-    background-color: #000;
-    font-size: 14px;
-    padding: 2px 8px 2px 8px;
-    text-decoration: none;
-    display: block;
+	color: #ddd;
+	background-color: #000;
+	font-size: 14px;
+	padding: 2px 8px 2px 8px;
+	text-decoration: none;
+	display: block;
 }
 
-.dropdown-content a:first-child{
+.dropdown-content a:first-child {
 	padding-top: 5px;
 }
 
-.dropdown-content a:last-child{
+.dropdown-content a:last-child {
 	padding-bottom: 5px;
 }
 
@@ -137,7 +147,7 @@ button.close{
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
-    display: block;
+	display: block;
 }
 
 .list-group-item {
@@ -153,6 +163,16 @@ button.close{
 
 .leadin-textarea {
 	height: 120px;
+	font-size: 1rem;
+	letter-spacing: 0.6px;
+	text-align: justify;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+@media (min-width: 768px) {
+	.leadin-textarea {
+		font-size: 1.25rem;
+	}
 }
 
 .dropdown button:disabled {

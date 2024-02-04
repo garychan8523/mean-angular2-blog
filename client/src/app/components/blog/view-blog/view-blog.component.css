@@ -25,19 +25,50 @@
 }
 
 .title-view input {
-	background-color: #f8f8fe;
+	background-color: transparent;
 }
 
 .leadin-view {
 	padding: 12px 15px;
 	margin-top: 10px;
-	font-size: 1em;
+	font-size: 1rem;
 	letter-spacing: 0.6px;
-	text-align: justify;
+	text-align: left;
 	font-family: Helvetica, Arial, sans-serif;
 	transition: none;
 }
 
+@media (min-width: 768px) {
+	.leadin-view {
+		font-size: 1.25rem;
+		padding: 24px 30px;
+	}
+}
+
+.leadin-view p {
+	padding: 15px;
+	background: rgba(0, 0, 0, 0.04);
+	border-radius: 5px;
+}
+
+.leadin-view p::before {
+	content: '\201C';
+}
+
+.leadin-view p::after {
+	content: '\201D';
+}
+
 .leadin-textarea {
 	height: 120px;
+	font-size: 1rem;
+	letter-spacing: 0.6px;
+	text-align: justify;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+@media (min-width: 768px) {
+	.leadin-textarea {
+		font-size: 1.25rem;
+	}
 }
