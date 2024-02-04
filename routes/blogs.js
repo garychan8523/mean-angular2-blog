@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { ObjectId } = require('mongodb');
+var mongoose = require('mongoose');
 
 const Blog = require('../models/blog');
 const User = require('../models/user');
@@ -12,7 +12,7 @@ module.exports = (app) => {
         const agg = [
             {
                 '$match': {
-                    '_id': ObjectId(blogId)
+                    '_id': new mongoose.Types.ObjectId(blogId)
                 }
             },
             {
@@ -37,16 +37,18 @@ module.exports = (app) => {
             if (!blogId) {
                 throw 'missing blog id';
             } else {
-                Blog.aggregate(agg, (err, blog) => {
-                    if (err) {
+                Blog.aggregate(agg)
+                    .then((blog) => {
+                        if (!blog) {
+                            throw 'blog not found';
+                        } else {
+                            req.blog = blog[0]
+                            next();
+                        }
+                    })
+                    .catch((err) => {
                         throw err;
-                    } else if (!blog) {
-                        throw 'blog not found';
-                    } else {
-                        req.blog = blog[0]
-                        next();
-                    }
-                })
+                    })
             }
         } catch (err) {
             next(new Error(err));
@@ -54,60 +56,57 @@ module.exports = (app) => {
     });
 
     router.get('/listUnpublished', checkAuth, (req, res) => {
-        User.findOne({ _id: req.decoded.userId }, (err, user) => {
-            if (err) {
-                res.json({ success: false, message: err });
-            } else {
+        User.findOne({ _id: req.decoded.userId })
+            .then((user) => {
                 if (!user) {
                     res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
-                    Blog.find({ createdBy: user._id, published: undefined }, (err, blogs) => {
-                        if (err) {
-                            res.json({ success: false, message: err });
-                        } else {
+                    Blog.find({ createdBy: user._id, published: undefined })
+                        .sort({ '_id': -1 })
+                        .then((blogs) => {
                             res.json({ success: true, blogs: blogs });
-                        }
-                    }).sort({ '_id': -1 });
+                        })
+                        .catch((err) => {
+                            res.json({ success: false, message: err });
+                        })
                 }
-            }
-        });
+            })
+            .catch((err) => {
+                res.json({ success: false, message: err });
+            })
     });
 
     router.get('/listPrivate', checkAuth, (req, res) => {
-        User.findOne({ _id: req.decoded.userId }, (err, user) => {
-            if (err) {
-                res.json({ success: false, message: err });
-            } else {
+        User.findOne({ _id: req.decoded.userId })
+            .then((user) => {
                 if (!user) {
                     res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
-                    Blog.find({ createdBy: user._id, published: false }, (err, blogs) => {
-                        if (err) {
-                            res.json({ success: false, message: err });
-                        } else {
+                    Blog.find({ createdBy: user._id, published: false })
+                        .sort({ '_id': -1 })
+                        .then((blogs) => {
                             res.json({ success: true, blogs: blogs });
-                        }
-                    }).sort({ '_id': -1 });
+                        })
+                        .catch((err) => {
+                            res.json({ success: false, message: err });
+                        })
                 }
-            }
-        });
+            })
+            .catch((err) => {
+                res.json({ success: false, message: err });
+            })
     });
 
     router.put('/:blogId', checkAuth, (req, res) => {
-        let blog;
-        Blog.findOne({ _id: req.params.blogId }, (err, blog) => {
-            if (err) {
-                throw err;
-            } else {
+        // let blog;
+        Blog.findOne({ _id: req.params.blogId })
+            .then((blog) => {
+                // blog = blog
                 if (!blog) {
                     throw 'blog not found';
                 } else {
-                    blog = blog
-
-                    User.findOne({ _id: req.decoded.userId }, (err, user) => {
-                        if (err) {
-                            res.json({ success: false, message: err });
-                        } else {
+                    User.findOne({ _id: req.decoded.userId })
+                        .then((user) => {
                             if (!user) {
                                 res.json({ success: false, message: 'Unable to authenticate user' });
                             } else {
@@ -121,62 +120,62 @@ module.exports = (app) => {
                                         blog.leadin = '';
                                     }
                                     blog.body = req.body.body.replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, '');
-                                    blog.save((err) => {
-                                        if (err) {
-                                            res.json({ success: false, message: err });
-                                        } else {
+                                    blog.save()
+                                        .then(() => {
                                             res.json({ success: true, message: 'blog updated' });
-                                        }
-                                    });
+                                        })
+                                        .catch((err) => {
+                                            res.json({ success: false, message: err });
+                                        })
                                 }
                             }
-                        }
-                    });
+                        })
+                        .catch((err) => {
+                            res.json({ success: false, message: err });
+                        })
                 }
-            }
-        });
+            })
+            .catch((err) => {
+                throw err;
+            })
     });
 
     router.delete('/:blogId', checkAuth, (req, res) => {
         let blog = req.blog;
-        User.findOne({ _id: req.decoded.userId }, (err, user) => {
-            if (err) {
-                res.json({ success: false, message: err });
-            } else {
+        User.findOne({ _id: req.decoded.userId })
+            .then((user) => {
                 if (!user) {
                     res.json({ success: false, message: 'Unable to authenticate user' });
                 } else {
                     if (req.decoded.userId.toString() !== blog.createdBy.toString()) {
                         res.json({ success: false, message: 'Not authorized' });
                     } else {
-                        blog.remove((err) => {
-                            if (err) {
-                                res.json({ success: false, message: err });
-                            } else {
+                        blog.remove()
+                            .then(() => {
                                 res.json({ success: true, message: 'blog removed' });
-                            }
-                        })
+                            })
+                            .catch((err) => {
+                                res.json({ success: false, message: err });
+                            })
                     }
                 }
-            }
-        });
+            })
+            .catch((err) => {
+                res.json({ success: false, message: err });
+            })
     });
 
     router.put('/likeBlog', checkAuth, (req, res) => {
         if (!req.body.id) {
             res.json({ success: false, message: 'No blog id provided' });
         } else {
-            Blog.findOne({ _id: req.body.id }, (err, blog) => {
-                if (err) {
-                    res.json({ success: false, message: 'Invalid blog id' });
-                } else {
+            Blog.findOne({ _id: req.body.id })
+                .then((blog) => {
                     if (!blog) {
                         res.json({ success: false, message: 'Blog id not found' });
                     } else {
-                        User.findOne({ _id: req.decoded.userId }, (err, user) => {
-                            if (err) {
-                                res.json({ success: false, message: err });
-                            } else {
+                        User.findOne({ _id: req.decoded.userId })
+                            .then((user) => {
                                 if (!user) {
                                     res.json({ success: false, message: 'Unable to authenticate user' });
                                 } else {
@@ -192,32 +191,36 @@ module.exports = (app) => {
                                                 blog.dislikedBy.splice(arrayIndex, 1);
                                                 blog.likes++;
                                                 blog.likedBy.push(user.username);
-                                                blog.save((err) => {
-                                                    if (err) {
-                                                        res.json({ success: false, message: err });
-                                                    } else {
+                                                blog.save()
+                                                    .then(() => {
                                                         res.json({ success: true, message: 'Blog liked' });
-                                                    }
-                                                });
+                                                    })
+                                                    .catch((err) => {
+                                                        res.json({ success: false, message: err });
+                                                    })
                                             } else {
                                                 blog.likes++;
                                                 blog.likedBy.push(user.username);
-                                                blog.save((err) => {
-                                                    if (err) {
-                                                        res.json({ success: false, message: err });
-                                                    } else {
+                                                blog.save()
+                                                    .then(() => {
                                                         res.json({ success: true, message: 'Blog liked' });
-                                                    }
-                                                });
+                                                    })
+                                                    .catch((err) => {
+                                                        res.json({ success: false, message: err });
+                                                    })
                                             }
                                         }
                                     }
                                 }
-                            }
-                        });
+                            })
+                            .catch((err) => {
+                                res.json({ success: false, message: err });
+                            })
                     }
-                }
-            })
+                })
+                .catch((err) => {
+                    res.json({ success: false, message: 'Invalid blog id' });
+                })
         }
     });
 
@@ -225,17 +228,13 @@ module.exports = (app) => {
         if (!req.body.id) {
             res.json({ success: false, message: 'No blog id provided' });
         } else {
-            Blog.findOne({ _id: req.body.id }, (err, blog) => {
-                if (err) {
-                    res.json({ success: false, message: 'Invalid blog id' });
-                } else {
+            Blog.findOne({ _id: req.body.id })
+                .then((blog) => {
                     if (!blog) {
                         res.json({ success: false, message: 'Blog id not found' });
                     } else {
-                        User.findOne({ _id: req.decoded.userId }, (err, user) => {
-                            if (err) {
-                                res.json({ success: false, message: err });
-                            } else {
+                        User.findOne({ _id: req.decoded.userId })
+                            .then((user) => {
                                 if (!user) {
                                     res.json({ success: false, message: 'Unable to authenticate user' });
                                 } else {
@@ -251,32 +250,36 @@ module.exports = (app) => {
                                                 blog.likedBy.splice(arrayIndex, 1);
                                                 blog.dislikes++;
                                                 blog.dislikedBy.push(user.username);
-                                                blog.save((err) => {
-                                                    if (err) {
-                                                        res.json({ success: false, message: err });
-                                                    } else {
+                                                blog.save()
+                                                    .then(() => {
                                                         res.json({ success: true, message: 'Blog disliked' });
-                                                    }
-                                                });
+                                                    })
+                                                    .catch((err) => {
+                                                        res.json({ success: false, message: err });
+                                                    })
                                             } else {
                                                 blog.dislikes++;
                                                 blog.dislikedBy.push(user.username);
-                                                blog.save((err) => {
-                                                    if (err) {
-                                                        res.json({ success: false, message: err });
-                                                    } else {
+                                                blog.save()
+                                                    .then(() => {
                                                         res.json({ success: true, message: 'Blog disliked' });
-                                                    }
-                                                });
+                                                    })
+                                                    .catch((err) => {
+                                                        res.json({ success: false, message: err });
+                                                    })
                                             }
                                         }
                                     }
                                 }
-                            }
-                        });
+                            })
+                            .catch((err) => {
+                                res.json({ success: false, message: err });
+                            })
                     }
-                }
-            })
+                })
+                .catch((err) => {
+                    res.json({ success: false, message: 'Invalid blog id' });
+                })
         }
     });
 
@@ -287,17 +290,13 @@ module.exports = (app) => {
             if (!req.body.id) {
                 res.json({ success: false, message: 'no id provided' });
             } else {
-                Blog.findOne({ _id: req.body.id }, (err, blog) => {
-                    if (err) {
-                        res.json({ success: false, message: 'Invalid blog id' });
-                    } else {
+                Blog.findOne({ _id: req.body.id })
+                    .then((blog) => {
                         if (!blog) {
                             res.json({ success: false, message: 'Blog id not found' });
                         } else {
-                            User.findOne({ _id: req.decoded.userId }, (err, user) => {
-                                if (err) {
-                                    res.json({ success: false, message: err });
-                                } else {
+                            User.findOne({ _id: req.decoded.userId })
+                                .then((user) => {
                                     if (!user) {
                                         res.json({ success: false, message: 'Unable to authenticate user' });
                                     } else {
@@ -305,19 +304,23 @@ module.exports = (app) => {
                                             comment: req.body.comment,
                                             commentator: user.username
                                         });
-                                        blog.save((err) => {
-                                            if (err) {
-                                                res.json({ success: false, message: err });
-                                            } else {
+                                        blog.save()
+                                            .then(() => {
                                                 res.json({ success: true, message: 'comment saved' });
-                                            }
-                                        });
+                                            })
+                                            .catch((err) => {
+                                                res.json({ success: false, message: err });
+                                            })
                                     }
-                                }
-                            });
+                                })
+                                .catch((err) => {
+                                    res.json({ success: false, message: err });
+                                })
                         }
-                    }
-                });
+                    })
+                    .catch((err) => {
+                        res.json({ success: false, message: 'Invalid blog id' });
+                    })
             }
         }
     });
@@ -429,15 +432,18 @@ module.exports = (app) => {
             }
         ];
 
-        Blog.aggregate(agg, (err, blogs) => {
-            if (err) {
+        Blog.aggregate(agg)
+            .sort({ publishedAt: -1 })
+            .then((blogs) => {
+                if (!blogs) {
+                    res.json({ success: false, message: 'no blogs found' });
+                } else {
+                    res.json({ success: true, blogs: blogs });
+                }
+            })
+            .catch((err) => {
                 res.json({ success: false, message: err });
-            } else if (!blogs) {
-                res.json({ success: false, message: 'no blogs found' });
-            } else {
-                res.json({ success: true, blogs: blogs });
-            }
-        }).sort({ publishedAt: -1 });
+            });
     });
 
     router.post('/', checkAuth, (req, res) => {
@@ -452,11 +458,14 @@ module.exports = (app) => {
                 title: req.body.title.replace(/<\/?.*?>/g, ''),
                 leadin: req.body.leadin.replace(/\n/g, "<br>").replace(/<\/?(?!(?:p|b|i|u|font|strong|br|s|ol|li)\b)[a-zA-Z0-9._\-%$*?].*?>/g, ''),
                 body: req.body.body,
-                createdBy: ObjectId(req.body.createdBy),
+                createdBy: new mongoose.Types.ObjectId(req.body.createdBy),
                 createdAt: Date.now() + new Date().getTimezoneOffset()
             });
-            blog.save((err) => {
-                if (err) {
+            blog.save()
+                .then(() => {
+                    res.json({ success: true, message: 'blog saved', blogId: blog._id });
+                })
+                .catch((err) => {
                     if (err.errors) {
                         if (err.errors.title) {
                             res.json({ success: false, message: err.errors.title.message });
@@ -468,12 +477,8 @@ module.exports = (app) => {
                     } else {
                         res.json({ success: false, message: err });
                     }
-                } else {
-                    res.json({ success: true, message: 'blog saved', blogId: blog._id });
-                }
-            });
+                })
         }
     });
-
     return router;
 };

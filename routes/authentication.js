@@ -27,8 +27,11 @@ module.exports = (app) => {
 				username: req.body.username.toLowerCase(),
 				password: req.body.password
 			});
-			user.save((err) => {
-				if (err) {
+			user.save()
+				.then(() => {
+					res.json({ success: true, message: 'account registered' });
+				})
+				.catch((err) => {
 					if (err.code === 11000) {
 						res.json({ success: false, message: 'username or email already exists' });
 					} else if (err.errors) {
@@ -42,10 +45,7 @@ module.exports = (app) => {
 					} else {
 						res.json({ success: false, message: 'could not save user. error: ', err });
 					}
-				} else {
-					res.json({ success: true, message: 'account registered' });
-				}
-			});
+				})
 		}
 	});
 
@@ -53,17 +53,17 @@ module.exports = (app) => {
 		if (!req.params.email) {
 			res.json({ success: false, message: 'email not provided' });
 		} else {
-			User.findOne({ email: req.params.email }, (err, user) => {
-				if (err) {
-					res.json({ success: false, message: err });
-				} else {
+			User.findOne({ email: req.params.email })
+				.then((user) => {
 					if (user) {
 						res.json({ success: false, message: 'email has been registered' });
 					} else {
 						res.json({ success: true, message: 'email is available' });
 					}
-				}
-			});
+				})
+				.catch((err) => {
+					res.json({ success: false, message: err });
+				})
 		}
 	});
 
@@ -71,35 +71,38 @@ module.exports = (app) => {
 		if (!req.params.username) {
 			res.json({ success: false, message: 'username not provided' });
 		} else {
-			User.findOne({ username: req.params.username }, (err, user) => {
-				if (err) {
-					res.json({ success: false, message: err });
-				} else {
+			User.findOne({ username: req.params.username })
+				.then((user) => {
 					if (user) {
 						res.json({ success: false, message: 'username taken' });
 					} else {
 						res.json({ success: true, message: 'username is available' });
 					}
-				}
-			});
+				})
+				.catch((err) => {
+					res.json({ success: false, message: err });
+				})
 		}
 	});
 
 	router.get('/logout', checkAuth, (req, res) => {
-		User.findOne({ _id: req.decoded.userId }, (err, user) => {
-			if (err || !user) {
+		User.findOne({ _id: req.decoded.userId })
+			.then((user) => {
+				if (!user) {
+					res.json({ success: false, message: 'user not found' });
+				} else {
+					const username = user.username;
+					const token = req.headers['authorization'];
+					LoginState.collection.updateOne(
+						{ username: username, 'record.token': token },
+						{ $set: { 'record.$.loggedout': true } },
+						{ upsert: false });
+					res.json({ success: true, message: 'logged out.' });
+				}
+			})
+			.catch((err) => {
 				res.json({ success: false, message: err });
-			}
-			if (user) {
-				const username = user.username;
-				const token = req.headers['authorization'];
-				LoginState.collection.updateOne(
-					{ username: username, 'record.token': token },
-					{ $set: { 'record.$.loggedout': true } },
-					{ upsert: false });
-				res.json({ success: true, message: 'logged out.' });
-			}
-		});
+			})
 	});
 
 	router.post('/login', (req, res) => {
@@ -112,11 +115,8 @@ module.exports = (app) => {
 				res.json({ success: false, message: 'No password was provided.' }); // Return error
 			} else {
 				// Check if username exists in database
-				User.findOne({ username: req.body.username.toLowerCase() }, (err, user) => {
-					// Check if error was found
-					if (err) {
-						res.json({ success: false, message: err }); // Return error
-					} else {
+				User.findOne({ username: req.body.username.toLowerCase() })
+					.then((user) => {
 						// Check if username was found
 						if (!user) {
 							res.json({ success: false, message: 'user not found' }); // Return error
@@ -159,7 +159,6 @@ module.exports = (app) => {
 									device = 'windows';
 								}
 
-
 								LoginState.findOneAndUpdate({ username: req.body.username }, {
 									$push: {
 										'record': {
@@ -171,19 +170,19 @@ module.exports = (app) => {
 											expireAt: expire
 										}
 									}
-								}, { upsert: true },
-									(err) => {
-										if (err) {
-											res.json({ success: false, message: err });
-										} else {
-											res.json({ success: true, message: 'success', token: token, user: { username: user.username } });
-										}
+								}, { upsert: true, new: true })
+									.then(() => {
+										res.json({ success: true, message: 'success', token: token, user: { username: user.username } });
+									})
+									.catch((err) => {
+										res.json({ success: false, message: err });
 									});
-								//res.json({ success: true, message: 'success', token: token, user: { username: user.username } }); // Return success and token to frontend
 							}
 						}
-					}
-				});
+					})
+					.catch((err) => {
+						res.json({ success: false, message: JSON.stringify(err) })
+					});
 			}
 		}
 	});

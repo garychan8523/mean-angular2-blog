@@ -39,7 +39,15 @@ if (process.env.ENV && process.env.ENV == 'PRD') {
 	});
 }
 
-var io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+	cors: {
+		origin: (process.env.ENV && process.env.ENV == 'PRD') ? "https://blog.dedd.ca" : "http://localhost:4200",
+		methods: ["GET", "POST"],
+		transports: ['websocket', 'polling'],
+		credentials: true
+	},
+	allowEIO3: true
+});
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri)
@@ -138,13 +146,12 @@ io.sockets.on('connection', (socket) => {
 							device: device
 						}
 					}
-				}, { upsert: true },
-					(err) => {
-						if (err) {
-							console.log('socket addSessionRecordError -', socket.id);
-						} else {
-							console.log('socket addSessionRecordSuccess -', socket.id);
-						}
+				}, { upsert: true, new: true })
+					.then(() => {
+						console.log('socket addSessionRecordSuccess -', socket.id);
+					})
+					.catch((err) => {
+						console.log('socket addSessionRecordError -', socket.id);
 					});
 			}
 		});
@@ -157,13 +164,13 @@ io.sockets.on('connection', (socket) => {
 					$pull: {
 						'sessions': { 'sessionId': { $in: [socket.id] } }
 					}
-				}, (err) => {
-					if (err) {
-						console.log('socket deleteSessionRecordError -', socket.id);
-					} else {
+				})
+					.then(() => {
 						console.log('socket deleteSessionRecordSuccess -', socket.id);
-					}
-				});
+					})
+					.catch((err) => {
+						console.log('socket deleteSessionRecordError -', socket.id);
+					});
 			}
 		});
 	}
@@ -207,19 +214,22 @@ io.sockets.on('connection', (socket) => {
 
 });
 
-setInterval(function () {
-	let activeSocketIds = Object.keys(io.sockets.clients().connected);
+setInterval(async function () {
+	var sockets = await io.fetchSockets()
+	var activeSocketIds = []
+	for (const socket of sockets) {
+		activeSocketIds.push(socket.id)
+	}
 	console.log('activeSocketIds', activeSocketIds);
 	ActiveSession.updateMany({}, {
 		$pull: {
 			'sessions': { 'sessionId': { $nin: activeSocketIds } }
 		}
-	}, (err) => {
-		if (err) {
-			console.log('socket syncActiveSessionError', err);
-		} else {
+	})
+		.then(() => {
 			console.log('socket syncActiveSessionSuccess');
-		}
-	});
-
+		})
+		.catch((err) => {
+			console.log('socket syncActiveSessionError', err);
+		});
 }, 60 * 60 * 1000);
