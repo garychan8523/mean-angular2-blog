@@ -425,7 +425,7 @@ button[disabled] {
 }
 
 .card-body {
-	padding: 1rem 0 1rem 0 !important;
+	padding: 0.5rem 0 0.2rem 0;
 	overflow-y: scroll;
 	max-height: 28rem;
 	/* font-family: Helvetica, Arial, sans-serif; */
@@ -434,7 +434,7 @@ button[disabled] {
 
 @media (min-width: 768px) {
 	.card-body {
-		padding: 1rem !important;
+		padding: 0.5rem;
 	}
 }
 

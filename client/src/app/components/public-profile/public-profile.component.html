@@ -1,5 +1,6 @@
 <div class="username-container">
   <h2>{{ username }}</h2>
+  <b>Published</b>
 </div>
 
 <!-- <nav aria-label="...">
@@ -11,7 +12,6 @@
 </nav> -->
 
 <div style="max-width: 800px; margin: auto;">
-  <b>Published</b><br><br>
   <span *ngIf="loading" class="spinner">Loading</span>
   @if (!loading && publishedPosts && publishedPosts.length == 0) {
   <span>No data</span>

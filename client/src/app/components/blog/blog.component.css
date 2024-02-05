@@ -55,7 +55,7 @@ button.close {
 }
 
 .card {
-	margin: 0 auto 25px auto;
+	margin: 0 auto 30px auto;
 	background-color: initial;
 	border-top: none;
 	border-left: none;
@@ -93,7 +93,7 @@ button.close {
 
 @media (min-width: 768px) {
 	.card-footer {
-		padding: .35rem 1.25rem;
+		padding: 0 0.5rem;
 	}
 }
 

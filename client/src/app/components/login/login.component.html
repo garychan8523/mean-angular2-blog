@@ -3,12 +3,12 @@
 <form [formGroup]="form" (submit)="onLoginSubmit()" class="form-floating" style="width: 250px;">
 
   <div class="form-floating mb-3" [ngClass]="{'has-error': (logerr || form.controls.username.errors) && form.controls.username.dirty, 'has-success': !logerr && form.controls.username.valid && form.controls.username.dirty }">
-    <input id="username" name="username" type="text" class="form-control" formControlName="username" placeholder="user name" [autofocus]="true">
+    <input id="username" name="username" type="text" class="form-control" formControlName="username" placeholder="user name" [autofocus]="true" (ngModelChange)="resetLogerr()">
     <label for="floatingInput">user name</label>
   </div>
 
   <div class="form-floating" [ngClass]="{'has-error': (logerr || form.controls.password.errors) && form.controls.password.dirty, 'has-success': !logerr && form.controls.password.valid && form.controls.password.dirty }">
-    <input name="password" type="password" class="form-control" formControlName="password" placeholder="password">
+    <input name="password" type="password" class="form-control" formControlName="password" placeholder="password" (ngModelChange)="resetLogerr()">
     <label for="floatingPassword">password</label>
   </div>
   <br>

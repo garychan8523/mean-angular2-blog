@@ -42,14 +42,6 @@ button.close {
 	padding: 0 2px 0 2px;
 }
 
-.btn-upvote {
-	color: #006700;
-}
-
-.btn-downvote {
-	color: #9a0000;
-}
-
 .btn-nobg {
 	cursor: pointer;
 	background: none;
@@ -62,15 +54,15 @@ button.close {
 	color: #222;
 }
 
-.username-container {
-	position: -webkit-sticky;
-	position: sticky;
-	top: 60px;
-}
-
 .card {
-	margin: 0 auto 25px auto;
-	border: 1px solid rgba(0, 0, 0, .05);
+	margin: 0 auto 30px auto;
+	background-color: initial;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	/* border-bottom: 1px solid rgba(0, 0, 0, .125); */
+	border-bottom: none;
+	border-radius: initial;
 }
 
 .no-margin {
@@ -94,9 +86,15 @@ button.close {
 }
 
 .card-footer {
-	padding: .35rem 1.25rem;
+	padding: 0;
 	border-top: none;
-	background-color: #fff;
+	background-color: initial;
+}
+
+@media (min-width: 768px) {
+	.card-footer {
+		padding: 0 0.5rem;
+	}
 }
 
 .card-footer .btn {
@@ -177,8 +175,21 @@ button.close {
 	}
 }
 
-@media screen and (max-width: 1200px) {
+.dropdown button:disabled {
+	opacity: 0.5;
+	color: #666;
+	background-color: initial;
+}
+
+.username-container {
+	margin-bottom: 30px;
+}
+
+@media (min-width: 768px) {
 	.username-container {
-		position: initial;
+		display: inline;
+		float: left;
+		position: sticky;
+		top: 100px;
 	}
 }

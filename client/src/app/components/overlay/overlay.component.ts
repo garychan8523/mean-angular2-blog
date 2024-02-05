@@ -21,7 +21,7 @@ export class OverlayComponent implements OnInit {
   content;
 
   companyName = 'blog.dedd.ca';
-  lastBuildDate = '2023-05-20';
+  lastBuildDate = '2024-02-05';
 
   ppLastUpdateDate = '7 May 2022';
   tosLink = `https://${this.companyName}/terms`;
